@@ -1,0 +1,34 @@
+<ion-header >
+  <ion-toolbar class="custom-navbar">
+
+    <ion-img slot="start" src="./../../../assets/logoJaliezaNavbar.png" alt=""></ion-img>
+
+    <ion-title slot="primary">{{ title }}</ion-title>
+
+     <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button> <!-- Botón de menú -->
+    </ion-buttons>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu side="end" content-id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-item href="#">Inicio</ion-item>
+      <ion-item href="#">Servicios</ion-item>
+      <ion-item href="#">Contacto</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-content id="main-content">
+  <!-- Contenido de la página principal -->
+</ion-content>

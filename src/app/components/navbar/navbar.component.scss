@@ -1,0 +1,30 @@
+ion-toolbar {
+  --background: #EACCAD;
+}
+
+ion-img {
+  width: 150px;
+}
+ion-title{
+  color: black;
+}
+
+ion-title::part(title) {
+  color: black;
+  font-size: 30px;
+}
+ion-menu-button {
+  --color: purple;
+   font-size: 5rem;/* Cambia a cualquier tono de morado */
+
+}
+.custom-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Distribuye los elementos equitativamente */
+  padding: 0 16px;
+}
+.title-container {
+
+}
+
