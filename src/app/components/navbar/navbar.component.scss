@@ -1,18 +1,25 @@
 ion-toolbar {
+  display: flex;
+align-items: center;
   --background: #EACCAD;
+
+
 }
 
+
+
 ion-img {
-  width: 150px;
+  width: 130px;
 }
 ion-title{
   color: black;
+   text-align: center;
+  flex-grow: 1;
+  font-size: 2rem;
+
 }
 
-ion-title::part(title) {
-  color: black;
-  font-size: 30px;
-}
+
 ion-menu-button {
   --color: purple;
    font-size: 5rem;/* Cambia a cualquier tono de morado */
@@ -21,9 +28,11 @@ ion-menu-button {
 .custom-navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Distribuye los elementos equitativamente */
+  justify-content: space-between;
+  width: 100%;
   padding: 0 16px;
 }
+
 .title-container {
 
 }

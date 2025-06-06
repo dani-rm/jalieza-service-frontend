@@ -1,9 +1,12 @@
 <ion-header >
   <ion-toolbar class="custom-navbar">
 
-    <ion-img slot="start" src="./../../../assets/logoJaliezaNavbar.png" alt=""></ion-img>
+        <ion-img  (click)="logoFunction()" slot="start" src="./../../../assets/logoJaliezaNavbar.png" alt=""></ion-img>
 
-    <ion-title slot="primary">{{ title }}</ion-title>
+    <ion-title >{{ title }}</ion-title>
+
+
+
 
      <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button> <!-- Botón de menú -->
@@ -22,9 +25,9 @@
 
   <ion-content>
     <ion-list>
-      <ion-item href="#">Inicio</ion-item>
-      <ion-item href="#">Servicios</ion-item>
-      <ion-item href="#">Contacto</ion-item>
+      <ion-item href="#">Crear Comunicado</ion-item>
+      <ion-item href="#">Buscar ciudadano</ion-item>
+      <ion-item href="#">Registrar ciudadano</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
