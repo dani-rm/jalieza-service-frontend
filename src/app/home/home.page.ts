@@ -6,7 +6,7 @@ import { FooterComponent } from '../components/footer/footer.component';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent,NavbarComponent,FooterComponent],
+  imports: [IonContent,NavbarComponent,FooterComponent],
 })
 export class HomePage {
   constructor() {}

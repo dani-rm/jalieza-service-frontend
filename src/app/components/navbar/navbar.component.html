@@ -1,33 +1,25 @@
-<ion-header >
-  <ion-toolbar class="custom-navbar">
-
-        <ion-img  (click)="logoFunction()" slot="start" src="./../../../assets/logoJaliezaNavbar.png" alt=""></ion-img>
-
-    <ion-title >{{ title }}</ion-title>
-
-
-
-
-     <ion-buttons slot="end">
+<ion-header>
+  <ion-toolbar>
+    <ion-img  (click)="logoFunction()" slot="start" src="./../../../assets/logoJaliezaNavbar.png" alt=""></ion-img>
+    <ion-title class="tipografia" >{{ title }}</ion-title>
+    <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button> <!-- Botón de menú -->
     </ion-buttons>
-
-
   </ion-toolbar>
 </ion-header>
 
-<ion-menu side="end" content-id="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menú</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-menu side="end" content-id="main-content"><!--Menu lateral-->
   <ion-content>
     <ion-list>
-      <ion-item href="#">Crear Comunicado</ion-item>
-      <ion-item href="#">Buscar ciudadano</ion-item>
-      <ion-item href="#">Registrar ciudadano</ion-item>
+      <ion-item routerLink="/crear-comunicado">
+        <ion-label class="tipografia">Crear Comunicado</ion-label>
+      </ion-item>
+      <ion-item routerLink="/buscar-ciudadano">
+        <ion-label class="tipografia">Buscar Ciudadano</ion-label>
+      </ion-item>
+      <ion-item routerLink="/registrar-ciudadano">
+        <ion-label class="tipografia">Registrar Ciudadano</ion-label>
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>

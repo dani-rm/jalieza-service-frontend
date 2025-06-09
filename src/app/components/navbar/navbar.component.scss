@@ -1,39 +1,40 @@
 ion-toolbar {
   display: flex;
-align-items: center;
-  --background: #EACCAD;
-
-
-}
-
-
-
-ion-img {
-  width: 130px;
-}
-ion-title{
-  color: black;
-   text-align: center;
-  flex-grow: 1;
-  font-size: 2rem;
-
-}
-
-
-ion-menu-button {
-  --color: purple;
-   font-size: 5rem;/* Cambia a cualquier tono de morado */
-
-}
-.custom-navbar {
-  display: flex;
   align-items: center;
+  --background: #F0DAC3;
   justify-content: space-between;
   width: 100%;
+  height: 120%;
   padding: 0 16px;
 }
 
-.title-container {
-
+.tipografia {/*Es la tipografia general*/
+  color: black;/*Color de las letras*/
 }
 
+ion-img {/*Define el tamaño y como se pone el cursor en la imagen*/
+  width: 130px;/*Tamaño*/
+  cursor: pointer;/*Cursor*/
+}
+
+ion-title{/*Define las propiedades del titulo de la ventana*/
+  color: black;
+  text-align: center;
+  flex-grow: 1;
+  font-size: 2rem;/*Tamaño de la letra*/
+}
+
+ion-menu-button {/*Es el boton que despliega el menu*/
+  --color: #862471;
+  width: 70px;
+  height: 70px;
+  font-size: 10rem;
+}
+
+ion-item {/*Define las propiedades de los items del menu*/
+  font-size: 2rem;
+  --background: #F0DAC3;
+  width: 75%;
+  margin: 25px auto; /* Centra el ion-item horizontalmente */
+  text-align: center; /* Centra el texto dentro del ion-item */
+}
