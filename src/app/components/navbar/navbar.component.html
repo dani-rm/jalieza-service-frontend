@@ -1,8 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-img  (click)="logoFunction()" slot="start" src="./../../../assets/logoJaliezaNavbar.png" alt=""></ion-img>
+    <!-- Contenedor para mantener equilibrio -->
+    <div slot="end" *ngIf="isRegistrarCiudadano()" style="width: 70px;"></div>
     <ion-title class="tipografia" >{{ title }}</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="!isRegistrarCiudadano()">
       <ion-menu-button></ion-menu-button> <!-- Botón de menú -->
     </ion-buttons>
   </ion-toolbar>
@@ -23,7 +25,3 @@
     </ion-list>
   </ion-content>
 </ion-menu>
-
-<ion-content id="main-content">
-  <!-- Contenido de la página principal -->
-</ion-content>
