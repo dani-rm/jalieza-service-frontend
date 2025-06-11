@@ -12,7 +12,6 @@ import { IonHeader, IonTitle,IonMenuButton,IonRouterLink, IonItem,IonMenu, IonLi
 export class NavbarComponent  implements OnInit {
   @Input({required: true}) title!: string;
   constructor(public router: Router) {}
-
   // Método para verificar si está en la página de "Registrar Ciudadano"
   isRegistrarCiudadano(): boolean {
     return this.router.url === '/registrar-ciudadano';
