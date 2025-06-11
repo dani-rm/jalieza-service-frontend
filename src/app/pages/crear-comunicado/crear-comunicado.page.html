@@ -1,4 +1,23 @@
 <app-navbar title="Crear Comunicado"></app-navbar>
-<ion-content [fullscreen]="true">
+
+<ion-content [fullscreen]="true" class="custom-content">
+
+    <ion-grid class="grid-center">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-xs="12" size-sm="8" size-md="6" size-lg="6">
+          <div class="container">
+              <form>
+                  <ion-label position="floating">Título</ion-label>
+                  <ion-input type="text"></ion-input>
+                  <ion-label position="stacked">Descripción</ion-label>
+                  <ion-textarea></ion-textarea>
+                  <ion-button class="volver" shape="round" style="--background: #F0DAC3;"  type="submit">Volver</ion-button>
+                  <ion-button class="publicar" shape="round" style="--background: #862471; color: white;" type="submit">Publicar</ion-button>
+              </form>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>
+
 <app-footer></app-footer>

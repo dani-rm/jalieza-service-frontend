@@ -6,7 +6,7 @@ import { IonHeader, IonTitle,IonMenuButton,IonRouterLink, IonItem,IonMenu, IonLi
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  imports: [IonLabel,   IonImg, IonButtons, IonToolbar,RouterLink,IonRouterLink, RouterLinkActive, IonContent,IonMenuButton,IonMenu, IonList, IonItem, IonTitle, IonHeader,CommonModule],
+  imports: [IonLabel,   IonImg, IonButtons, IonToolbar, IonContent,IonMenuButton,IonMenu, IonList, IonItem, IonTitle, IonHeader,CommonModule],
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent  implements OnInit {
