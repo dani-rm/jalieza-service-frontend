@@ -1,100 +1,68 @@
 <app-navbar title="Registrar Ciudadano"></app-navbar>
 <ion-content [fullscreen]="true">
-  <div class="contenedor-formulario">
-    <ion-header>
-      <ion-toolbar class="cabeza">
-        <ion-title class="titulo-formulario">Datos Generales</ion-title>
-      </ion-toolbar>
-    </ion-header>
+  <ion-grid class="grid-center">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-xs="12" size-sm="12" size-md="10" size-lg="10">
+        <div class="contenedor-formulario">
+          <ion-header>
+            <ion-toolbar class="cabeza">
+              <ion-title class="titulo-formulario">Datos Generales</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <form action="" method="post">
+            <ion-grid class="grid-formulario">
+              <ion-row>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <ion-label class="etiqueta" position="floating">Nombres</ion-label>
+                  <ion-input type="text"></ion-input>
+                </ion-col>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
+                  <ion-input type="text"></ion-input>
+                </ion-col>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
+                  <ion-input type="text"></ion-input>
+                </ion-col>
+              </ion-row>
 
-    <ion-grid class="grid-formulario">
-      <ion-row>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Nombres</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+              <ion-row>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
+                  <ion-input type="tel"></ion-input>
+                </ion-col>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <ion-label class="etiqueta" position="floating">Edad</ion-label>
+                  <ion-input type="number"></ion-input>
+                </ion-col>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <ion-label class="etiqueta" position="floating">Género</ion-label>
+                  <ion-select>
+                    <ion-select-option value="masculino">Masculino</ion-select-option>
+                    <ion-select-option value="femenino">Femenino</ion-select-option>
+                    <ion-select-option value="otro">Otro</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
 
-      <ion-row>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">N° de Lista</ion-label>
-            <ion-input type="number"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Correo Electrónico</ion-label>
-            <ion-input type="email"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-            <ion-input type="tel"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Género</ion-label>
-            <ion-select>
-              <ion-select-option value="masculino">Masculino</ion-select-option>
-              <ion-select-option value="femenino">Femenino</ion-select-option>
-              <ion-select-option value="otro">Otro</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Edad</ion-label>
-            <ion-input type="number"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-            <ion-input type="date"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">Dirección</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item>
-            <ion-label class="etiqueta" position="floating">CURP</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <div class="boton-contenedor">
-      <ion-button class="boton-volver">Volver</ion-button>
-      <ion-button class="boton-registrar">Registrar</ion-button>
-    </div>
-  </div>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
+                  <ion-select>
+                    <ion-select-option value="soltero">Soltero</ion-select-option>
+                    <ion-select-option value="casado">Casado</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </form>
+          <div class="boton-contenedor">
+            <ion-button class="boton-volver">Volver</ion-button>
+            <ion-button class="boton-registrar">Registrar</ion-button>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 <app-footer></app-footer>

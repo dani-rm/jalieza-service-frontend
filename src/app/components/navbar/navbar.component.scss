@@ -38,3 +38,8 @@ ion-item {/*Define las propiedades de los items del menu*/
   margin: 25px auto; /* Centra el ion-item horizontalmente */
   text-align: center; /* Centra el texto dentro del ion-item */
 }
+
+ion-list {/*Define las propiedades de la lista del menu*/
+  background: #FFF8F8; /* Fondo del contenido */
+  padding: 0; /* Elimina el padding para que ocupe todo el espacio */
+}

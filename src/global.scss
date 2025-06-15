@@ -44,3 +44,7 @@ body {
 ion-content {
   --background: white;
 }
+
+input, textarea {
+  caret-color: black !important; /* Asegura que el cursor sea visible */
+}

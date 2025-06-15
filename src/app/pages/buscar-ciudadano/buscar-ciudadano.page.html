@@ -1,5 +1,58 @@
 <app-navbar title="Ciudadanos"></app-navbar>
 <ion-content [fullscreen]="true" id="main-content">
+  <ion-grid class="grid-center">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-xs="12" size-sm="12" size-md="10" size-lg="10">
+        <div class="contenedor-buscador">
+          <ion-title class="titulo">Buscador</ion-title>
+
+          <!-- Barra de búsqueda -->
+          <ion-searchbar class="search-bar" placeholder="Buscar Ciudadano" [(ngModel)]="searchTerm" (ionInput)="filterUsers()"></ion-searchbar>
+
+          <!-- Contenedor de filtros -->
+          <div class="filter-container">
+            <ion-item lines="none" class="filter-item">
+              <ion-label>Filtrar por:</ion-label>
+              <ion-select [(ngModel)]="selectedFilter" (ionChange)="filterUsers()">
+                <ion-select-option value="todos">Todos</ion-select-option>
+                <ion-select-option value="casado">Casados</ion-select-option>
+                <ion-select-option value="soltero">Solteros</ion-select-option>
+                <ion-select-option value="borrado">Borrados</ion-select-option>
+                <ion-select-option value="conCargos">Con Cargos</ion-select-option>
+                <ion-select-option value="sinCargos">Sin Cargos</ion-select-option>
+                <ion-select-option value="candidato">Candidato a cargo</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item lines="none" class="filter-item" *ngIf="selectedFilter === 'candidato'">
+              <ion-label>Seleccionar Cargo:</ion-label>
+              <ion-select [(ngModel)]="selectedCargo" (ionChange)="filterUsers()">
+                <ion-select-option value="alcalde">Alcalde</ion-select-option>
+                <ion-select-option value="diputado">Diputado</ion-select-option>
+                <ion-select-option value="senador">Senador</ion-select-option>
+                <ion-select-option value="gobernador">Gobernador</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </div>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col sizeXs="12" sizeSm="12" sizeMd="4" sizeLg="2.4" *ngFor="let user of filteredUsers">
+                <ion-card>
+                  <ion-card-content>
+                    <ion-avatar>
+                      <img src="../../../assets/fotoPerfil.png" />
+                    </ion-avatar>
+                    <ion-label>{{ user.nombre }}</ion-label>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 <app-footer></app-footer>
 

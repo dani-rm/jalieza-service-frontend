@@ -1,15 +1,8 @@
-
 .grid-center{
-height: 100%;
 margin-top: 30px;
 }
-.custom-content {
-  --background-color: #0a1f35 !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.container {
+
+.contenedor-comunicado {
   width: 100%;
   height: 100%;
   text-align: start;
@@ -17,30 +10,54 @@ margin-top: 30px;
   padding: 20px;
   border-radius: 10px;
 }
+
 ion-label {
   color: black;
   margin-bottom: 10px;
   font-size: 20px;
 }
-ion-input {
+
+ion-input, ion-textarea {
   background-color: white;
   color: black;
-  border-radius: 5px;
+  border-radius: 15px;
 }
-ion-textarea{
-  background-color: white;
-  margin-right: 200px;
-  border-radius: 10px;
-  color: black;
-  height: 200px;
+
+ion-input, ion-textarea {
+  --border-width: 0px; /* Elimina el borde */
+  border-bottom: none !important; /* Asegura que no haya línea */
+  --highlight-background: transparent; /* Evita el resaltado al escribir */
+  --highlight-color-focused: transparent; /* Elimina el color de enfoque */
 }
-ion-button{
-  height: 35px;
-  width: 180px;
-  font-size: 15px;
-  margin-top: 20px;
-  margin-right: 200px;
-  justify-content: space-between
+
+
+.boton-contenedor {
+  display: flex;
+  background: #D9D9D9;
+  justify-content: space-between; /* Distribuye los botones en extremos opuestos */
+  width: 100%;
+  margin: auto;
+  padding: 10px;
+  border-radius: 0 0 20px 20px;
+}
+
+.boton-volver,
+.boton-registrar {
+  padding: 12px;
+  font-size: 1rem;
+  width: 200px;
+  text-align: center;
+  --border-radius: 20px; /* Bordes redondeados */
+}
+
+.boton-volver {
+  --background: #F0DAC3;
+  --color: #000000;
+}
+
+.boton-registrar {
+  --background: #862471;
+  --color: #FFFFFF;
 }
 
 
