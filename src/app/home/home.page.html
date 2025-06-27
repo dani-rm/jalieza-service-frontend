@@ -1,4 +1,32 @@
-<app-navbar title="Comunicados"></app-navbar>
-<ion-content id="main-content" [fullscreen]="true">
+<app-navbar title="Iniciar Sesión"></app-navbar>
+<ion-content id="main-content">
+  <div class="grid-wrapper"> <!-- NUEVO contenedor con flex -->
+    <ion-grid class="grid-center">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-md="8" size-lg="6">
+          <div class="login-box">
+            <div class="login-row">
+              <ion-label>Correo electrónico</ion-label>
+              <ion-input type="email" placeholder="Ingrese su correo"></ion-input>
+            </div>
+
+            <div class="login-row">
+              <ion-label>Contraseña</ion-label>
+              <ion-input [type]="showPassword ? 'text' : 'password'"
+                placeholder="Ingrese su contraseña" [(ngModel)]="password">
+                <ion-icon *ngIf="password && password.length > 0" name="{{ showPassword ? 'eye-off' : 'eye' }}"
+                  slot="end" class="eye-icon" (click)="showPassword = !showPassword">
+                </ion-icon>
+              </ion-input>
+            </div>
+
+            <div class="login-row">
+              <ion-button expand="block" class="login-button">Iniciar sesión</ion-button>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>
 <app-footer></app-footer>

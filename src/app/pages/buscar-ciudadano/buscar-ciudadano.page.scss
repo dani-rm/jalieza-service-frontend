@@ -1,5 +1,12 @@
-.grid-center{
-  margin-top: 30px;
+.grid-wrapper {
+  min-height: calc(100vh - 131px); /* Resta navbar + footer */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-center {
+  width: 100%;
 }
 
 .contenedor-buscador {
@@ -28,7 +35,6 @@
   flex: 1; /* Hace que los filtros ocupen el mismo ancho dentro de la fila */
 }
 
-
 ion-searchbar {
   --background: #D9D9D9; /* Fondo blanco para la barra de búsqueda */
   --border-radius: 20px; /* Bordes redondeados para la barra de búsqueda */
@@ -42,6 +48,7 @@ ion-item {
   margin: 10px auto; /* Espacio entre los items */
   color: #000000; /* Color del texto en los items */
   font-size: 1rem; /* Tamaño de fuente para los items */
+  --align-items: center; /* Centra el contenido del item */
 }
 
 ion-card {

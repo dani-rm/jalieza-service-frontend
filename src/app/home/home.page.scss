@@ -1,26 +1,63 @@
-#container {
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+.grid-wrapper {
+  min-height: calc(100vh - 131px); /* Altura disponible sin header/footer */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#container strong {
+.grid-center {
+  width: 100%;
+}
+
+.login-box {
+  width: 100%;
+  height: 100%;
+  background: #D9D9D9;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.login-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos en la fila */
+  gap: 16px;         /* Espacio entre label e input */
+  margin-bottom: 24px; /* Espacio con la siguiente fila */
+  margin-top: 24px;
+  text-align: center; /* Centra el texto dentro de la fila */
+}
+
+ion-label {
+  color: black;
   font-size: 20px;
-  line-height: 26px;
+  margin: auto;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+ion-input {
+  background-color: white;
+  color: black;
+  border-radius: 15px;
+  text-align: start;
+  width: 80%; /* Ancho del input */
 }
 
-#container a {
-  text-decoration: none;
+ion-input {
+  --border-width: 0px; /* Elimina el borde */
+  border-bottom: none !important; /* Asegura que no haya línea */
+  --highlight-background: transparent; /* Evita el resaltado al escribir */
+  --highlight-color-focused: transparent; /* Elimina el color de enfoque */
+}
+
+.login-button {
+  --background: #862471;
+  color: #FFFFFF;
+  --border-radius: 15px;
+  width: 80%; /* Ancho del botón */
+}
+
+.eye-icon {
+  color: #862471;
+  font-size: 22px;
+  cursor: pointer;
+  padding-right: 5px; /* Espacio entre el icono y el borde */
 }

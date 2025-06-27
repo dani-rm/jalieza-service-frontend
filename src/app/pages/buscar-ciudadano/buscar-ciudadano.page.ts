@@ -32,7 +32,13 @@ export class BuscarCiudadanoPage implements OnInit {
     { nombre: "Pedro Ramírez", estadoCivil: "casado", visible: true, cargo: "gobernador" },
     { nombre: "Laura Díaz", estadoCivil: "soltero", visible: true, cargo: "" },
     { nombre: "Javier Fernández", estadoCivil: "casado", visible: true, cargo: "diputado" },
-    { nombre: "Sofía Herrera", estadoCivil: "soltero", visible: false, cargo: "" }
+    { nombre: "Sofía Herrera", estadoCivil: "soltero", visible: false, cargo: "" },
+    { nombre: "Carlos Jiménez", estadoCivil: "casado", visible: true, cargo: "senador" },
+    { nombre: "Lucía Morales", estadoCivil: "soltero", visible: true, cargo: "" },
+    { nombre: "Andrés Torres", estadoCivil: "casado", visible: false, cargo: "alcalde" },
+    { nombre: "Isabel Castro", estadoCivil: "soltero", visible: true, cargo: "" },
+    { nombre: "Fernando Ruiz", estadoCivil: "casado", visible: true, cargo: "gobernador" },
+    { nombre: "Clara Ortega", estadoCivil: "soltero", visible: false, cargo: "" }
   ];
 
   filteredUsers = this.users.filter(user => user.visible);

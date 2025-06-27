@@ -1,9 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-img  (click)="logoFunction()" slot="start" src="./../../../assets/logoJaliezaNavbar.png" alt=""></ion-img>
+    <!-- Logo grande: visible en pantallas md y mayores -->
+    <ion-img
+      *ngIf="!isMobile" slot="start" src="./../../../assets/logoJaliezaNavbar.png"
+      alt="Logo grande" (click)="logoFunction()">
+    </ion-img>
+    <!-- Logo chico: visible solo en pantallas xs y sm -->
+    <ion-img
+      *ngIf="isMobile" slot="start" src="./../../../assets/logoNavbar.png"
+      alt="Logo pequeño" (click)="logoFunction()">
+    </ion-img>
+
+    <ion-title class="tipografia" >{{ title }}</ion-title>
     <!-- Contenedor para mantener equilibrio -->
     <div slot="end" *ngIf="isRegistrarCiudadano()" style="width: 70px;"></div>
-    <ion-title class="tipografia" >{{ title }}</ion-title>
+
     <ion-buttons slot="end" *ngIf="!isRegistrarCiudadano()">
       <ion-menu-button></ion-menu-button> <!-- Botón de menú -->
     </ion-buttons>
@@ -13,8 +24,8 @@
 <ion-menu  side="end" content-id="main-content"><!--Menu lateral-->
   <ion-content>
     <ion-list lines="none">
-      <ion-item href="/crear-comunicado">
-        <ion-label class="tipografia">Crear Comunicado</ion-label>
+      <ion-item href="/home">
+        <ion-label class="tipografia">Iniciar Sesión</ion-label>
       </ion-item>
       <ion-item href="/buscar-ciudadano">
         <ion-label class="tipografia">Buscar Ciudadano</ion-label>
