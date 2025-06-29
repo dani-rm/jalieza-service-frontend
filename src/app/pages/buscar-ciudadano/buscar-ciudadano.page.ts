@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonButton, IonGrid, IonRow, IonCol, IonLabel, IonInput, IonTitle,
-  IonToolbar, IonHeader, IonCard, IonSearchbar, IonCardContent, IonAvatar, IonItem, IonSelect,
-  IonSelectOption} from '@ionic/angular/standalone';
+import { IonContent, IonGrid, IonRow, IonCol, IonLabel, IonTitle, IonCard, IonSearchbar,
+  IonCardContent, IonAvatar, IonItem, IonSelect, IonSelectOption} from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component'
 import { FooterComponent } from './../../components/footer/footer.component';
 import { RouterLink } from '@angular/router';
@@ -14,8 +13,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./buscar-ciudadano.page.scss'],
   standalone: true,
   imports: [IonItem, IonAvatar, IonCardContent, IonSearchbar, IonCard, IonSelect, IonSelectOption,
-    IonTitle, IonLabel, IonCol, IonRow, IonGrid, IonButton, IonContent, CommonModule, IonToolbar,
-    FormsModule, NavbarComponent, FooterComponent]
+    IonTitle, IonLabel, IonCol, IonRow, IonGrid, IonContent, CommonModule, FormsModule, NavbarComponent, FooterComponent]
 })
 export class BuscarCiudadanoPage implements OnInit {
   searchTerm = "";

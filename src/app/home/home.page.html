@@ -12,9 +12,9 @@
 
             <div class="login-row">
               <ion-label>Contraseña</ion-label>
-              <ion-input [type]="showPassword ? 'text' : 'password'"
-                placeholder="Ingrese su contraseña" [(ngModel)]="password">
-                <ion-icon *ngIf="password && password.length > 0" name="{{ showPassword ? 'eye-off' : 'eye' }}"
+              <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Ingrese su contraseña"
+              [(ngModel)]="password">
+                <ion-icon *ngIf="password && password.length > 0" name="{{ showPassword ? 'eye' : 'eye-off' }}"
                   slot="end" class="eye-icon" (click)="showPassword = !showPassword">
                 </ion-icon>
               </ion-input>

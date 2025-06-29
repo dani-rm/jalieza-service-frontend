@@ -42,10 +42,26 @@ ion-input {
 }
 
 ion-input {
-  --border-width: 0px; /* Elimina el borde */
+  --border-width: 0px !important; /* Elimina el borde */
   border-bottom: none !important; /* Asegura que no haya línea */
-  --highlight-background: transparent; /* Evita el resaltado al escribir */
-  --highlight-color-focused: transparent; /* Elimina el color de enfoque */
+  --highlight-background: transparent !important; /* Evita el resaltado al escribir */
+  --highlight-color-focused: transparent !important; /* Elimina el color de enfoque */
+  --highlight-color: transparent !important;
+  --border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+ion-input::part(native) {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+input.native-input {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  background: transparent !important;
 }
 
 .login-button {

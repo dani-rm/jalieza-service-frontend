@@ -1,68 +1,137 @@
 <app-navbar title="Registrar Ciudadano"></app-navbar>
 <ion-content [fullscreen]="true">
-  <ion-grid class="grid-center">
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-xs="12" size-sm="12" size-md="10" size-lg="10">
-        <div class="contenedor-formulario">
-          <ion-header>
-            <ion-toolbar class="cabeza">
-              <ion-title class="titulo-formulario">Datos Generales</ion-title>
-            </ion-toolbar>
-          </ion-header>
-          <form action="" method="post">
-            <ion-grid class="grid-formulario">
-              <ion-row>
-                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                  <ion-label class="etiqueta" position="floating">Nombres</ion-label>
-                  <ion-input type="text"></ion-input>
-                </ion-col>
-                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                  <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
-                  <ion-input type="text"></ion-input>
-                </ion-col>
-                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                  <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
-                  <ion-input type="text"></ion-input>
-                </ion-col>
-              </ion-row>
+  <div class="grid-wrapper">
+    <ion-grid class="grid-center">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-xs="12" size-sm="12" size-md="10" size-lg="10">
+          <div class="contenedor-formulario">
+            <ion-header>
+              <ion-toolbar class="cabeza">
+                <ion-title class="titulo-formulario">Datos Generales</ion-title>
+              </ion-toolbar>
+            </ion-header>
 
-              <ion-row>
-                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                  <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-                  <ion-input type="tel"></ion-input>
-                </ion-col>
-                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                  <ion-label class="etiqueta" position="floating">Edad</ion-label>
-                  <ion-input type="number"></ion-input>
-                </ion-col>
-                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                  <ion-label class="etiqueta" position="floating">Género</ion-label>
-                  <ion-select>
-                    <ion-select-option value="masculino">Masculino</ion-select-option>
-                    <ion-select-option value="femenino">Femenino</ion-select-option>
-                    <ion-select-option value="otro">Otro</ion-select-option>
-                  </ion-select>
-                </ion-col>
-              </ion-row>
+            <form action="" method="post">
+              <ion-grid class="grid-formulario">
+                <ion-row>
+                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                    <ion-label class="etiqueta" position="floating">Nombres</ion-label>
+                    <ion-input type="text"></ion-input>
+                  </ion-col>
+                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                    <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
+                    <ion-input type="text"></ion-input>
+                  </ion-col>
+                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                    <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
+                    <ion-input type="text"></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                    <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
+                    <ion-input type="tel"></ion-input>
+                  </ion-col>
+                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                    <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
+                    <ion-input name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
+                      placeholder="dd/mm/aaaa">
+                      <ion-icon slot="end" name="calendar" class="calendar-icon"
+                        (click)="abrirSelectorFecha(fechaInput)">
+                      </ion-icon>
+                    </ion-input>
+                  </ion-col>
+                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                    <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
+                    <ion-select [(ngModel)]="estadoCivil" name="estadoCivil" placeholder="Seleccione
+                    estado civil" (ionChange)="onEstadoCivilChange()">
+                      <ion-select-option value="soltero">Soltero</ion-select-option>
+                      <ion-select-option value="casado">Casado</ion-select-option>
+                    </ion-select>
+                  </ion-col>
+                </ion-row>
+                <!-- Este campo aparece solo si se selecciona "casado" -->
+                <ion-row>
+                  <ion-col *ngIf="estadoCivil === 'casado'" size="12">
+                    <ion-label class="etiqueta" position="floating">Seleccione Pareja</ion-label>
+                    <ion-select [(ngModel)]="parejaSeleccionada" name="parejaSeleccionada"
+                    placeholder="Seleccione pareja" (ionChange)="verificarSeleccion()">
+                      <ion-select-option *ngFor="let persona of personasDisponibles" [value]="persona">
+                        {{ persona }}
+                      </ion-select-option>
+                      <ion-select-option value="registrar">
+                        ¿Pareja no encontrada? Regístrela
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </form>
 
-              <ion-row>
-                <ion-col size="12">
-                  <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
-                  <ion-select>
-                    <ion-select-option value="soltero">Soltero</ion-select-option>
-                    <ion-select-option value="casado">Casado</ion-select-option>
-                  </ion-select>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </form>
-          <div class="boton-contenedor">
-            <ion-button class="boton-volver">Volver</ion-button>
-            <ion-button class="boton-registrar">Registrar</ion-button>
+            <div class="boton-contenedor">
+              <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
+              <ion-button class="boton-registrar">Registrar</ion-button>
+            </div>
           </div>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>
 <app-footer></app-footer>
+
+<!-- Este formulario de registro de pareja solo aparece solo si se selecciona "registrar pareja"
+al seleccionar una pareja de un ciudadano casado-->
+<div class="overlay-pareja" *ngIf="mostrarFormularioPareja" (click)="cerrarFormularioPareja()">
+  <ion-card class="formulario-emergente tarjeta-flotante" (click)="$event.stopPropagation()">
+    <ion-card-header style="background-color: black;">
+      <ion-card-title style="color: white; text-align: center;">Registrar Pareja</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form action="" method="post">
+        <ion-row>
+          <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Nombres</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-col>
+          <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
+              <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-col>
+          <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
+            <ion-input type="tel"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
+            <ion-input name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
+              placeholder="dd/mm/aaaa">
+              <ion-icon slot="end" name="calendar" class="calendar-icon"
+                (click)="abrirSelectorFecha(fechaInput)">
+              </ion-icon>
+            </ion-input>
+          </ion-col>
+          <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
+            <ion-select placeholder="Seleccione estado civil">
+              <ion-select-option value="soltero">Soltero</ion-select-option>
+              <ion-select-option value="casado">Casado</ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-card-content>
+    <div class="boton-contenedor">
+      <ion-button class="boton-volver" (click)="cerrarFormularioPareja()">Cancelar</ion-button>
+      <ion-button class="boton-registrar">Registrar</ion-button>
+    </div>
+  </ion-card>
+</div>
