@@ -1,0 +1,82 @@
+<app-navbar [title]="usuario.nombres + ' ' + usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno">
+</app-navbar>
+<ion-content id="main-content">
+  <div class="grid-wrapper">
+    <ion-grid class="grid-center">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-xs="12" size-sm="12" size-md="10" size-lg="10">
+          <div class="contenedor-ciudadano">
+            <ion-header>
+              <ion-toolbar class="cabeza">
+                <ion-title class="titulo-contenedor">Datos Generales</ion-title>
+              </ion-toolbar>
+            </ion-header>
+
+            <ion-grid class="grid-datos">
+              <ion-row>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <div class="campo">
+                    <label class="etiqueta">Nombres</label>
+                    <div class="valor-dato">{{ usuario.nombres }}</div>
+                  </div>
+                </ion-col>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <div class="campo">
+                    <label class="etiqueta">Apellido Paterno</label>
+                    <div class="valor-dato">{{ usuario.apellidoPaterno }}</div>
+                  </div>
+                </ion-col>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <div class="campo">
+                    <label class="etiqueta">Apellido Materno</label>
+                    <div class="valor-dato">{{ usuario.apellidoMaterno }}</div>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <div class="campo">
+                    <label class="etiqueta">Teléfono</label>
+                    <div class="valor-dato">{{ usuario.telefono }}</div>
+                  </div>
+                </ion-col>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <div class="campo">
+                    <label class="etiqueta">Fecha de Nacimiento</label>
+                    <div class="valor-dato">{{ usuario.fechaNacimiento }}</div>
+                  </div>
+                </ion-col>
+                <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
+                  <div class="campo">
+                    <label class="etiqueta">Estado Civil</label>
+                    <div class="valor-dato">{{ usuario.estadoCivil }}</div>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+              <ion-row *ngIf="usuario.pareja">
+                <ion-col size="12">
+                  <div class="campo">
+                    <label class="etiqueta">
+                      {{ usuario.estadoCivil === 'Casado' ? 'Pareja' :
+                        usuario.estadoCivil === 'Divorciado' ? 'Expareja' :
+                        usuario.estadoCivil === 'Viudo' ? 'Cónyuge Fallecido' : '' }}
+                    </label>
+                    <div class="valor-dato">{{ usuario.pareja }}</div>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+              <div class="boton-contenedor">
+                <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
+                <ion-button class="boton-editar" (click)="editarDatos()">Editar</ion-button>
+              </div>
+            </ion-grid>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+<app-footer></app-footer>

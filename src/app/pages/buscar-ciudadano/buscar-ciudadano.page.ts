@@ -5,7 +5,8 @@ import { IonContent, IonGrid, IonRow, IonCol, IonLabel, IonTitle, IonCard, IonSe
   IonCardContent, IonAvatar, IonItem, IonSelect, IonSelectOption} from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component'
 import { FooterComponent } from './../../components/footer/footer.component';
-import { RouterLink } from '@angular/router';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-buscar-ciudadano',
@@ -16,50 +17,81 @@ import { RouterLink } from '@angular/router';
     IonTitle, IonLabel, IonCol, IonRow, IonGrid, IonContent, CommonModule, FormsModule, NavbarComponent, FooterComponent]
 })
 export class BuscarCiudadanoPage implements OnInit {
+  constructor(private navCtrl: NavController, private usuarioService: UsuarioService) {}
+
   searchTerm = "";
   selectedFilter = "todos";
-  selectedCargo = "";
+  selectedCargo = "todos";
+  selectedCandidatoCargo = "todos";
 
-  users = [
-    { nombre: "Alexis Pérez", estadoCivil: "casado", visible: true, cargo: "" },
-    { nombre: "María González", estadoCivil: "soltero", visible: true, cargo: "diputado" },
-    { nombre: "Juan López", estadoCivil: "casado", visible: false, cargo: "senador" },
-    { nombre: "Ana Torres", estadoCivil: "soltero", visible: true, cargo: "" },
-    { nombre: "Luis Martínez", estadoCivil: "casado", visible: true, cargo: "alcalde" },
-    { nombre: "Carla Sánchez", estadoCivil: "soltero", visible: false, cargo: "" },
-    { nombre: "Pedro Ramírez", estadoCivil: "casado", visible: true, cargo: "gobernador" },
-    { nombre: "Laura Díaz", estadoCivil: "soltero", visible: true, cargo: "" },
-    { nombre: "Javier Fernández", estadoCivil: "casado", visible: true, cargo: "diputado" },
-    { nombre: "Sofía Herrera", estadoCivil: "soltero", visible: false, cargo: "" },
-    { nombre: "Carlos Jiménez", estadoCivil: "casado", visible: true, cargo: "senador" },
-    { nombre: "Lucía Morales", estadoCivil: "soltero", visible: true, cargo: "" },
-    { nombre: "Andrés Torres", estadoCivil: "casado", visible: false, cargo: "alcalde" },
-    { nombre: "Isabel Castro", estadoCivil: "soltero", visible: true, cargo: "" },
-    { nombre: "Fernando Ruiz", estadoCivil: "casado", visible: true, cargo: "gobernador" },
-    { nombre: "Clara Ortega", estadoCivil: "soltero", visible: false, cargo: "" }
-  ];
-
-  filteredUsers = this.users.filter(user => user.visible);
-
-  filterUsers() {
-  this.filteredUsers = this.users.filter(user => {
-    const searchMatch = user.nombre.toLowerCase().includes(this.searchTerm.toLowerCase());
-    const filterMatch =
-      (this.selectedFilter === "todos" && user.visible) ||
-      (this.selectedFilter === "casado" && user.estadoCivil === "casado" && user.visible) ||
-      (this.selectedFilter === "soltero" && user.estadoCivil === "soltero" && user.visible) ||
-      (this.selectedFilter === "borrado" && !user.visible) || // Solo muestra los no visibles
-      (this.selectedFilter === "conCargos" && user.cargo && user.visible) ||
-      (this.selectedFilter === "sinCargos" && !user.cargo && user.visible) ||
-      (this.selectedFilter === "candidato" && user.cargo === this.selectedCargo && user.visible);
-
-    return searchMatch && filterMatch;
-  });
-}
-
-  constructor() { }
+  users: any[] = [];
+  filteredUsers: any[] = [];
 
   ngOnInit() {
+    this.users = this.usuarioService.getUsuarios();
+    this.filterUsers();
+  }
+
+  filterUsers() {
+    this.filteredUsers = this.users.filter(user => {
+      const search = this.searchTerm.toLowerCase();
+      const searchMatch =
+        user.nombres.toLowerCase().includes(search) ||
+        user.apellidoPaterno.toLowerCase().includes(search) ||
+        user.apellidoMaterno.toLowerCase().includes(search);
+
+      const isVisible = user.visible;
+
+      let filterMatch = false;
+
+      switch (this.selectedFilter) {
+        case "todos":
+          filterMatch = true;
+          break;
+        case "activo":
+          filterMatch = isVisible;
+          break;
+        case "inactivo":
+          filterMatch = !isVisible;
+          break;
+        case "casado":
+          filterMatch = user.estadoCivil === "Casado" && isVisible;
+          break;
+        case "soltero":
+          filterMatch = user.estadoCivil === "Soltero" && isVisible;
+          break;
+        case "divorciado":
+          filterMatch = user.estadoCivil === "Divorciado" && isVisible;
+          break;
+        case "viudo":
+          filterMatch = user.estadoCivil === "Viudo" && isVisible;
+          break;
+        case "conCargos":
+          filterMatch =
+            isVisible &&
+            (this.selectedCargo === "todos"
+              ? !!user.cargo
+              : user.cargo === this.selectedCargo);
+          break;
+        case "sinCargos":
+          filterMatch = !user.cargo && isVisible;
+          break;
+        case "candidato":
+          filterMatch =
+            isVisible &&
+            (this.selectedCandidatoCargo === "todos"
+              ? !!user.candidatoACargo
+              : user.candidatoACargo === this.selectedCandidatoCargo);
+          break;
+      }
+
+      return searchMatch && filterMatch;
+    });
+  }
+
+  verUsuario(user: any) {
+    this.usuarioService.setUsuario(user);
+    this.navCtrl.navigateForward('/ciudadano');
   }
 
 }

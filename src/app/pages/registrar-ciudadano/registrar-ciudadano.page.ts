@@ -8,21 +8,23 @@ import { NavbarComponent } from './../../components/navbar/navbar.component'
 import { FooterComponent } from './../../components/footer/footer.component';
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
+import { UsuarioService } from 'src/app/services/usuario.service';
 @Component({
   selector: 'app-registrar-ciudadano',
   templateUrl: './registrar-ciudadano.page.html',
   styleUrls: ['./registrar-ciudadano.page.scss'],
   standalone: true,
-  imports: [IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonItem, IonIcon, IonGrid, IonCol,
+  imports: [IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonIcon, IonGrid, IonCol,
     IonRow, IonToolbar, IonTitle, IonHeader, IonInput, IonButton, IonLabel, IonContent, CommonModule,
     FormsModule, NavbarComponent, FooterComponent, IonSelect, IonSelectOption]
 })
 export class RegistrarCiudadanoPage implements OnInit {
-  constructor(private location: Location) {
-    addIcons({calendar,});
+  constructor(private location: Location, private usuarioService: UsuarioService) {
+    addIcons({ calendar });
   }
 
   ngOnInit() {
+    this.cargarPersonasDisponibles();
   }
 
   volver() {
@@ -43,10 +45,19 @@ export class RegistrarCiudadanoPage implements OnInit {
 
   estadoCivil = '';
   parejaSeleccionada = '';
-  personasDisponibles = ['Juan Pérez', 'Ana García', 'Carlos López', 'María Torres'];
+  personasDisponibles: string[] = [];
+  cargarPersonasDisponibles() {
+    const usuarios = this.usuarioService.getUsuarios();
+
+    this.personasDisponibles = usuarios
+      .filter(user => user.estadoCivil === 'Soltero')
+      .map(user => `${user.nombres} ${user.apellidoPaterno} ${user.apellidoMaterno}`);
+  }
+
+  estadosConPareja = ['Casado', 'Divorciado', 'Viudo'];
 
   onEstadoCivilChange() {
-    if (this.estadoCivil !== 'casado') {
+    if (!this.estadosConPareja.includes(this.estadoCivil)) {
       this.parejaSeleccionada = '';
       this.mostrarFormularioPareja = false; // por si el usuario estaba registrando una pareja
     }

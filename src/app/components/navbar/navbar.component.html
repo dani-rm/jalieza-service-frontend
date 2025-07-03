@@ -13,9 +13,9 @@
 
     <ion-title class="tipografia" >{{ title }}</ion-title>
     <!-- Contenedor para mantener equilibrio -->
-    <div slot="end" *ngIf="isRegistrarCiudadano()" style="width: 70px;"></div>
+    <div slot="end" *ngIf="debeOcultarMenu()" style="width: 70px;"></div>
 
-    <ion-buttons slot="end" *ngIf="!isRegistrarCiudadano()">
+    <ion-buttons slot="end" *ngIf="!debeOcultarMenu()">
       <ion-menu-button></ion-menu-button> <!-- Botón de menú -->
     </ion-buttons>
   </ion-toolbar>

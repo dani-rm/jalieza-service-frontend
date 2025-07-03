@@ -18,5 +18,13 @@ export const routes: Routes = [
     path: 'registrar-ciudadano',
     loadComponent: () => import('./pages/registrar-ciudadano/registrar-ciudadano.page').then( m => m.RegistrarCiudadanoPage)
   },
+  {
+    path: 'ciudadano',
+    loadComponent: () => import('./pages/ciudadano/ciudadano.page').then( m => m.CiudadanoPage)
+  },
+  {
+    path: 'editar-datos-generales-ciudadano',
+    loadComponent: () => import('./pages/editar-datos-generales-ciudadano/editar-datos-generales-ciudadano.page').then( m => m.EditarDatosGeneralesCiudadanoPage)
+  },
 
 ];

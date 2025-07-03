@@ -1,4 +1,4 @@
-<app-navbar title="Registrar Ciudadano"></app-navbar>
+<app-navbar [title]="usuario.nombres + ' ' + usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno"></app-navbar>
 <ion-content>
   <div class="grid-wrapper">
     <ion-grid class="grid-center">
@@ -7,44 +7,38 @@
           <div class="contenedor-formulario">
             <ion-header>
               <ion-toolbar class="cabeza">
-                <ion-title class="titulo-formulario">Datos Generales</ion-title>
+                <ion-title class="titulo-formulario">Editar Datos Generales</ion-title>
               </ion-toolbar>
             </ion-header>
 
-            <form action="" method="post">
+            <form>
               <ion-grid class="grid-formulario">
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Nombres</ion-label>
-                    <ion-input type="text"></ion-input>
+                    <ion-input type="text" [(ngModel)]="usuario.nombres" name="nombres"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
-                    <ion-input type="text"></ion-input>
+                    <ion-input type="text" [(ngModel)]="usuario.apellidoPaterno" name="apellidoPaterno"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
-                    <ion-input type="text"></ion-input>
+                    <ion-input type="text" [(ngModel)]="usuario.apellidoMaterno" name="apellidoMaterno"></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-                    <ion-input type="tel"></ion-input>
+                    <ion-input type="tel" [(ngModel)]="usuario.telefono" name="telefono"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-                    <ion-input name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
-                      placeholder="dd/mm/aaaa">
-                      <ion-icon slot="end" name="calendar" class="calendar-icon"
-                        (click)="abrirSelectorFecha(fechaInput)">
-                      </ion-icon>
-                    </ion-input>
+                    <ion-input type="date" [(ngModel)]="usuario.fechaNacimiento" name="fechaNacimiento"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
-                    <ion-select [(ngModel)]="estadoCivil" name="estadoCivil" placeholder="Seleccione
-                    estado civil" (ionChange)="onEstadoCivilChange()">
+                    <ion-select [(ngModel)]="estadoCivil" name="estadoCivil" (ionChange)="onEstadoCivilChange()">
                       <ion-select-option value="Soltero">Soltero</ion-select-option>
                       <ion-select-option value="Casado">Casado</ion-select-option>
                       <ion-select-option value="Divorciado">Divorciado</ion-select-option>
@@ -52,9 +46,9 @@
                     </ion-select>
                   </ion-col>
                 </ion-row>
-                <!-- Este campo aparece solo si se selecciona "casado" -->
-                <ion-row>
-                  <ion-col *ngIf="['Casado', 'Divorciado', 'Viudo'].includes(estadoCivil)" size="12">
+
+                <ion-row *ngIf="estadosConPareja.includes(estadoCivil)">
+                  <ion-col size="12">
                     <ion-label class="etiqueta" position="floating">
                       {{
                         estadoCivil === 'Casado' ? 'Seleccione Pareja' :
@@ -63,7 +57,7 @@
                       }}
                     </ion-label>
                     <ion-select [(ngModel)]="parejaSeleccionada" name="parejaSeleccionada"
-                    placeholder="Seleccione pareja" (ionChange)="verificarSeleccion()">
+                                placeholder="Seleccione pareja" (ionChange)="verificarSeleccion()">
                       <ion-select-option *ngFor="let persona of personasDisponibles" [value]="persona">
                         {{ persona }}
                       </ion-select-option>
@@ -78,7 +72,7 @@
 
             <div class="boton-contenedor">
               <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-              <ion-button class="boton-registrar" disabled>Registrar</ion-button>
+              <ion-button class="boton-registrar" disabled>Actualizar</ion-button>
             </div>
           </div>
         </ion-col>

@@ -27,9 +27,10 @@ export class NavbarComponent  implements OnInit {
   @Input({required: true}) title!: string;
   constructor(public router: Router) {
   }
-  // Método para verificar si está en la página de "Registrar Ciudadano"
-  isRegistrarCiudadano(): boolean {
-    return this.router.url === '/registrar-ciudadano';
+  // Oculta el menú en rutas específicas
+  debeOcultarMenu(): boolean {
+    const rutasSinMenu = ['/registrar-ciudadano', '/editar-datos-generales-ciudadano'];
+    return rutasSinMenu.includes(this.router.url);
   }
 
   logoFunction(){
