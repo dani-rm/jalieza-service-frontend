@@ -7,6 +7,7 @@ import { NavbarComponent } from './../../components/navbar/navbar.component'
 import { FooterComponent } from './../../components/footer/footer.component';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { NavController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-buscar-ciudadano',
@@ -17,7 +18,20 @@ import { NavController } from '@ionic/angular';
     IonTitle, IonLabel, IonCol, IonRow, IonGrid, IonContent, CommonModule, FormsModule, NavbarComponent, FooterComponent]
 })
 export class BuscarCiudadanoPage implements OnInit {
-  constructor(private navCtrl: NavController, private usuarioService: UsuarioService) {}
+ngOnInit() {
+  this.menuCtrl.enable(true);
+    this.users = this.usuarioService.getUsuarios();
+    this.filterUsers();
+    /*Para resolver lo de que el menu ya no jala si se inicia por el login
+ if (!sessionStorage.getItem('recargado')) {
+    sessionStorage.setItem('recargado', 'true');
+    location.reload(); // ⚠️ recarga completa
+  } else {
+    sessionStorage.removeItem('recargado');
+  }*/
+  }
+
+  constructor(private navCtrl: NavController, private usuarioService: UsuarioService,private menuCtrl: MenuController) {}
 
   searchTerm = "";
   selectedFilter = "todos";
@@ -27,10 +41,6 @@ export class BuscarCiudadanoPage implements OnInit {
   users: any[] = [];
   filteredUsers: any[] = [];
 
-  ngOnInit() {
-    this.users = this.usuarioService.getUsuarios();
-    this.filterUsers();
-  }
 
   filterUsers() {
     this.filteredUsers = this.users.filter(user => {

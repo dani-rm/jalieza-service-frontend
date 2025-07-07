@@ -1,0 +1,27 @@
+.tipografia {/*Es la tipografia general*/
+  color: black;/*Color de las letras*/
+}
+ion-menu-button {/*Es el boton que despliega el menu*/
+  --color: #862471;
+  width: 75px;
+  height: 75px;
+  font-size: 10rem;/*Tamaño del boton*/
+}
+
+ion-item {/*Define las propiedades de los items del menu*/
+  font-size: 2rem;
+  --background: #F0DAC3;
+  width: 70%;
+  margin: 25px auto; /* Centra el ion-item horizontalmente */
+  text-align: center; /* Centra el texto dentro del ion-item */
+}
+
+ion-list {/*Define las propiedades de la lista del menu*/
+  --background: #FFF8F8; /* Fondo del contenido */
+  padding: 0; /* Elimina el padding para que ocupe todo el espacio */
+  height: 100vh;
+  display: flex;
+  justify-content: center;   /* Centrado vertical */
+  align-items: center;
+  flex-direction: column; /* Alinea los items en columna */
+}

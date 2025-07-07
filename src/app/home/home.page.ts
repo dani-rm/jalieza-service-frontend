@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
 import { eye, eyeOff } from 'ionicons/icons';
 import { HttpClient } from '@angular/common/http';
+import { MenuController } from '@ionic/angular';
+
 
 import { AlertController } from '@ionic/angular';
 @Component({
@@ -18,16 +20,24 @@ import { AlertController } from '@ionic/angular';
     NavbarComponent, FooterComponent, FormsModule],
 })
 export class HomePage {
+  OnInit(){}
   email: string = '';
   password: string = '';
   showPassword: boolean = false;
   constructor(public router: Router,
       private http: HttpClient,
-    private alertController: AlertController,
+      private alertController: AlertController,
+      private menuCtrl: MenuController
   ) {
     addIcons({eye, eyeOff});
 
   }
+
+
+  ionViewWillEnter() {
+  this.menuCtrl.enable(false); // Desactiva el menú en login
+}
+
 
   /*showPassword = false;
   password = '';*/
@@ -45,7 +55,8 @@ export class HomePage {
       next: (response: any) => {
         console.log('Login exitoso:', response);
         localStorage.setItem('token', response.token); // Guarda token si quieres
-        // Puedes redirigir o mostrar mensaje
+        // Redirije a buscar ciudadanos
+      this.router.navigate(['/buscar-ciudadano']);
       },
       error: async (err) => {
         console.error('Error en login', err);
