@@ -11,26 +11,26 @@
               </ion-toolbar>
             </ion-header>
 
-            <form action="" method="post">
+            <form action="" method="post" (ngSubmit)="registrarCiudadano()">
               <ion-grid class="grid-formulario">
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Nombres</ion-label>
-                    <ion-input type="text"></ion-input>
+                    <ion-input type="text" [(ngModel)]="nombres" name="nombres"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
-                    <ion-input type="text"></ion-input>
+                    <ion-input type="text" [(ngModel)]="apellidoPaterno" name="apellidoPaterno"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
-                    <ion-input type="text"></ion-input>
+                    <ion-input type="text" [(ngModel)]="apellidoMaterno" name="apellidoMaterno"></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-                    <ion-input type="tel"></ion-input>
+                    <ion-input type="tel" [(ngModel)]="telefono" name="telefono"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
@@ -43,8 +43,7 @@
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
-                    <ion-select [(ngModel)]="estadoCivil" name="estadoCivil" placeholder="Seleccione
-                    estado civil" (ionChange)="onEstadoCivilChange()">
+                    <ion-select [(ngModel)]="estadoCivil" name="estadoCivil" placeholder="Seleccione estado civil" (ionChange)="onEstadoCivilChange()">
                       <ion-select-option value="Soltero">Soltero</ion-select-option>
                       <ion-select-option value="Casado">Casado</ion-select-option>
                       <ion-select-option value="Divorciado">Divorciado</ion-select-option>
@@ -52,9 +51,8 @@
                     </ion-select>
                   </ion-col>
                 </ion-row>
-                <!-- Este campo aparece solo si se selecciona "casado" -->
                 <ion-row>
-                  <ion-col *ngIf="['Casado', 'Divorciado', 'Viudo'].includes(estadoCivil)" size="12">
+                  <ion-col *ngIf="estadosConPareja.includes(estadoCivil)" size="12">
                     <ion-label class="etiqueta" position="floating">
                       {{
                         estadoCivil === 'Casado' ? 'Seleccione Pareja' :
@@ -74,12 +72,12 @@
                   </ion-col>
                 </ion-row>
               </ion-grid>
-            </form>
 
-            <div class="boton-contenedor">
-              <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-              <ion-button class="boton-registrar" disabled>Registrar</ion-button>
-            </div>
+              <div class="boton-contenedor">
+                <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
+                <ion-button class="boton-registrar" [disabled]="!isFormValid" type="submit">Registrar</ion-button>
+              </div>
+            </form>
           </div>
         </ion-col>
       </ion-row>
@@ -88,8 +86,7 @@
 </ion-content>
 <app-footer></app-footer>
 
-<!-- Este formulario de registro de pareja solo aparece solo si se selecciona "registrar pareja"
-al seleccionar una pareja de un ciudadano casado-->
+<!-- Formulario registro pareja -->
 <div class="overlay-pareja" *ngIf="mostrarFormularioPareja" (click)="cerrarFormularioPareja()">
   <ion-card class="formulario-emergente tarjeta-flotante" (click)="$event.stopPropagation()">
     <ion-card-header style="background-color: black;">
@@ -103,7 +100,7 @@ al seleccionar una pareja de un ciudadano casado-->
             <ion-input type="text"></ion-input>
           </ion-col>
           <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
-              <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
+            <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
             <ion-input type="text"></ion-input>
           </ion-col>
         </ion-row>
