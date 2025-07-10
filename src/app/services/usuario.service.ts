@@ -8,22 +8,38 @@ export class UsuarioService {
     {
       nombres: "Alexis Edmundo", apellidoPaterno: "Méndez", apellidoMaterno: "Gallegos",
       estadoCivil: "Soltero", telefono: "9512204716", fechaNacimiento: "10-10-2005",
-      visible: true, cargo: "", candidatoACargo: "Diputado", pareja: ""
+      visible: true, cargo: "", candidatoACargo: "Diputado", pareja: "",
+      cargos: [
+        { orden: 'Primer', nombre: 'Presidente', periodo: '01/01/2024 - 31/12/2024', estado: 'En Curso' },
+        { orden: 'Segundo', nombre: 'Tesorero', periodo: '01/01/2023 - 31/12/2023', estado: 'Completado' }
+      ]
     },
     {
       nombres: "María del Carmen", apellidoPaterno: "García", apellidoMaterno: "López",
       estadoCivil: "Casado", telefono: "9511234567", fechaNacimiento: "15-05-1990",
-      visible: true, cargo: "Alcalde", candidatoACargo: "", pareja: "Juan Pérez Santillo"
+      visible: true, cargo: "Alcalde", candidatoACargo: "", pareja: "Juan Pérez Santillo",
+      cargos: [
+        { orden: 'Tercer', nombre: 'Secretario', periodo: '01/01/2022 - 31/12/2022', estado: 'Completado' },
+        { orden: 'Cuarto', nombre: 'Vocal', periodo: '01/01/2021 - 31/12/2021', estado: 'Completado' }
+      ]
     },
     {
       nombres: "José Luis", apellidoPaterno: "Hernández", apellidoMaterno: "Martínez",
       estadoCivil: "Divorciado", telefono: "9519876543", fechaNacimiento: "20-08-1985",
-      visible: true, cargo: "", candidatoACargo: "Senador", pareja: "María del Carmen García López"
+      visible: true, cargo: "", candidatoACargo: "Senador", pareja: "María del Carmen García López",
+      cargos: [
+        { orden: 'Quinto', nombre: 'Fiscal', periodo: '01/01/2020 - 31/12/2020', estado: 'Completado' },
+        { orden: 'Sexto', nombre: 'Vocal Suplente', periodo: '01/01/2019 - 31/12/2019', estado: 'Completado' }
+      ]
     },
     {
       nombres: "Ana María", apellidoPaterno: "Sánchez", apellidoMaterno: "Ramírez",
       estadoCivil: "Viudo", telefono: "9514567890", fechaNacimiento: "30-12-1975",
-      visible: true, cargo: "", candidatoACargo: "Gobernador", pareja: "Carlos Alberto Torres Gómez"
+      visible: true, cargo: "", candidatoACargo: "Gobernador", pareja: "Carlos Alberto Torres Gómez",
+      cargos: [
+        { orden: 'Primer', nombre: 'Presidente', periodo: '01/01/2024 - 31/12/2024', estado: 'En Curso' },
+        { orden: 'Segundo', nombre: 'Tesorero', periodo: '01/01/2023 - 31/12/2023', estado: 'Completado' }
+      ]
     },
     {
       nombres: "Carlos Alberto", apellidoPaterno: "Torres", apellidoMaterno: "Gómez",
@@ -38,7 +54,11 @@ export class UsuarioService {
     {
       nombres: "Miguel Ángel", apellidoPaterno: "Ramírez", apellidoMaterno: "Gutiérrez",
       estadoCivil: "Divorciado", telefono: "9516547892", fechaNacimiento: "18-07-1980",
-      visible: true, cargo: "Senador", candidatoACargo: "", pareja: "Patricia Elena Rojas Mendoza"
+      visible: true, cargo: "Senador", candidatoACargo: "", pareja: "Patricia Elena Rojas Mendoza",
+      cargos: [
+        { orden: 'Tercer', nombre: 'Secretario', periodo: '01/01/2022 - 31/12/2022', estado: 'Completado' },
+        { orden: 'Cuarto', nombre: 'Vocal', periodo: '01/01/2021 - 31/12/2021', estado: 'Completado' }
+      ]
     },
     {
       nombres: "Sofía Elena", apellidoPaterno: "Morales", apellidoMaterno: "Cruz",
@@ -53,7 +73,11 @@ export class UsuarioService {
     {
       nombres: "Isabel Cristina", apellidoPaterno: "Gómez", apellidoMaterno: "Lara",
       estadoCivil: "Casado", telefono: "9517412589", fechaNacimiento: "28-06-1995",
-      visible: true, cargo: "Diputado", candidatoACargo: "", pareja: "Luis Ricardo Lara Soto"
+      visible: true, cargo: "Diputado", candidatoACargo: "", pareja: "Luis Ricardo Lara Soto",
+      cargos: [
+        { orden: 'Quinto', nombre: 'Fiscal', periodo: '01/01/2020 - 31/12/2020', estado: 'Completado' },
+        { orden: 'Sexto', nombre: 'Vocal Suplente', periodo: '01/01/2019 - 31/12/2019', estado: 'Completado' }
+      ]
     },
     {
       nombres: "Fernando Javier", apellidoPaterno: "Cordero", apellidoMaterno: "Salazar",
@@ -73,7 +97,11 @@ export class UsuarioService {
     {
       nombres: "Lucía Fernanda", apellidoPaterno: "Martínez", apellidoMaterno: "Soto",
       estadoCivil: "Casado", telefono: "9511472583", fechaNacimiento: "20-09-1992",
-      visible: true, cargo: "Gobernador", candidatoACargo: "", pareja: "Andrés Eduardo Soto Ramírez"
+      visible: true, cargo: "Gobernador", candidatoACargo: "", pareja: "Andrés Eduardo Soto Ramírez",
+      cargos: [
+        { orden: 'Primer', nombre: 'Presidente', periodo: '01/01/2024 - 31/12/2024', estado: 'En Curso' },
+        { orden: 'Segundo', nombre: 'Tesorero', periodo: '01/01/2023 - 31/12/2023', estado: 'Completado' }
+      ]
     },
     {
       nombres: "Javier Alejandro", apellidoPaterno: "López", apellidoMaterno: "Pérez",
@@ -83,7 +111,11 @@ export class UsuarioService {
     {
       nombres: "Carolina Isabel", apellidoPaterno: "Gutiérrez", apellidoMaterno: "Vargas",
       estadoCivil: "Viudo", telefono: "9517891234", fechaNacimiento: "05-08-1973",
-      visible: true, cargo: "", candidatoACargo: "Alcalde", pareja: "Eduardo Andrés Vargas Ruiz"
+      visible: true, cargo: "", candidatoACargo: "Alcalde", pareja: "Eduardo Andrés Vargas Ruiz",
+      cargos: [
+        { orden: 'Tercer', nombre: 'Secretario', periodo: '01/01/2022 - 31/12/2022', estado: 'Completado' },
+        { orden: 'Cuarto', nombre: 'Vocal', periodo: '01/01/2021 - 31/12/2021', estado: 'Completado' }
+      ]
     },
     {
       nombres: "Diego Alejandro", apellidoPaterno: "Ramírez", apellidoMaterno: "Cruz",
