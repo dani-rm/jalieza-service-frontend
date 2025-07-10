@@ -1,24 +1,21 @@
-<app-navbar [title]="usuario.nombres + ' ' + usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno">
-</app-navbar>
+<app-navbar [title]="ciudadano?.nombres + ' ' + ciudadano?.apellidoPaterno + ' ' + ciudadano?.apellidoMaterno"></app-navbar>
+
 <ion-content id="main-content">
   <div class="grid-wrapper">
     <ion-grid class="grid-center">
       <ion-row class="ion-justify-content-center">
-        <ion-col size-xs="12" size-sm="12" size-md="10" size-lg="10">
+        <ion-col size="12" size-md="10">
           <div class="contenedor-ciudadano">
+
+            <!-- Encabezado y Menú -->
             <ion-header>
               <ion-toolbar class="cabeza">
-                <!-- Botón de menú (lado izquierdo) -->
                 <ion-buttons slot="start">
                   <ion-button (click)="mostrarMenu = !mostrarMenu">
                     <ion-icon name="menu-outline" class="menu-icono"></ion-icon>
                   </ion-button>
                 </ion-buttons>
-                <!-- Título centrado -->
-                <ion-title class="titulo-contenedor">
-                  {{ seccionActual }}
-                </ion-title>
-                <!-- Espaciador o botón "+" (lado derecho) -->
+                <ion-title class="titulo-contenedor">{{ seccionActual }}</ion-title>
                 <ion-buttons slot="end">
                   <ng-container *ngIf="seccionActual === 'Cargos'; else espaciador">
                     <ion-button (click)="agregarCargo()">
@@ -30,9 +27,7 @@
                   </ng-template>
                 </ion-buttons>
               </ion-toolbar>
-              <!-- Fondo oscuro (cerrará el menú si se hace clic fuera) -->
               <div class="fondo-menu" *ngIf="mostrarMenu" (click)="mostrarMenu = false"></div>
-              <!-- Menú desplegable -->
               <div class="menu-flotante" *ngIf="mostrarMenu">
                 <ion-list lines="none">
                   <ion-item button (click)="cambiarSeccion('Datos Generales')">
@@ -45,70 +40,76 @@
               </div>
             </ion-header>
 
-            <ng-container *ngIf="seccionActual === 'Datos Generales'">
-              <ion-grid class="grid-datos">
-                <ion-row>
-                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                    <div class="campo">
-                      <label class="etiqueta">Nombres</label>
-                      <div class="valor-dato">{{ usuario.nombres }}</div>
-                    </div>
-                  </ion-col>
-                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                    <div class="campo">
-                      <label class="etiqueta">Apellido Paterno</label>
-                      <div class="valor-dato">{{ usuario.apellidoPaterno }}</div>
-                    </div>
-                  </ion-col>
-                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                    <div class="campo">
-                      <label class="etiqueta">Apellido Materno</label>
-                      <div class="valor-dato">{{ usuario.apellidoMaterno }}</div>
-                    </div>
-                  </ion-col>
-                </ion-row>
 
-                <ion-row>
-                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                    <div class="campo">
-                      <label class="etiqueta">Teléfono</label>
-                      <div class="valor-dato">{{ usuario.telefono }}</div>
-                    </div>
-                  </ion-col>
-                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                    <div class="campo">
-                      <label class="etiqueta">Fecha de Nacimiento</label>
-                      <div class="valor-dato">{{ usuario.fechaNacimiento }}</div>
-                    </div>
-                  </ion-col>
-                  <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                    <div class="campo">
-                      <label class="etiqueta">Estado Civil</label>
-                      <div class="valor-dato">{{ usuario.estadoCivil }}</div>
-                    </div>
-                  </ion-col>
-                </ion-row>
+<!-- Sección Datos Generales -->
+<ng-container *ngIf="seccionActual === 'Datos Generales'">
+  <ion-grid class="grid-datos">
+    <ion-row>
+      <ion-col size="12" size-md="4">
+        <div class="campo">
+          <label class="etiqueta">Nombres</label>
+          <div class="valor-dato">{{ ciudadano?.name }}</div>
+        </div>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <div class="campo">
+          <label class="etiqueta">Apellido Paterno</label>
+          <div class="valor-dato">{{ ciudadano?.last_name_father }}</div>
+        </div>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <div class="campo">
+          <label class="etiqueta">Apellido Materno</label>
+          <div class="valor-dato">{{ ciudadano?.last_name_mother }}</div>
+        </div>
+      </ion-col>
+    </ion-row>
 
-                <ion-row *ngIf="usuario.pareja">
-                  <ion-col size="12">
-                    <div class="campo">
-                      <label class="etiqueta">
-                        {{ usuario.estadoCivil === 'Casado' ? 'Pareja' :
-                          usuario.estadoCivil === 'Divorciado' ? 'Expareja' :
-                          usuario.estadoCivil === 'Viudo' ? 'Cónyuge Fallecido' : '' }}
-                      </label>
-                      <div class="valor-dato">{{ usuario.pareja }}</div>
-                    </div>
-                  </ion-col>
-                </ion-row>
+    <ion-row>
+      <ion-col size="12" size-md="4">
+        <div class="campo">
+          <label class="etiqueta">Teléfono</label>
+          <div class="valor-dato">{{ ciudadano?.phone }}</div>
+        </div>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <div class="campo">
+          <label class="etiqueta">Fecha de Nacimiento</label>
+          <div class="valor-dato">{{ ciudadano?.birth_date }}</div>
+        </div>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <div class="campo">
+          <label class="etiqueta">Estado Civil</label>
+          <div class="valor-dato">{{ ciudadano?.marital_status }}</div>
+        </div>
+      </ion-col>
+    </ion-row>
 
-                <div class="boton-contenedor">
-                  <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-                  <ion-button class="boton-editar" (click)="editarDatos()">Editar</ion-button>
-                </div>
-              </ion-grid>
-            </ng-container>
+    <ion-row *ngIf="ciudadano?.partner">
+      <ion-col size="12">
+        <div class="campo">
+          <label class="etiqueta">
+            {{
+              ciudadano?.marital_status === 'Casado' ? 'Pareja' :
+              ciudadano?.marital_status === 'Divorciado' ? 'Expareja' :
+              ciudadano?.marital_status === 'Viudo' ? 'Cónyuge Fallecido' : ''
+            }}
+          </label>
+          <div class="valor-dato">{{ ciudadano?.partner }}</div>
+        </div>
+      </ion-col>
+    </ion-row>
 
+    <div class="boton-contenedor">
+      <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
+      <ion-button class="boton-editar" (click)="editarDatos()">Editar</ion-button>
+    </div>
+  </ion-grid>
+</ng-container>
+
+
+            <!-- Sección Cargos -->
             <ng-container *ngIf="seccionActual === 'Cargos'">
               <ion-grid class="grid-datos">
                 <ng-container *ngIf="cargos.length > 0; else sinCargos">
@@ -118,25 +119,25 @@
                         <ion-card-content>
                           <ion-grid>
                             <ion-row>
-                              <ion-col size="12" sizeMd="3">
+                              <ion-col size="12" size-md="3">
                                 <div class="campo">
                                   <label class="etiqueta" style="color: white;">Orden</label>
                                   <div class="valor-dato">{{ cargo.orden }}</div>
                                 </div>
                               </ion-col>
-                              <ion-col size="12" sizeMd="3">
+                              <ion-col size="12" size-md="3">
                                 <div class="campo">
                                   <label class="etiqueta" style="color: white;">Nombre</label>
                                   <div class="valor-dato">{{ cargo.nombre }}</div>
                                 </div>
                               </ion-col>
-                              <ion-col size="12" sizeMd="3">
+                              <ion-col size="12" size-md="3">
                                 <div class="campo">
                                   <label class="etiqueta" style="color: white;">Periodo</label>
                                   <div class="valor-dato">{{ cargo.periodo }}</div>
                                 </div>
                               </ion-col>
-                              <ion-col size="12" sizeMd="3">
+                              <ion-col size="12" size-md="3">
                                 <div class="campo">
                                   <label class="etiqueta" style="color: white;">Estado</label>
                                   <div class="valor-dato">{{ cargo.estado }}</div>
@@ -150,7 +151,6 @@
                   </ion-row>
                 </ng-container>
 
-                <!-- Mensaje si no hay cargos -->
                 <ng-template #sinCargos>
                   <ion-row>
                     <ion-col size="12">
@@ -160,12 +160,10 @@
                     </ion-col>
                   </ion-row>
                 </ng-template>
-                <!-- Botones -->
+
                 <div class="boton-contenedor">
                   <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-                  <!-- Si el ciudadano no tiene cargos el boton esta desabilitado -->
-                  <ion-button class="boton-editar" (click)="editarCargos()"
-                  [disabled]="cargos.length === 0">Editar</ion-button>
+                  <ion-button class="boton-editar" (click)="editarCargos()" [disabled]="cargos.length === 0">Editar</ion-button>
                 </div>
               </ion-grid>
             </ng-container>
@@ -176,4 +174,5 @@
     </ion-grid>
   </div>
 </ion-content>
+
 <app-footer></app-footer>

@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel, IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonItem, IonCard, IonCardContent, IonList, IonText } from '@ionic/angular/standalone';
+import {
+  IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel,
+  IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonItem, IonCard,
+  IonCardContent, IonList, IonText
+} from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router'; // <-- Importante
 import { addIcons } from 'ionicons';
 import { addCircleOutline, menuOutline } from 'ionicons/icons';
 
@@ -14,23 +19,41 @@ import { addCircleOutline, menuOutline } from 'ionicons/icons';
   templateUrl: './ciudadano.page.html',
   styleUrls: ['./ciudadano.page.scss'],
   standalone: true,
-  imports: [IonText, IonList, IonCardContent, IonCard, IonItem, IonIcon, IonButtons,  IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent,
-    FooterComponent
+  imports: [
+    IonText, IonList, IonCardContent, IonCard, IonItem, IonIcon, IonButtons,
+    IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader,
+    IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, FooterComponent
   ]
 })
 export class CiudadanoPage implements OnInit {
-  constructor(private usuarioService: UsuarioService, private navCtrl: NavController) {
-    addIcons({menuOutline, addCircleOutline});
-  }
-
-  usuario: any = {}; // Variable para almacenar los datos del usuario
-  cargos: any[] = []; // Variable para almacenar los cargos del usuario
+  ciudadano: any = null;
+  cargos: any[] = [];
   mostrarMenu = false;
   seccionActual = 'Datos Generales';
 
+  constructor(
+    private ciudadanoService: CiudadanoService,
+    private navCtrl: NavController,
+    private route: ActivatedRoute // <-- Nuevo
+  ) {
+    addIcons({ menuOutline, addCircleOutline });
+  }
+
   ngOnInit() {
-    this.usuario = this.usuarioService.getUsuario();
-    this.cargos = this.usuario?.cargos || []; // si no tiene, se asigna arreglo vacío
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.ciudadanoService.getCiudadanoPorId(+id).subscribe({
+        next: (data) => {
+          this.ciudadano = data;
+          this.cargos = data.services || [];
+        },
+        error: (error) => {
+          console.error('Error al obtener ciudadano:', error);
+        }
+      });
+    } else {
+      console.warn('No se proporcionó ID de ciudadano en la ruta');
+    }
   }
 
   cambiarSeccion(seccion: string) {
@@ -43,7 +66,7 @@ export class CiudadanoPage implements OnInit {
   }
 
   volver() {
-    this.navCtrl.back(); // Vuelve a la lista anterior
+    this.navCtrl.back();
   }
 
   editarDatos() {
@@ -53,5 +76,4 @@ export class CiudadanoPage implements OnInit {
   editarCargos() {
     this.navCtrl.navigateForward('/editar-cargos-ciudadano');
   }
-
 }

@@ -34,4 +34,8 @@ export class CiudadanoService {
   }): Observable<any> {
     return this.http.post<any>(this.baseUrl, dto);
   }
+  getCiudadanoPorId(id: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/${id}`);
+}
+
 }

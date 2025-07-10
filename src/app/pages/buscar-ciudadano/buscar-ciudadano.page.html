@@ -55,7 +55,7 @@
             <ion-grid>
               <ion-row>
                 <ion-col sizeXs="12" sizeSm="12" sizeMd="4" sizeLg="3" sizeXl="2.4" *ngFor="let ciudadano of ciudadanosFiltrados">
-                  <ion-card (click)="verCiudadano(ciudadano)">
+                  <ion-card  (click)="verCiudadano(ciudadano.id)" >
                     <ion-card-content>
                       <ion-avatar>
                         <img src="../../../assets/fotoPerfil.png" />

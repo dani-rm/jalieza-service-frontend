@@ -137,8 +137,8 @@ export class BuscarCiudadanoPage implements OnInit {
     });
   }
 
-  verCiudadano(ciudadano: any) {
-    this.ciudadanoService.setCiudadano(ciudadano);
-    this.navCtrl.navigateForward('/ciudadano');
-  }
+verCiudadano(id: number) {
+  this.navCtrl.navigateForward(`/ciudadano/${id}`);
+}
+
 }

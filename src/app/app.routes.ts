@@ -19,7 +19,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/registrar-ciudadano/registrar-ciudadano.page').then( m => m.RegistrarCiudadanoPage)
   },
   {
-    path: 'ciudadano',
+    path: 'ciudadano/:id',
     loadComponent: () => import('./pages/ciudadano/ciudadano.page').then( m => m.CiudadanoPage)
   },
   {
