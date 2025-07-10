@@ -68,6 +68,7 @@ export class BuscarCiudadanoPage implements OnInit {
 
     this.ciudadanoService.getCiudadanos().subscribe({
       next: (data) => {
+         console.log('📦 Ciudadanos recibidos:', data);
         this.ciudadanos = data;
         this.filtrarCiudadanos();
       },
@@ -75,30 +76,16 @@ export class BuscarCiudadanoPage implements OnInit {
         console.error('Error al obtener ciudadanos:', err);
       }
     });
-
-    /*
-    if (!sessionStorage.getItem('recargado')) {
-      sessionStorage.setItem('recargado', 'true');
-      location.reload(); // ⚠️ recarga completa
-    } else {
-      sessionStorage.removeItem('recargado');
-    }
-    */
   }
 
   filtrarCiudadanos() {
-    if (!this.searchTerm.trim()) {
-  this.ciudadanosFiltrados = this.ciudadanos;
-  return;
-}
-    this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano => {
-      const search = this.searchTerm.toLowerCase();
-      const matchBusqueda =
-        ciudadano.nombres?.toLowerCase().includes(search) ||
-        ciudadano.apellidoPaterno?.toLowerCase().includes(search) ||
-        ciudadano.apellidoMaterno?.toLowerCase().includes(search);
+    const search = this.searchTerm.trim().toLowerCase();
 
+    this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano => {
       const visible = ciudadano.visible;
+
+      const nombreCompleto = `${ciudadano.name} ${ciudadano.last_name_father} ${ciudadano.last_name_mother}`.toLowerCase();
+      const coincideBusqueda = nombreCompleto.includes(search);
 
       let coincideFiltro = false;
 
@@ -113,16 +100,16 @@ export class BuscarCiudadanoPage implements OnInit {
           coincideFiltro = !visible;
           break;
         case 'casado':
-          coincideFiltro = ciudadano.estadoCivil === 'Casado' && visible;
+          coincideFiltro = ciudadano.marital_status === 'Casado' && visible;
           break;
         case 'soltero':
-          coincideFiltro = ciudadano.estadoCivil === 'Soltero' && visible;
+          coincideFiltro = ciudadano.marital_status === 'Soltero' && visible;
           break;
         case 'divorciado':
-          coincideFiltro = ciudadano.estadoCivil === 'Divorciado' && visible;
+          coincideFiltro = ciudadano.marital_status === 'Divorciado' && visible;
           break;
         case 'viudo':
-          coincideFiltro = ciudadano.estadoCivil === 'Viudo' && visible;
+          coincideFiltro = ciudadano.marital_status === 'Viudo' && visible;
           break;
         case 'conCargos':
           coincideFiltro =
@@ -132,7 +119,7 @@ export class BuscarCiudadanoPage implements OnInit {
               : ciudadano.cargo === this.selectedCargo);
           break;
         case 'sinCargos':
-          coincideFiltro = !ciudadano.cargo && visible;
+          coincideFiltro = visible && !ciudadano.cargo;
           break;
         case 'candidato':
           coincideFiltro =
@@ -141,9 +128,12 @@ export class BuscarCiudadanoPage implements OnInit {
               ? !!ciudadano.candidatoACargo
               : ciudadano.candidatoACargo === this.selectedCandidatoCargo);
           break;
+        default:
+          coincideFiltro = true;
+          break;
       }
 
-      return matchBusqueda && coincideFiltro;
+      return coincideBusqueda && coincideFiltro;
     });
   }
 
