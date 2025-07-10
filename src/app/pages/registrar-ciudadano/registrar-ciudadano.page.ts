@@ -43,6 +43,14 @@ export class RegistrarCiudadanoPage implements OnInit {
     }
   }
 
+  soloNumeros(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    // Permite solo dígitos (0-9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+
   estadoCivil = '';
   parejaSeleccionada = '';
   personasDisponibles: string[] = [];

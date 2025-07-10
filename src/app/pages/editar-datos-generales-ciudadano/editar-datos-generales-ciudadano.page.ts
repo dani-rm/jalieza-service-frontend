@@ -36,6 +36,16 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     if (this.usuario) {
       this.estadoCivil = this.usuario.estadoCivil;
       this.parejaSeleccionada = this.usuario.pareja;
+      // 👉 Formatear fechaNacimiento a formato ISO compatible con input date
+      if (this.usuario.fechaNacimiento) {
+        const parts = this.usuario.fechaNacimiento.split("-");
+        if (parts.length === 3) {
+          const dd = parts[0];
+          const mm = parts[1];
+          const yyyy = parts[2];
+          this.usuario.fechaNacimiento = `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
+        }
+      }
     }
 
     this.cargarPersonasDisponibles();
@@ -77,6 +87,13 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
 
   verificarSeleccion() {
     this.mostrarFormularioPareja = this.parejaSeleccionada === 'registrar';
+  }
+
+  filtrarTelefono(event: any) {
+    const input = event.target as HTMLInputElement;
+    const soloNumeros = input.value.replace(/\D/g, '').slice(0, 10);
+    this.usuario.telefono = soloNumeros;
+    input.value = soloNumeros; // Actualiza visualmente el input
   }
 
   fechaNacimiento = '';

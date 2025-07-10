@@ -29,7 +29,8 @@ export class NavbarComponent  implements OnInit {
   }
   // Oculta el menú en rutas específicas
   debeOcultarMenu(): boolean {
-    const rutasSinMenu = ['/registrar-ciudadano', '/editar-datos-generales-ciudadano'];
+    const rutasSinMenu = ['/registrar-ciudadano', '/editar-datos-generales-ciudadano',
+      '/editar-cargos-ciudadano', '/agregar-cargo'];
     return rutasSinMenu.includes(this.router.url);
   }
 

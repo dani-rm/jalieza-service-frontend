@@ -30,11 +30,16 @@
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-                    <ion-input type="tel" [(ngModel)]="usuario.telefono" name="telefono"></ion-input>
+                    <ion-input type="tel" [(ngModel)]="usuario.telefono" name="telefono" maxlength="10"
+                    inputmode="numeric" (ionInput)="filtrarTelefono($event)"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-                    <ion-input type="date" [(ngModel)]="usuario.fechaNacimiento" name="fechaNacimiento"></ion-input>
+                    <ion-input type="date" #fechaInput [(ngModel)]="usuario.fechaNacimiento" name="fechaNacimiento">
+                      <ion-icon slot="end" name="calendar" class="calendar-icon"
+                        (click)="abrirSelectorFecha(fechaInput)">
+                      </ion-icon>
+                    </ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
@@ -97,7 +102,7 @@ al seleccionar una pareja de un ciudadano casado-->
             <ion-input type="text"></ion-input>
           </ion-col>
           <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
-              <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
+            <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
             <ion-input type="text"></ion-input>
           </ion-col>
         </ion-row>
