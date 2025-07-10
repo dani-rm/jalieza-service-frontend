@@ -24,6 +24,7 @@ import { CiudadanoService } from 'src/app/services/ciudadano.service';
   ]
 })
 export class RegistrarCiudadanoPage implements OnInit {
+  hoy='';
 
   fechaNacimiento = '';
   estadoCivil = '';
@@ -47,6 +48,7 @@ export class RegistrarCiudadanoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.hoy = new Date().toISOString().split('T')[0]; // formato yyyy-MM-dd
     this.cargarPersonasDisponibles();
   }
 
@@ -104,41 +106,53 @@ export class RegistrarCiudadanoPage implements OnInit {
     return basicValid;
   }
 
-  registrarCiudadano() {
-    if (!this.isFormValid) return;
+ registrarCiudadano() {
+  if (!this.isFormValid) return;
 
-    let partnerId: number | undefined = undefined;
+  let partnerId: number | undefined = undefined;
 
-    if (this.estadosConPareja.includes(this.estadoCivil) && this.parejaSeleccionada !== 'registrar') {
-      const pareja = this.ciudadanosDisponibles.find(
-        c => `${c.name} ${c.last_name_father} ${c.last_name_mother}` === this.parejaSeleccionada
-      );
-      partnerId = pareja?.id;
-    }
+  if (this.estadosConPareja.includes(this.estadoCivil) && this.parejaSeleccionada !== 'registrar') {
+    const pareja = this.ciudadanosDisponibles.find(
+      c => `${c.name} ${c.last_name_father} ${c.last_name_mother}` === this.parejaSeleccionada
+    );
+    partnerId = pareja?.id;
+  }
 
-    const dto = {
-      name: this.nombres,
-      last_name_father: this.apellidoPaterno,
-      last_name_mother: this.apellidoMaterno,
-      birth_date: this.fechaNacimiento,
-      phone: this.telefono,
-      marital_status: this.estadoCivil,
-      ...(partnerId ? { partner: partnerId } : {})
-    };
-console.log('DTO que se enviará:', dto);
+  const dto = {
+    name: this.nombres,
+    last_name_father: this.apellidoPaterno,
+    last_name_mother: this.apellidoMaterno,
+    birth_date: this.fechaNacimiento,
+    phone: this.telefono,
+    marital_status: this.estadoCivil,
+    ...(partnerId ? { partner: partnerId } : {})
+  };
+
+  console.log('DTO que se enviará:', dto);
 
   this.ciudadanoService.crearCiudadano(dto).subscribe({
-  next: (res) => {
-    console.log('✅ Ciudadano registrado:', res);
-    alert('Ciudadano registrado correctamente');
-    // Redirigir o limpiar el formulario aquí si quieres
-  },
-  error: (err) => {
-    console.error('❌ Error al registrar ciudadano:', err);
-    alert('Ocurrió un error al registrar al ciudadano.');
-  }
-});
+    next: (res) => {
+      console.log('✅ Ciudadano registrado:', res);
+      alert('Ciudadano registrado correctamente');
 
+      // 👉 Limpiar todos los campos del formulario
+      this.nombres = '';
+      this.apellidoPaterno = '';
+      this.apellidoMaterno = '';
+      this.fechaNacimiento = '';
+      this.telefono = '';
+      this.estadoCivil = '';
+      this.parejaSeleccionada = '';
+      this.mostrarFormularioPareja = false;
 
-  }
+      // 👉 Opcional: recargar lista de ciudadanos disponibles (por si se registró una pareja nueva)
+      this.cargarPersonasDisponibles();
+    },
+    error: (err) => {
+      console.error('❌ Error al registrar ciudadano:', err);
+      alert('Ocurrió un error al registrar al ciudadano.');
+    }
+  });
+}
+
 }

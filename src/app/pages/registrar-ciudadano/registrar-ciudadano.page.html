@@ -16,26 +16,26 @@
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Nombres</ion-label>
-                    <ion-input type="text" [(ngModel)]="nombres" name="nombres"></ion-input>
+                    <ion-input inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" type="text" [(ngModel)]="nombres" name="nombres"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
-                    <ion-input type="text" [(ngModel)]="apellidoPaterno" name="apellidoPaterno"></ion-input>
+                    <ion-input inputmode="text"  pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"type="text" [(ngModel)]="apellidoPaterno" name="apellidoPaterno"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
-                    <ion-input type="text" [(ngModel)]="apellidoMaterno" name="apellidoMaterno"></ion-input>
+                    <ion-input inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" type="text" [(ngModel)]="apellidoMaterno" name="apellidoMaterno"></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-                    <ion-input type="tel" [(ngModel)]="telefono" name="telefono"></ion-input>
+                    <ion-input  type="tel" [(ngModel)]="telefono" name="telefono"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-                    <ion-input name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
-                      placeholder="dd/mm/aaaa">
+                    <ion-input  name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
+                      placeholder="dd/mm/aaaa" [attr.max]="hoy">
                       <ion-icon slot="end" name="calendar" class="calendar-icon"
                         (click)="abrirSelectorFecha(fechaInput)">
                       </ion-icon>
