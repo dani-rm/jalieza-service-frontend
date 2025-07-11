@@ -24,6 +24,14 @@ import { CiudadanoService } from 'src/app/services/ciudadano.service';
   ]
 })
 export class RegistrarCiudadanoPage implements OnInit {
+ // Variables para pareja (separadas)
+nombresPareja = '';
+apellidoPaternoPareja = '';
+apellidoMaternoPareja = '';
+telefonoPareja = '';
+fechaNacimientoPareja = '';
+estadoCivilPareja = '';
+
   hoy='';
 
   fechaNacimiento = '';
@@ -165,4 +173,13 @@ export class RegistrarCiudadanoPage implements OnInit {
   });
 }
 
-}
+registrarPareja() {
+  console.log('Registrando pareja:', {
+    nombres: this.nombresPareja,
+    apellidoPaterno: this.apellidoPaternoPareja,
+    apellidoMaterno: this.apellidoMaternoPareja,
+    telefono: this.telefonoPareja,
+    fechaNacimiento: this.fechaNacimientoPareja,
+    estadoCivil: this.estadoCivilPareja,
+  });
+}}
