@@ -3,12 +3,12 @@
     <!-- Logo grande: visible en pantallas md y mayores -->
     <ion-img
       *ngIf="!isMobile" slot="start" src="./../../../assets/logoJaliezaNavbar.png"
-      alt="Logo grande" (click)="logoFunction()">
+      alt="Logo grande" >
     </ion-img>
     <!-- Logo chico: visible solo en pantallas xs y sm -->
     <ion-img
       *ngIf="isMobile" slot="start" src="./../../../assets/logoNavbar.png"
-      alt="Logo pequeño" (click)="logoFunction()">
+      alt="Logo pequeño" >
     </ion-img>
 
     <ion-title class="tipografia" >{{ title }}</ion-title>

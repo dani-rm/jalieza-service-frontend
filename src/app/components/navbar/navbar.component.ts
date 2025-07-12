@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonHeader, IonTitle,IonMenuButton,IonRouterLink, IonItem,IonMenu, IonList, IonContent,
-  IonToolbar, IonButtons, IonImg, IonItemDivider, IonLabel, IonIcon } from "@ionic/angular/standalone";
+import { IonHeader, IonTitle,IonMenuButton, IonToolbar, IonButtons, IonImg,  } from "@ionic/angular/standalone";
 
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  imports: [IonLabel,   IonImg, IonButtons, IonToolbar, IonContent,IonMenuButton,IonMenu, IonList,
-    IonItem, IonTitle, IonHeader,CommonModule],
+  imports: [   IonImg, IonButtons, IonToolbar,IonMenuButton,IonTitle, IonHeader,CommonModule],
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent  implements OnInit {
@@ -34,8 +32,6 @@ export class NavbarComponent  implements OnInit {
     return rutasSinMenu.includes(this.router.url);
   }
 
-  logoFunction(){
-      window.location.href = "/home";
-  }
+
 
 }
