@@ -26,12 +26,12 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'editar-datos-generales-ciudadano',
+    path: 'ciudadano/:id/editar-datos-generales-ciudadano',
     loadComponent: () => import('./pages/editar-datos-generales-ciudadano/editar-datos-generales-ciudadano.page').then( m => m.EditarDatosGeneralesCiudadanoPage),
     canActivate: [AuthGuard],
   },
   {
-    path: 'editar-cargos-ciudadano',
+    path: 'ciudadano/:id/editar-cargos-ciudadano',
     loadComponent: () => import('./pages/editar-cargos-ciudadano/editar-cargos-ciudadano.page').then( m => m.EditarCargosCiudadanoPage),
     canActivate: [AuthGuard],
   },

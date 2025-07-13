@@ -1,4 +1,6 @@
-<app-navbar [title]="usuario.nombres + ' ' + usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno"></app-navbar>
+<app-navbar *ngIf="ciudadano" [title]="ciudadano.name + ' ' + ciudadano.last_name_father + ' ' + ciudadano.last_name_mother"></app-navbar>
+
+
 <ion-content>
   <div class="grid-wrapper">
     <ion-grid class="grid-center">
@@ -16,34 +18,34 @@
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Nombres</ion-label>
-                    <ion-input type="text" [(ngModel)]="usuario.nombres" name="nombres"></ion-input>
+                    <ion-input type="text" [(ngModel)]="ciudadano.name" name="name"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
-                    <ion-input type="text" [(ngModel)]="usuario.apellidoPaterno" name="apellidoPaterno"></ion-input>
+                    <ion-input type="text" [(ngModel)]="ciudadano.last_name_father" name="last_name_father"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
-                    <ion-input type="text" [(ngModel)]="usuario.apellidoMaterno" name="apellidoMaterno"></ion-input>
+                    <ion-input type="text" [(ngModel)]="ciudadano.last_name_mother" name="last_name_mother"></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-                    <ion-input type="tel" [(ngModel)]="usuario.telefono" name="telefono" maxlength="10"
-                    inputmode="numeric" (ionInput)="filtrarTelefono($event)"></ion-input>
+                    <ion-input type="tel" [(ngModel)]="ciudadano.phone" name="phone" maxlength="10"
+                               inputmode="numeric" (ionInput)="filtrarTelefono($event)"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-                    <ion-input type="date" #fechaInput [(ngModel)]="usuario.fechaNacimiento" name="fechaNacimiento">
+                    <ion-input type="date" #fechaInput [(ngModel)]="ciudadano.birth_date" name="birth_date">
                       <ion-icon slot="end" name="calendar" class="calendar-icon"
-                        (click)="abrirSelectorFecha(fechaInput)">
+                                (click)="abrirSelectorFecha(fechaInput)">
                       </ion-icon>
                     </ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
-                    <ion-select [(ngModel)]="estadoCivil" name="estadoCivil" (ionChange)="onEstadoCivilChange()">
+                    <ion-select [(ngModel)]="estadoCivil" name="marital_status" (ionChange)="onEstadoCivilChange()">
                       <ion-select-option value="Soltero">Soltero</ion-select-option>
                       <ion-select-option value="Casado">Casado</ion-select-option>
                       <ion-select-option value="Divorciado">Divorciado</ion-select-option>
@@ -61,7 +63,7 @@
                         estadoCivil === 'Viudo' ? 'Seleccione Cónyuge Fallecido' : ''
                       }}
                     </ion-label>
-                    <ion-select [(ngModel)]="parejaSeleccionada" name="parejaSeleccionada"
+                    <ion-select [(ngModel)]="parejaSeleccionada" name="partner"
                                 placeholder="Seleccione pareja" (ionChange)="verificarSeleccion()">
                       <ion-select-option *ngFor="let persona of personasDisponibles" [value]="persona">
                         {{ persona }}
@@ -85,17 +87,17 @@
     </ion-grid>
   </div>
 </ion-content>
+
 <app-footer></app-footer>
 
-<!-- Este formulario de registro de pareja solo aparece solo si se selecciona "registrar pareja"
-al seleccionar una pareja de un ciudadano casado-->
+<!-- Formulario emergente para registrar pareja -->
 <div class="overlay-pareja" *ngIf="mostrarFormularioPareja" (click)="cerrarFormularioPareja()">
   <ion-card class="formulario-emergente tarjeta-flotante" (click)="$event.stopPropagation()">
     <ion-card-header style="background-color: black;">
       <ion-card-title style="color: white; text-align: center;">Registrar Pareja</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <form action="" method="post">
+      <form>
         <ion-row>
           <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
             <ion-label class="etiqueta" position="floating">Nombres</ion-label>
@@ -119,10 +121,10 @@ al seleccionar una pareja de un ciudadano casado-->
         <ion-row>
           <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
             <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-            <ion-input name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
-              placeholder="dd/mm/aaaa">
+            <ion-input name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="ciudadano.birth_date"
+                       placeholder="dd/mm/aaaa">
               <ion-icon slot="end" name="calendar" class="calendar-icon"
-                (click)="abrirSelectorFecha(fechaInput)">
+                        (click)="abrirSelectorFecha(fechaInput)">
               </ion-icon>
             </ion-input>
           </ion-col>

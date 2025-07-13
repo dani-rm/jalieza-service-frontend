@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonCol, IonRow, IonItem, IonGrid, IonLabel,
-  IonButton, IonSelect, IonSelectOption, IonInput, IonIcon
+  IonButton, IonSelect, IonSelectOption, IonInput, IonIcon, ToastController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
@@ -24,7 +24,7 @@ import { HttpClient } from '@angular/common/http';
   ]
 })
 export class AgregarCargoPage implements OnInit {
-  ciudadanoId: number=1;
+  ciudadanoId: number = 1;
 
   service_id: number | null = null;
   start_date: string = '';
@@ -35,7 +35,8 @@ export class AgregarCargoPage implements OnInit {
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private toastController: ToastController
   ) {
     addIcons({ calendar });
   }
@@ -58,6 +59,16 @@ export class AgregarCargoPage implements OnInit {
     this.location.back();
   }
 
+  async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color: 'success',
+      position: 'top'
+    });
+    await toast.present();
+  }
+
   registrarCargo() {
     if (!this.service_id || !this.start_date || !this.end_date || !this.termination_status) {
       console.error('❌ Faltan campos obligatorios');
@@ -65,7 +76,7 @@ export class AgregarCargoPage implements OnInit {
     }
 
     const body = {
-      ciudadano_id: this.ciudadanoId,  // Ojo: tu backend usa ciudadano_id, no citizen_id
+      ciudadano_id: this.ciudadanoId,
       service_id: this.service_id,
       start_date: this.start_date,
       end_date: this.end_date,
@@ -74,8 +85,12 @@ export class AgregarCargoPage implements OnInit {
     };
 
     this.http.post('http://localhost:3000/api/v1/servicios-ciudadanos', body).subscribe({
-      next: () => {
+      next: async () => {
         console.log('✅ Cargo registrado');
+        await this.mostrarToast('Cargo registrado correctamente');
+
+        // Marca para refrescar la vista anterior
+        localStorage.setItem('cargoActualizado', 'true');
         this.volver();
       },
       error: err => {

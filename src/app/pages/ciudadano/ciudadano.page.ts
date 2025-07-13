@@ -40,23 +40,34 @@ export class CiudadanoPage implements OnInit {
   }
 
   ngOnInit() {
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       const ciudadanoId = +id;
 
-      // 1. Obtener ciudadano
-      this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
-        next: (data) => {
-          this.ciudadano = data;
-          this.cargarCargosDelCiudadano(ciudadanoId); // 2. Obtener cargos
-        },
-        error: (error) => {
-          console.error('❌ Error al obtener ciudadano:', error);
-        }
-      });
+      this.cargarDatos(ciudadanoId);
+
+      // Detectar si hay que refrescar (por registro nuevo de cargo)
+      if (localStorage.getItem('cargoActualizado') === 'true') {
+        localStorage.removeItem('cargoActualizado');
+        this.cargarDatos(ciudadanoId); // recarga todo de nuevo
+      }
     } else {
       console.warn('⚠️ No se proporcionó ID de ciudadano en la ruta');
     }
+  }
+
+  cargarDatos(ciudadanoId: number) {
+    // 1. Obtener ciudadano
+    this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
+      next: (data) => {
+        this.ciudadano = data;
+        this.cargarCargosDelCiudadano(ciudadanoId); // 2. Obtener cargos
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener ciudadano:', error);
+      }
+    });
   }
 
   cargarCargosDelCiudadano(id: number) {
@@ -84,7 +95,7 @@ export class CiudadanoPage implements OnInit {
   }
 
   editarDatos() {
-    this.navCtrl.navigateForward('/editar-datos-generales-ciudadano');
+    this.navCtrl.navigateForward(`/ciudadano/${this.ciudadano.id}/editar-datos-generales-ciudadano`);
   }
 
   editarCargos() {

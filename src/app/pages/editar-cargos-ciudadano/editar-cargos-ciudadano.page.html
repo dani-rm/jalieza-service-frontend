@@ -17,28 +17,23 @@
                 <ion-col size="12">
                   <ion-item>
                     <ion-label>Seleccionar Cargo a Editar</ion-label>
-                    <!-- Selector para elegir el cargo del ciudadano a editar -->
-                    <ion-select>
-                      <ion-select-option value="1">Cargo 1</ion-select-option>
-                      <ion-select-option value="2">Cargo 2</ion-select-option>
+                    <ion-select [(ngModel)]="cargoSeleccionadoId" (ionChange)="onCargoChange()">
+                      <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.id">
+                        {{ cargo.nombre }}
+                      </ion-select-option>
                     </ion-select>
                   </ion-item>
                 </ion-col>
               </ion-row>
 
-              <!-- Campos de cargo (solo visual) -->
+              <!-- Campos de cargo -->
               <ion-row>
                 <!-- Orden -->
                 <ion-col size="12" sizeMd="6">
                   <ion-item>
                     <ion-label>Orden</ion-label>
-                    <ion-select>
-                      <ion-select-option>Primer</ion-select-option>
-                      <ion-select-option>Segundo</ion-select-option>
-                      <ion-select-option>Tercer</ion-select-option>
-                      <ion-select-option>Cuarto</ion-select-option>
-                      <ion-select-option>Quinto</ion-select-option>
-                      <ion-select-option>Sexto</ion-select-option>
+                    <ion-select [(ngModel)]="ordenSeleccionado" (ionChange)="onInputChange()">
+                      <ion-select-option *ngFor="let orden of ordenes" [value]="orden">{{ orden }}</ion-select-option>
                     </ion-select>
                   </ion-item>
                 </ion-col>
@@ -47,10 +42,8 @@
                 <ion-col size="12" sizeMd="6">
                   <ion-item>
                     <ion-label>Nombre</ion-label>
-                    <!-- Dependiendo del orden, los cargos en nombre cambiarán -->
-                    <ion-select>
-                      <ion-select-option>Cargo 1</ion-select-option>
-                      <ion-select-option>Cargo 2</ion-select-option>
+                    <ion-select [(ngModel)]="nombreSeleccionado" (ionChange)="onInputChange()">
+                      <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.nombre">{{ cargo.nombre }}</ion-select-option>
                     </ion-select>
                   </ion-item>
                 </ion-col>
@@ -58,12 +51,9 @@
                 <!-- Fecha Inicio -->
                 <ion-col size="12" sizeMd="6">
                   <ion-item>
-                    <!-- El stacked evita el Inicio quede pegado con el dd/mm/aaaa del input -->
                     <ion-label position="stacked">Inicio</ion-label>
-                    <ion-input #fechaInicioInput type="date">
-                      <ion-icon slot="end" name="calendar" class="calendar-icon"
-                        (click)="abrirSelectorFecha(fechaInicioInput)">
-                      </ion-icon>
+                    <ion-input [(ngModel)]="start_date" type="date" (ionChange)="onInputChange()" #fechaInicioInput>
+                      <ion-icon slot="end" name="calendar" class="calendar-icon" (click)="abrirSelectorFecha(fechaInicioInput)"></ion-icon>
                     </ion-input>
                   </ion-item>
                 </ion-col>
@@ -72,10 +62,8 @@
                 <ion-col size="12" sizeMd="6">
                   <ion-item>
                     <ion-label position="stacked">Fin</ion-label>
-                    <ion-input #fechaFinInput type="date">
-                      <ion-icon slot="end" name="calendar" class="calendar-icon"
-                        (click)="abrirSelectorFecha(fechaFinInput)">
-                      </ion-icon>
+                    <ion-input [(ngModel)]="end_date" type="date" (ionChange)="onInputChange()" #fechaFinInput>
+                      <ion-icon slot="end" name="calendar" class="calendar-icon" (click)="abrirSelectorFecha(fechaFinInput)"></ion-icon>
                     </ion-input>
                   </ion-item>
                 </ion-col>
@@ -86,10 +74,8 @@
                 <ion-col size="12">
                   <ion-item>
                     <ion-label>Estado</ion-label>
-                    <ion-select>
-                      <ion-select-option>Completado</ion-select-option>
-                      <ion-select-option>En Curso</ion-select-option>
-                      <ion-select-option>Inconcluso</ion-select-option>
+                    <ion-select [(ngModel)]="estadoSeleccionado" (ionChange)="onInputChange()">
+                      <ion-select-option *ngFor="let estado of estados" [value]="estado">{{ estado }}</ion-select-option>
                     </ion-select>
                   </ion-item>
                 </ion-col>
@@ -99,7 +85,7 @@
             <!-- Botones -->
             <div class="boton-contenedor">
               <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-              <ion-button class="boton-registrar" disabled>Actualizar</ion-button>
+              <ion-button class="boton-registrar" [disabled]="!actualizarHabilitado" (click)="actualizarCargo()">Actualizar</ion-button>
             </div>
           </div>
         </ion-col>
