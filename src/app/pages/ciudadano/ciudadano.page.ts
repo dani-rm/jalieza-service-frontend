@@ -10,7 +10,7 @@ import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { NavController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router'; // <-- Importante
+import { ActivatedRoute } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { addCircleOutline, menuOutline } from 'ionicons/icons';
 
@@ -34,7 +34,7 @@ export class CiudadanoPage implements OnInit {
   constructor(
     private ciudadanoService: CiudadanoService,
     private navCtrl: NavController,
-    private route: ActivatedRoute // <-- Nuevo
+    private route: ActivatedRoute
   ) {
     addIcons({ menuOutline, addCircleOutline });
   }
@@ -42,18 +42,32 @@ export class CiudadanoPage implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.ciudadanoService.getCiudadanoPorId(+id).subscribe({
+      const ciudadanoId = +id;
+
+      // 1. Obtener ciudadano
+      this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
         next: (data) => {
           this.ciudadano = data;
-          this.cargos = data.services || [];
+          this.cargarCargosDelCiudadano(ciudadanoId); // 2. Obtener cargos
         },
         error: (error) => {
-          console.error('Error al obtener ciudadano:', error);
+          console.error('❌ Error al obtener ciudadano:', error);
         }
       });
     } else {
-      console.warn('No se proporcionó ID de ciudadano en la ruta');
+      console.warn('⚠️ No se proporcionó ID de ciudadano en la ruta');
     }
+  }
+
+  cargarCargosDelCiudadano(id: number) {
+    this.ciudadanoService.getCargosDelCiudadano(id).subscribe({
+      next: (cargos) => {
+        this.cargos = cargos;
+      },
+      error: (err) => {
+        console.error('❌ Error al obtener cargos del ciudadano:', err);
+      }
+    });
   }
 
   cambiarSeccion(seccion: string) {
@@ -62,7 +76,7 @@ export class CiudadanoPage implements OnInit {
   }
 
   agregarCargo() {
-    this.navCtrl.navigateForward('/agregar-cargo');
+    this.navCtrl.navigateForward(`/ciudadano/${this.ciudadano.id}/agregar-cargo`);
   }
 
   volver() {

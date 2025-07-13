@@ -1,4 +1,4 @@
-<app-navbar [title]="'Nombre del Ciudadano'"></app-navbar>
+<app-navbar [title]="'Agregar Cargo'"></app-navbar>
 <ion-content>
   <div class="grid-wrapper">
     <ion-grid class="grid-center">
@@ -12,44 +12,28 @@
             </ion-header>
 
             <ion-grid class="grid-formulario">
-              <!-- Campos de cargo (solo visual) -->
+
+              <!-- Servicio (service_id) -->
               <ion-row>
-                <!-- Orden -->
                 <ion-col size="12">
                   <ion-item>
-                    <ion-label>Orden</ion-label>
-                    <ion-select>
-                      <ion-select-option>Primer</ion-select-option>
-                      <ion-select-option>Segundo</ion-select-option>
-                      <ion-select-option>Tercer</ion-select-option>
-                      <ion-select-option>Cuarto</ion-select-option>
-                      <ion-select-option>Quinto</ion-select-option>
-                      <ion-select-option>Sexto</ion-select-option>
+                    <ion-label>Nombre del Cargo</ion-label>
+                    <ion-select [(ngModel)]="service_id">
+                      <ion-select-option [value]="1">Presidente</ion-select-option>
+                      <ion-select-option [value]="2">Secretario</ion-select-option>
+                      <ion-select-option [value]="3">Tesorero</ion-select-option>
                     </ion-select>
                   </ion-item>
                 </ion-col>
+              </ion-row>
 
-                <!-- Nombre -->
-                <ion-col size="12">
-                  <ion-item>
-                    <ion-label>Nombre</ion-label>
-                    <!-- Dependiendo del orden, los cargos en nombre cambiarán -->
-                    <ion-select>
-                      <ion-select-option>Cargo 1</ion-select-option>
-                      <ion-select-option>Cargo 2</ion-select-option>
-                    </ion-select>
-                  </ion-item>
-                </ion-col>
-
-                <!-- Fecha Inicio -->
+              <!-- Fecha Inicio -->
+              <ion-row>
                 <ion-col size="12" sizeMd="6">
                   <ion-item>
-                    <!-- El stacked evita el Inicio quede pegado con el dd/mm/aaaa del input -->
                     <ion-label position="stacked">Inicio</ion-label>
-                    <ion-input #fechaInicioInput type="date">
-                      <ion-icon slot="end" name="calendar" class="calendar-icon"
-                        (click)="abrirSelectorFecha(fechaInicioInput)">
-                      </ion-icon>
+                    <ion-input type="date" [(ngModel)]="start_date" #fechaInicioInput>
+                      <ion-icon slot="end" name="calendar" class="calendar-icon" (click)="abrirSelectorFecha(fechaInicioInput)"></ion-icon>
                     </ion-input>
                   </ion-item>
                 </ion-col>
@@ -58,25 +42,35 @@
                 <ion-col size="12" sizeMd="6">
                   <ion-item>
                     <ion-label position="stacked">Fin</ion-label>
-                    <ion-input #fechaFinInput type="date">
-                      <ion-icon slot="end" name="calendar" class="calendar-icon"
-                        (click)="abrirSelectorFecha(fechaFinInput)">
-                      </ion-icon>
+                    <ion-input type="date" [(ngModel)]="end_date" #fechaFinInput>
+                      <ion-icon slot="end" name="calendar" class="calendar-icon" (click)="abrirSelectorFecha(fechaFinInput)"></ion-icon>
                     </ion-input>
                   </ion-item>
                 </ion-col>
               </ion-row>
 
-              <!-- Estado -->
+              <!-- Estado de terminación -->
               <ion-row>
                 <ion-col size="12">
                   <ion-item>
                     <ion-label>Estado</ion-label>
-                    <ion-select>
-                      <ion-select-option>Completado</ion-select-option>
-                      <ion-select-option>En Curso</ion-select-option>
-                      <ion-select-option>Inconcluso</ion-select-option>
+                    <ion-select [(ngModel)]="termination_status">
+                      <ion-select-option value="completado">Completado</ion-select-option>
+                      <ion-select-option value="renuncia">Renuncia</ion-select-option>
+                      <ion-select-option value="expulsado">Expulsado</ion-select-option>
+                      <ion-select-option value="fallecido">Fallecido</ion-select-option>
+                      <ion-select-option value="traslado">Traslado</ion-select-option>
                     </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+              <!-- Observaciones -->
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label position="stacked">Observaciones</ion-label>
+                    <ion-input type="text" [(ngModel)]="observations"></ion-input>
                   </ion-item>
                 </ion-col>
               </ion-row>
@@ -85,7 +79,7 @@
             <!-- Botones -->
             <div class="boton-contenedor">
               <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-              <ion-button class="boton-registrar" disabled>Actualizar</ion-button>
+              <ion-button class="boton-registrar" (click)="registrarCargo()" [disabled]="!service_id || !start_date || !end_date || !termination_status">Registrar</ion-button>
             </div>
           </div>
         </ion-col>

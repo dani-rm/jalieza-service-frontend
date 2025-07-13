@@ -36,7 +36,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'agregar-cargo',
+    path: 'ciudadano/:id/agregar-cargo',
     loadComponent: () => import('./pages/agregar-cargo/agregar-cargo.page').then( m => m.AgregarCargoPage),
     canActivate: [AuthGuard],
   },

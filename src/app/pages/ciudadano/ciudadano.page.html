@@ -108,65 +108,72 @@
   </ion-grid>
 </ng-container>
 
-
-            <!-- Sección Cargos -->
-            <ng-container *ngIf="seccionActual === 'Cargos'">
-              <ion-grid class="grid-datos">
-                <ng-container *ngIf="cargos.length > 0; else sinCargos">
-                  <ion-row *ngFor="let cargo of cargos">
-                    <ion-col size="12">
-                      <ion-card>
-                        <ion-card-content>
-                          <ion-grid>
-                            <ion-row>
-                              <ion-col size="12" size-md="3">
-                                <div class="campo">
-                                  <label class="etiqueta" style="color: white;">Orden</label>
-                                  <div class="valor-dato">{{ cargo.orden }}</div>
-                                </div>
-                              </ion-col>
-                              <ion-col size="12" size-md="3">
-                                <div class="campo">
-                                  <label class="etiqueta" style="color: white;">Nombre</label>
-                                  <div class="valor-dato">{{ cargo.nombre }}</div>
-                                </div>
-                              </ion-col>
-                              <ion-col size="12" size-md="3">
-                                <div class="campo">
-                                  <label class="etiqueta" style="color: white;">Periodo</label>
-                                  <div class="valor-dato">{{ cargo.periodo }}</div>
-                                </div>
-                              </ion-col>
-                              <ion-col size="12" size-md="3">
-                                <div class="campo">
-                                  <label class="etiqueta" style="color: white;">Estado</label>
-                                  <div class="valor-dato">{{ cargo.estado }}</div>
-                                </div>
-                              </ion-col>
-                            </ion-row>
-                          </ion-grid>
-                        </ion-card-content>
-                      </ion-card>
-                    </ion-col>
-                  </ion-row>
-                </ng-container>
-
-                <ng-template #sinCargos>
-                  <ion-row>
-                    <ion-col size="12">
-                      <ion-text>
-                        <p class="ion-text-center" style="color: black; font-size: 2rem;">Sin Cargos Ejercidos</p>
-                      </ion-text>
-                    </ion-col>
-                  </ion-row>
-                </ng-template>
-
-                <div class="boton-contenedor">
-                  <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-                  <ion-button class="boton-editar" (click)="editarCargos()" [disabled]="cargos.length === 0">Editar</ion-button>
-                </div>
+<!-- Sección Cargos -->
+<ng-container *ngIf="seccionActual === 'Cargos'">
+  <ion-grid class="grid-datos">
+    <ng-container *ngIf="cargos.length > 0; else sinCargos">
+      <ion-row *ngFor="let cargo of cargos">
+        <ion-col size="12">
+          <ion-card>
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="12" size-md="3">
+                    <div class="campo">
+                      <label class="etiqueta" style="color: white;">Servicio</label>
+                      <div class="valor-dato">{{ cargo.service_id }}</div>
+                    </div>
+                  </ion-col>
+                  <ion-col size="12" size-md="3">
+                    <div class="campo">
+                      <label class="etiqueta" style="color: white;">Inicio</label>
+                      <div class="valor-dato">{{ cargo.start_date | date }}</div>
+                    </div>
+                  </ion-col>
+                  <ion-col size="12" size-md="3">
+                    <div class="campo">
+                      <label class="etiqueta" style="color: white;">Fin</label>
+                      <div class="valor-dato">{{ cargo.end_date | date }}</div>
+                    </div>
+                  </ion-col>
+                  <ion-col size="12" size-md="3">
+                    <div class="campo">
+                      <label class="etiqueta" style="color: white;">Estado</label>
+                      <div class="valor-dato">{{ cargo.termination_status }}</div>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row *ngIf="cargo.observations">
+                  <ion-col size="12">
+                    <div class="campo">
+                      <label class="etiqueta" style="color: white;">Observaciones</label>
+                      <div class="valor-dato">{{ cargo.observations }}</div>
+                    </div>
+                  </ion-col>
+                </ion-row>
               </ion-grid>
-            </ng-container>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+
+    <ng-template #sinCargos>
+      <ion-row>
+        <ion-col size="12">
+          <ion-text>
+            <p class="ion-text-center" style="color: black; font-size: 2rem;">Sin Cargos Ejercidos</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ng-template>
+
+    <div class="boton-contenedor">
+      <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
+      <ion-button class="boton-editar" (click)="editarCargos()" [disabled]="cargos.length === 0">Editar</ion-button>
+    </div>
+  </ion-grid>
+</ng-container>
 
           </div>
         </ion-col>
