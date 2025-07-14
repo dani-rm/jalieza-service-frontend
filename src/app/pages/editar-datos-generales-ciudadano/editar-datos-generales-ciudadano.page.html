@@ -1,6 +1,5 @@
 <app-navbar *ngIf="ciudadano" [title]="ciudadano.name + ' ' + ciudadano.last_name_father + ' ' + ciudadano.last_name_mother"></app-navbar>
 
-
 <ion-content>
   <div class="grid-wrapper">
     <ion-grid class="grid-center">
@@ -32,16 +31,11 @@
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-                    <ion-input type="tel" [(ngModel)]="ciudadano.phone" name="phone" maxlength="10"
-                               inputmode="numeric" (ionInput)="filtrarTelefono($event)"></ion-input>
+                    <ion-input type="tel" [(ngModel)]="ciudadano.phone" name="phone" maxlength="10" inputmode="numeric" (ionInput)="filtrarTelefono($event)"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-                    <ion-input type="date" #fechaInput [(ngModel)]="ciudadano.birth_date" name="birth_date">
-                      <ion-icon slot="end" name="calendar" class="calendar-icon"
-                                (click)="abrirSelectorFecha(fechaInput)">
-                      </ion-icon>
-                    </ion-input>
+                    <ion-input type="date" #fechaInput [(ngModel)]="ciudadano.birth_date" name="birth_date"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
@@ -63,10 +57,9 @@
                         estadoCivil === 'Viudo' ? 'Seleccione Cónyuge Fallecido' : ''
                       }}
                     </ion-label>
-                    <ion-select [(ngModel)]="parejaSeleccionada" name="partner"
-                                placeholder="Seleccione pareja" (ionChange)="verificarSeleccion()">
+                    <ion-select [(ngModel)]="parejaSeleccionada" name="partner" placeholder="Seleccione pareja" (ionChange)="verificarSeleccion()">
                       <ion-select-option *ngFor="let persona of personasDisponibles" [value]="persona">
-                        {{ persona }}
+                        {{ persona.name }} {{ persona.last_name_father }} {{ persona.last_name_mother }}
                       </ion-select-option>
                       <ion-select-option value="registrar">
                         ¿Pareja no encontrada? Regístrela
@@ -79,7 +72,7 @@
 
             <div class="boton-contenedor">
               <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-              <ion-button class="boton-registrar" disabled>Actualizar</ion-button>
+              <ion-button class="boton-registrar" (click)="actualizarCiudadano()">Actualizar</ion-button>
             </div>
           </div>
         </ion-col>
@@ -121,12 +114,7 @@
         <ion-row>
           <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
             <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-            <ion-input name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="ciudadano.birth_date"
-                       placeholder="dd/mm/aaaa">
-              <ion-icon slot="end" name="calendar" class="calendar-icon"
-                        (click)="abrirSelectorFecha(fechaInput)">
-              </ion-icon>
-            </ion-input>
+            <ion-input name="fechaNacimiento" #fechaInput type="date" placeholder="dd/mm/aaaa"></ion-input>
           </ion-col>
           <ion-col sizeXs="12" sizeSm="12" sizeMd="6">
             <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>

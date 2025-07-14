@@ -35,8 +35,8 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
   };
 
   estadoCivil: string = '';
-  parejaSeleccionada: string = '';
-  personasDisponibles: string[] = [];
+  parejaSeleccionada: any = null; // Cambiado a objeto
+  personasDisponibles: any[] = [];
   mostrarFormularioPareja: boolean = false;
 
   estadosConPareja = ['Casado', 'Divorciado', 'Viudo'];
@@ -77,15 +77,12 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     this.ciudadanoService.getCiudadanos().subscribe(ciudadanos => {
       const parejaActual = this.ciudadano?.partner;
 
-      this.personasDisponibles = ciudadanos
-        .filter(c =>
-          c.marital_status === 'Soltero' ||
-          `${c.name} ${c.last_name_father} ${c.last_name_mother}` === parejaActual
-        )
-        .map(c => `${c.name} ${c.last_name_father} ${c.last_name_mother}`);
+      this.personasDisponibles = ciudadanos.filter(c =>
+        c.marital_status === 'Soltero' || (parejaActual && c.id === parejaActual.id)
+      );
 
       // Asegura que la pareja actual esté en la lista
-      if (parejaActual && !this.personasDisponibles.includes(parejaActual)) {
+      if (parejaActual && !this.personasDisponibles.some(p => p.id === parejaActual.id)) {
         this.personasDisponibles.push(parejaActual);
       }
     });
@@ -93,7 +90,7 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
 
   onEstadoCivilChange() {
     if (!this.estadosConPareja.includes(this.estadoCivil)) {
-      this.parejaSeleccionada = '';
+      this.parejaSeleccionada = null;
       this.mostrarFormularioPareja = false;
     }
   }
@@ -120,6 +117,35 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
 
   cerrarFormularioPareja() {
     this.mostrarFormularioPareja = false;
-    this.parejaSeleccionada = '';
+    this.parejaSeleccionada = null;
+  }
+
+  actualizarCiudadano() {
+    const id = this.ciudadano.id;
+
+    const dto: any = {
+      name: this.ciudadano.name,
+      last_name_father: this.ciudadano.last_name_father,
+      last_name_mother: this.ciudadano.last_name_mother,
+      phone: this.ciudadano.phone,
+      birth_date: this.ciudadano.birth_date,
+      marital_status: this.estadoCivil,
+      partner: null
+    };
+
+    if (this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar') {
+      dto.partner = this.parejaSeleccionada.id;
+    }
+
+    this.ciudadanoService.actualizarCiudadano(id, dto).subscribe({
+      next: () => {
+        alert('✅ Datos actualizados correctamente');
+        this.volver();
+      },
+      error: (err) => {
+        console.error('❌ Error al actualizar ciudadano:', err);
+        alert('❌ Ocurrió un error al actualizar');
+      }
+    });
   }
 }

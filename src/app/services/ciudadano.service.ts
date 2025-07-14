@@ -60,4 +60,9 @@ export class CiudadanoService {
   }>): Observable<any> {
     return this.http.patch(`${this.baseUrlServicios}/${id}`, datosActualizados);
   }
+
+    // Actualizar datos generales del ciudadano
+actualizarCiudadano(id: number, dto: any) : Observable<any> {
+  return this.http.patch(`${this.baseUrl}/${id}`, dto);
+}
 }
