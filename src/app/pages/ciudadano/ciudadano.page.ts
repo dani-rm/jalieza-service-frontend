@@ -99,6 +99,6 @@ export class CiudadanoPage implements OnInit {
   }
 
   editarCargos() {
-    this.navCtrl.navigateForward('/editar-cargos-ciudadano');
+    this.navCtrl.navigateForward(`/ciudadano/${this.ciudadano.id}/editar-cargos-ciudadano`);
   }
 }

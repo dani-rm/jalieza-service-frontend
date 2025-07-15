@@ -78,6 +78,7 @@ estadoCivilPareja = '';
     // Permite solo dígitos (0-9)
     if (charCode < 48 || charCode > 57) {
       event.preventDefault();
+      alert("No se permiten letras en este campo")
     }
   }
 
@@ -182,4 +183,15 @@ registrarPareja() {
     fechaNacimiento: this.fechaNacimientoPareja,
     estadoCivil: this.estadoCivilPareja,
   });
-}}
+}
+
+
+soloLetras(event: KeyboardEvent) {
+  const tecla = event.key;
+  const patron = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]$/;
+  if (!patron.test(tecla)) {
+    event.preventDefault();
+    alert("No se aceptan numeros en este campo")
+  }
+}
+}
