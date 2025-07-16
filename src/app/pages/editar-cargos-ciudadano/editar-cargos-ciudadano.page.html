@@ -1,4 +1,4 @@
-<app-navbar [title]="'Nombre del Ciudadano'"></app-navbar>
+<app-navbar [title]="ciudadano?.name + ' ' + ciudadano?.last_name_father+ ' ' + ciudadano?.last_name_mother"></app-navbar>
 <ion-content>
   <div class="grid-wrapper">
     <ion-grid class="grid-center">
@@ -18,9 +18,10 @@
                   <ion-item>
                     <ion-label>Seleccionar Cargo a Editar</ion-label>
                     <ion-select [(ngModel)]="cargoSeleccionadoId" (ionChange)="onCargoChange()">
-                    <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.id">
-  {{ cargo.servicio?.nombre }}
+                 <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.id">
+  {{ cargo.catalogoServicio?.service_name }}
 </ion-select-option>
+
 
                     </ion-select>
                   </ion-item>

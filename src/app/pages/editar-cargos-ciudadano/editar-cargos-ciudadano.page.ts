@@ -11,6 +11,7 @@ import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { Location } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-editar-cargos-ciudadano',
@@ -24,7 +25,7 @@ import { calendar } from 'ionicons/icons';
   ]
 })
 export class EditarCargosCiudadanoPage implements OnInit {
-  ciudadano: any;
+  ciudadano: any=null;
   cargos: any[] = [];
 
   ordenes = ['Primer', 'Segundo', 'Tercer', 'Cuarto', 'Quinto', 'Sexto'];
@@ -41,6 +42,7 @@ export class EditarCargosCiudadanoPage implements OnInit {
   actualizarHabilitado = false;
 
   constructor(
+      private route: ActivatedRoute,
     private location: Location,
     private ciudadanoService: CiudadanoService
   ) {
@@ -48,17 +50,36 @@ export class EditarCargosCiudadanoPage implements OnInit {
   }
 
   ngOnInit() {
+
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+  if (!isNaN(id)) {
+    this.cargarCargosDelCiudadano(id);
+  } else {
+    console.warn('⚠️ ID inválido en la URL');
+  }
     this.ciudadano = this.ciudadanoService.getCiudadanoSeleccionado();
     if (this.ciudadano) {
-      this.cargarCargos(this.ciudadano.id);
+      this.cargarCargosDelCiudadano(this.ciudadano.id);
     } else {
       console.warn('⚠️ No se encontró ciudadano en sesión');
     }
   }
-
-  cargarCargos(id: number) {
+ cargarDatos(ciudadanoId: number) {
+    // 1. Obtener ciudadano
+    this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
+      next: (data) => {
+        this.ciudadano = data;
+        this.cargarCargosDelCiudadano(ciudadanoId); // 2. Obtener cargos
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener ciudadano:', error);
+      }
+    });
+  }
+  cargarCargosDelCiudadano(id: number) {
     this.ciudadanoService.getCargosDelCiudadano(id).subscribe({
       next: (cargos) => {
+         console.log('👉 Cargos recibidos:', cargos);
         this.cargos = cargos;
       },
       error: (err) => {
