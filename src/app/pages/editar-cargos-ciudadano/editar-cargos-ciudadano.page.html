@@ -45,11 +45,12 @@
 <ion-col size="12" sizeMd="6">
   <ion-item>
     <ion-label>Nombre</ion-label>
-    <ion-select [(ngModel)]="nombreSeleccionado" (ionChange)="onInputChange()">
-      <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.servicio?.nombre">
-        {{ cargo.servicio?.nombre }}
-      </ion-select-option>
-    </ion-select>
+ <ion-select [(ngModel)]="nombreSeleccionado" (ionChange)="onInputChange()">
+  <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.catalogoServicio?.service_name">
+    {{ cargo.catalogoServicio?.service_name }}
+  </ion-select-option>
+</ion-select>
+
   </ion-item>
 </ion-col>
 

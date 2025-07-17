@@ -26,7 +26,7 @@ import { addCircleOutline, menuOutline } from 'ionicons/icons';
   ]
 })
 export class CiudadanoPage implements OnInit {
-  ciudadano: any = null;
+    ciudadano: any = null;
   cargos: any[] = [];
   mostrarMenu = false;
   seccionActual = 'Datos Generales';

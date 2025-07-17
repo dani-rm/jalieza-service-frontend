@@ -29,7 +29,7 @@ export class EditarCargosCiudadanoPage implements OnInit {
   cargos: any[] = [];
 
   ordenes = ['Primer', 'Segundo', 'Tercer', 'Cuarto', 'Quinto', 'Sexto'];
-  estados = ['Completado', 'En Curso', 'Inconcluso'];
+  estados = ['completado', 'renuncia', 'expulsado', 'fallecido', 'traslado']
 
   cargoSeleccionadoId: number | null = null;
 
@@ -58,6 +58,7 @@ export class EditarCargosCiudadanoPage implements OnInit {
     console.warn('⚠️ ID inválido en la URL');
   }
     this.ciudadano = this.ciudadanoService.getCiudadanoSeleccionado();
+     console.log('Ciudadano cargado:', this.ciudadano);
     if (this.ciudadano) {
       this.cargarCargosDelCiudadano(this.ciudadano.id);
     } else {
@@ -138,12 +139,13 @@ export class EditarCargosCiudadanoPage implements OnInit {
     if (!cargo) return;
 
     const datos = {
-      service_id: cargo.service_id, // no editamos tipo de cargo aún
+      service_id: cargo.catalogoServicio.id, // no editamos tipo de cargo aún
       start_date: this.start_date,
       end_date: this.end_date,
       termination_status: this.estadoSeleccionado,
       observations: ''
     };
+console.log('🔍 Datos a enviar:', datos);
 
     this.ciudadanoService.actualizarCargo(this.cargoSeleccionadoId, datos).subscribe({
       next: () => {
