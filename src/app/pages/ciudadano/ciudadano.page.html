@@ -103,7 +103,7 @@
 
     <div class="boton-contenedor">
       <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-      <ion-button class="boton-editar" (click)="editarDatos()">Editar</ion-button>
+      <ion-button  *ngIf="authService.getUserRole() !== '4'"  class="boton-editar" (click)="editarDatos()">Editar</ion-button>
     </div>
   </ion-grid>
 </ng-container>

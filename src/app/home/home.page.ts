@@ -53,7 +53,9 @@ export class HomePage {
     withCredentials: true,
   }).subscribe({
     next: (response) => {
-      console.log('✅ Login exitoso');
+      console.log('Token recibido:', response.token);
+
+      console.log('✅ Login exitoso',this.email);
       this.authService.guardarSesion(response.token);
       this.router.navigate(['/buscar-ciudadano']);
     },

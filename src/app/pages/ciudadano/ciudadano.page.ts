@@ -9,6 +9,7 @@ import {
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -32,6 +33,7 @@ export class CiudadanoPage implements OnInit {
   seccionActual = 'Datos Generales';
 
   constructor(
+    public authService: AuthService,
     private ciudadanoService: CiudadanoService,
     private navCtrl: NavController,
     private route: ActivatedRoute
