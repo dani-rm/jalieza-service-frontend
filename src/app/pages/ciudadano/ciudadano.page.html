@@ -18,7 +18,7 @@
                 <ion-title class="titulo-contenedor">{{ seccionActual }}</ion-title>
                 <ion-buttons slot="end">
                   <ng-container *ngIf="seccionActual === 'Cargos'; else espaciador">
-                    <ion-button (click)="agregarCargo()">
+                    <ion-button  *ngIf="authService.getUserRole() !== '4'" (click)="agregarCargo()">
                       <ion-icon name="add-circle-outline" class="menu-icono"></ion-icon>
                     </ion-button>
                   </ng-container>
@@ -170,7 +170,7 @@
 
     <div class="boton-contenedor">
       <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-      <ion-button class="boton-editar" (click)="editarCargos()" [disabled]="cargos.length === 0">Editar</ion-button>
+      <ion-button  *ngIf="authService.getUserRole() !== '4'" class="boton-editar" (click)="editarCargos()" [disabled]="cargos.length === 0">Editar</ion-button>
     </div>
   </ion-grid>
 </ng-container>

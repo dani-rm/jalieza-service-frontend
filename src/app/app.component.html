@@ -1,29 +1,35 @@
 <ion-app>
-  <ion-menu side="end" content-id="main-content">
+
+  <!-- 🟢 Menú SOLO cuando está autenticado -->
+  <ion-menu *ngIf="authService.isAuthenticated()" side="end" content-id="main-content">
     <ion-content>
       <ion-list lines="none">
-
-        <!-- ✅ Mostrar "Iniciar Sesión" solo si NO está autenticado -->
-        <ion-item *ngIf="!authService.isAuthenticated()" href="/home">
-          <ion-label class="tipografia">Iniciar Sesión</ion-label>
-        </ion-item>
-
-        <!-- ✅ Mostrar "Cerrar Sesión" solo si SÍ está autenticado -->
-        <ion-item *ngIf="authService.isAuthenticated()" (click)="cerrarSesion()">
+        <ion-item (click)="cerrarSesion()">
           <ion-label class="tipografia">Cerrar Sesión</ion-label>
         </ion-item>
 
-        <!-- Estas siempre se muestran -->
         <ion-item href="/buscar-ciudadano">
           <ion-label class="tipografia">Buscar Ciudadano</ion-label>
         </ion-item>
-        <ion-item href="/registrar-ciudadano">
+
+        <ion-item *ngIf="authService.getUserRole() !== '4'" href="/registrar-ciudadano">
           <ion-label class="tipografia">Registrar Ciudadano</ion-label>
         </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
 
+  <!-- 🔴 Menú SOLO cuando NO está autenticado -->
+  <ion-menu *ngIf="!authService.isAuthenticated()" side="end" content-id="main-content">
+    <ion-content>
+      <ion-list lines="none">
+        <ion-item href="/home">
+          <ion-label class="tipografia">Iniciar Sesión</ion-label>
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
 
   <ion-router-outlet id="main-content"></ion-router-outlet>
+
 </ion-app>
