@@ -96,7 +96,7 @@ console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanos.map(c => ({ 
   });
 }
 
-  filtrarCiudadanos() {
+filtrarCiudadanos() {
   if (this.selectedFilter === 'todos') {
     this.ciudadanosFiltrados = [...this.ciudadanos];
   } else if (this.selectedFilter === 'sinCargos') {
@@ -104,18 +104,12 @@ console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanos.map(c => ({ 
       !ciudadano.services || ciudadano.services.length === 0
     );
   } else if (this.selectedFilter === 'conCargos') {
-    if (this.selectedCargo === 'todos') {
-      this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano =>
-        ciudadano.services && ciudadano.services.some((serv:any) => serv.termination_status === 'en_curso')
-      );
-    } else {
-      this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano =>
-        ciudadano.services && ciudadano.services.some((serv:any) =>
-          serv.termination_status === 'en_curso' &&
-          serv.service?.service_name === this.selectedCargo
-        )
-      );
-    }
+    this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano =>
+      ciudadano.services?.some((serv:any) =>
+        serv.termination_status === 'en_curso' &&
+        (this.selectedCargo === 'todos' || serv.service_name === this.selectedCargo)
+      )
+    );
   }
 }
 
