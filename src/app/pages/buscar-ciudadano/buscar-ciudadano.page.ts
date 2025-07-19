@@ -21,6 +21,7 @@ import { FooterComponent } from './../../components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
+import { CatalogoServiciosService } from 'src/app/services/catalogo-servicios.service';
 
 @Component({
   selector: 'app-buscar-ciudadano',
@@ -50,11 +51,13 @@ import { MenuController } from '@ionic/angular';
 export class BuscarCiudadanoPage implements OnInit {
 
   constructor(
+      private catalogoServiciosService: CatalogoServiciosService ,
     private navCtrl: NavController,
     private ciudadanoService: CiudadanoService,
     private menuCtrl: MenuController
   ) {}
 
+  cargos: any[] = [];
   searchTerm = '';
   selectedFilter = 'todos';
   selectedCargo = 'todos';
@@ -66,11 +69,14 @@ export class BuscarCiudadanoPage implements OnInit {
   ngOnInit() {
     console.log(this.ciudadanos)
     this.menuCtrl.enable(true);
+     this.obtenerCargos(); // 👈s
 
     this.ciudadanoService.getCiudadanos().subscribe({
       next: (data) => {
          console.log('📦 Ciudadanos recibidos:', data);
         this.ciudadanos = data;
+console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanos.map(c => ({ id: c.id, services: c.services })));
+
         this.filtrarCiudadanos();
       },
       error: (err) => {
@@ -78,65 +84,41 @@ export class BuscarCiudadanoPage implements OnInit {
       }
     });
   }
+ obtenerCargos() {
+  this.catalogoServiciosService.getCatalogoServicios().subscribe({
+    next: (data) => {
+      this.cargos = data;
+      console.log('🎯 Catálogo de cargos recibido:', data);
+    },
+    error: (err) => {
+      console.error('Error al obtener catálogo de cargos:', err);
+    }
+  });
+}
 
   filtrarCiudadanos() {
-    const search = this.searchTerm.trim().toLowerCase();
-
-    this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano => {
-      const visible = ciudadano.visible;
-
-      const nombreCompleto = `${ciudadano.name} ${ciudadano.last_name_father} ${ciudadano.last_name_mother}`.toLowerCase();
-      const coincideBusqueda = nombreCompleto.includes(search);
-
-      let coincideFiltro = false;
-
-      switch (this.selectedFilter) {
-        case 'todos':
-          coincideFiltro = true;
-          break;
-        case 'activo':
-          coincideFiltro = visible;
-          break;
-        case 'inactivo':
-          coincideFiltro = !visible;
-          break;
-        case 'casado':
-          coincideFiltro = ciudadano.marital_status === 'Casado' && visible;
-          break;
-        case 'soltero':
-          coincideFiltro = ciudadano.marital_status === 'Soltero' && visible;
-          break;
-        case 'divorciado':
-          coincideFiltro = ciudadano.marital_status === 'Divorciado' && visible;
-          break;
-        case 'viudo':
-          coincideFiltro = ciudadano.marital_status === 'Viudo' && visible;
-          break;
-        case 'conCargos':
-          coincideFiltro =
-            visible &&
-            (this.selectedCargo === 'todos'
-              ? !!ciudadano.cargo
-              : ciudadano.cargo === this.selectedCargo);
-          break;
-        case 'sinCargos':
-          coincideFiltro = visible && !ciudadano.cargo;
-          break;
-        case 'candidato':
-          coincideFiltro =
-            visible &&
-            (this.selectedCandidatoCargo === 'todos'
-              ? !!ciudadano.candidatoACargo
-              : ciudadano.candidatoACargo === this.selectedCandidatoCargo);
-          break;
-        default:
-          coincideFiltro = true;
-          break;
-      }
-
-      return coincideBusqueda && coincideFiltro;
-    });
+  if (this.selectedFilter === 'todos') {
+    this.ciudadanosFiltrados = [...this.ciudadanos];
+  } else if (this.selectedFilter === 'sinCargos') {
+    this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano =>
+      !ciudadano.services || ciudadano.services.length === 0
+    );
+  } else if (this.selectedFilter === 'conCargos') {
+    if (this.selectedCargo === 'todos') {
+      this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano =>
+        ciudadano.services && ciudadano.services.some((serv:any) => serv.termination_status === 'en_curso')
+      );
+    } else {
+      this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano =>
+        ciudadano.services && ciudadano.services.some((serv:any) =>
+          serv.termination_status === 'en_curso' &&
+          serv.service?.service_name === this.selectedCargo
+        )
+      );
+    }
   }
+}
+
 
 verCiudadano(id: number) {
   this.navCtrl.navigateForward(`/ciudadano/${id}`);

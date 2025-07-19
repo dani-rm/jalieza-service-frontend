@@ -27,28 +27,29 @@
                   <ion-select-option value="candidato">Candidato a cargo</ion-select-option>
                 </ion-select>
               </ion-item>
-              <!-- Filtro por cargo para "conCargos" -->
-              <ion-item lines="none" class="filter-item" *ngIf="selectedFilter === 'conCargos'">
-                <ion-label>Seleccionar Cargo:</ion-label>
-                <ion-select [(ngModel)]="selectedCargo" (ionChange)="filtrarCiudadanos()">
-                  <ion-select-option value="todos">Todos</ion-select-option>
-                  <ion-select-option value="Alcalde">Alcalde</ion-select-option>
-                  <ion-select-option value="Diputado">Diputado</ion-select-option>
-                  <ion-select-option value="Senador">Senador</ion-select-option>
-                  <ion-select-option value="Gobernador">Gobernador</ion-select-option>
-                </ion-select>
-              </ion-item>
+            <!-- Filtro por cargo para "conCargos" -->
+<ion-item lines="none" class="filter-item" *ngIf="selectedFilter === 'conCargos'">
+  <ion-label>Seleccionar Cargo:</ion-label>
+  <ion-select [(ngModel)]="selectedCargo" (ionChange)="filtrarCiudadanos()">
+    <ion-select-option value="todos">Todos</ion-select-option>
+    <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.service_name">
+      {{ cargo.service_name }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
               <!-- Filtro por cargo para "candidato" -->
               <ion-item lines="none" class="filter-item" *ngIf="selectedFilter === 'candidato'">
-                <ion-label>Candidato a:</ion-label>
-                <ion-select [(ngModel)]="selectedCandidatoCargo" (ionChange)="filtrarCiudadanos()">
-                  <ion-select-option value="todos">Todos</ion-select-option>
-                  <ion-select-option value="Alcalde">Alcalde</ion-select-option>
-                  <ion-select-option value="Diputado">Diputado</ion-select-option>
-                  <ion-select-option value="Senador">Senador</ion-select-option>
-                  <ion-select-option value="Gobernador">Gobernador</ion-select-option>
-                </ion-select>
-              </ion-item>
+  <ion-label>Candidato a:</ion-label>
+  <ion-select [(ngModel)]="selectedCandidatoCargo" (ionChange)="filtrarCiudadanos()">
+<ion-select-option *ngFor="let cargo of cargos" [value]="cargo.service_name">
+  {{ cargo.service_name }}
+</ion-select-option>
+
+
+  </ion-select>
+</ion-item>
+
             </div>
 
             <!-- Resultados -->

@@ -65,4 +65,11 @@ export class CiudadanoService {
 actualizarCiudadano(id: number, dto: any) : Observable<any> {
   return this.http.patch(`${this.baseUrl}/${id}`, dto);
 }
+
+getCargos() {
+  const url = 'http://localhost:3000/api/v1/catalogo-servicios'.trim();
+  console.log('URL para getCargos:', JSON.stringify(url));
+  return this.http.get<any[]>(url);
+}
+
 }

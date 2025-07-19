@@ -29,7 +29,7 @@ export class EditarCargosCiudadanoPage implements OnInit {
   cargos: any[] = [];
 
   ordenes = ['Primer', 'Segundo', 'Tercer', 'Cuarto', 'Quinto', 'Sexto'];
-  estados = ['completado', 'renuncia', 'expulsado', 'fallecido', 'traslado']
+  estados = ['completado', 'en_curso', 'inconcluso']
 
   cargoSeleccionadoId: number | null = null;
 

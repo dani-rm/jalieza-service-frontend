@@ -29,7 +29,8 @@ export class AgregarCargoPage implements OnInit {
   service_id: number | null = null;
   start_date: string = '';
   end_date: string = '';
-  termination_status: string = 'completado';
+ termination_status: 'completado' | 'en_curso' | 'inconcluso' = 'completado';
+
   observations: string = '';
 
   constructor(
@@ -83,6 +84,7 @@ export class AgregarCargoPage implements OnInit {
       termination_status: this.termination_status,
       observations: this.observations || ''
     };
+      console.log('Payload a enviar:', body);
 
     this.http.post('http://localhost:3000/api/v1/servicios-ciudadanos', body).subscribe({
       next: async () => {
