@@ -64,15 +64,34 @@
                         estadoCivil === 'Viudo' ? 'Seleccione Cónyuge Fallecido' : ''
                       }}
                     </ion-label>
-                    <ion-select [(ngModel)]="parejaSeleccionada" name="parejaSeleccionada"
-                    placeholder="Seleccione pareja" (ionChange)="verificarSeleccion()">
-                      <ion-select-option *ngFor="let persona of personasDisponibles" [value]="persona">
-                        {{ persona }}
-                      </ion-select-option>
-                      <ion-select-option value="registrar">
-                        ¿Pareja no encontrada? Regístrela
-                      </ion-select-option>
-                    </ion-select>
+
+<ion-item>
+  <ion-label position="stacked">Pareja seleccionada</ion-label>
+  <ion-button expand="block" (click)="mostrarBuscador = !mostrarBuscador">
+    {{ parejaSeleccionada ? parejaSeleccionada.name + ' ' + parejaSeleccionada.last_name_father + ' ' + parejaSeleccionada.last_name_mother : 'Seleccionar pareja' }}
+  </ion-button>
+</ion-item>
+
+<!-- Buscador tipo modal inline -->
+<div *ngIf="mostrarBuscador" class="buscador-contenedor">
+<ion-searchbar
+  [(ngModel)]="busquedaPareja"
+  (ionInput)="filtrarPersonasDirecto($event)"
+  placeholder="Buscar ciudadano">
+</ion-searchbar>
+
+  <ion-list>
+    <ion-item *ngFor="let persona of ciudadanosFiltrados" (click)="seleccionarPareja(persona)">
+      {{ persona.name }} {{ persona.last_name_father }} {{ persona.last_name_mother }}
+    </ion-item>
+    <ion-item (click)="seleccionarPareja('registrar')">
+      ¿Pareja no encontrada? Regístrela
+    </ion-item>
+  </ion-list>
+</div>
+
+
+
                   </ion-col>
                 </ion-row>
               </ion-grid>

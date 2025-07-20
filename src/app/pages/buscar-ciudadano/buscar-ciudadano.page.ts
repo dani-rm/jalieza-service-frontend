@@ -111,6 +111,18 @@ filtrarCiudadanos() {
       )
     );
   }
+
+
+
+  // 🔍 Aplica el filtro de búsqueda por nombre
+  if (this.searchTerm && this.searchTerm.trim() !== '') {
+    const term = this.searchTerm.toLowerCase();
+    this.ciudadanosFiltrados = this.ciudadanosFiltrados.filter(ciudadano =>
+      (ciudadano.name?.toLowerCase().includes(term) ||
+       ciudadano.last_name_father?.toLowerCase().includes(term) ||
+       ciudadano.last_name_mother?.toLowerCase().includes(term))
+    );
+  }
 }
 
 
