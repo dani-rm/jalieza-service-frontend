@@ -212,21 +212,44 @@ filtrarPersonas() {
     });
   }
 
-  registrarPareja() {
-    const nuevaPareja = {
-      name: this.nombresPareja,
-      last_name_father: this.apellidoPaternoPareja,
-      last_name_mother: this.apellidoMaternoPareja,
-      birth_date: this.fechaNacimientoPareja,
-      phone: this.telefonoPareja,
-      marital_status: this.estadoCivilPareja
-    };
+ registrarPareja() {
+  const nuevaPareja = {
+    name: this.nombresPareja,
+    last_name_father: this.apellidoPaternoPareja,
+    last_name_mother: this.apellidoMaternoPareja,
+    birth_date: this.fechaNacimientoPareja,
+    phone: this.telefonoPareja,
+    marital_status: this.estadoCivilPareja
+  };
 
-    console.log('Registrando pareja:', nuevaPareja);
+  console.log('Registrando pareja:', nuevaPareja);
 
-    // En producción: llamar a this.ciudadanoService.crearCiudadano(nuevaPareja)
-    // y al éxito: cargar de nuevo las personasDisponibles y asignar automáticamente como pareja.
-  }
+  this.ciudadanoService.crearCiudadano(nuevaPareja).subscribe({
+    next: (res) => {
+      console.log('✅ Pareja registrada:', res);
+      alert('Pareja registrada correctamente');
+
+      // Actualiza lista para seleccionar
+      this.cargarPersonasDisponibles();
+
+      // Selecciona automáticamente a la nueva pareja
+      this.parejaSeleccionada = res.data || null;
+
+      // Limpia campos y cierra formulario
+      this.nombresPareja = '';
+      this.apellidoPaternoPareja = '';
+      this.apellidoMaternoPareja = '';
+      this.telefonoPareja = '';
+      this.fechaNacimientoPareja = '';
+      this.estadoCivilPareja = '';
+      this.mostrarFormularioPareja = false;
+    },
+    error: (err) => {
+      console.error('❌ Error al registrar pareja:', err);
+      alert('Ocurrió un error al registrar la pareja.');
+    }
+  });
+}
 
 abrirBuscador() {
   this.busquedaPareja = '';

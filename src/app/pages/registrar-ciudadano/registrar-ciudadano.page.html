@@ -116,15 +116,15 @@
       <ion-card-title style="color: white; text-align: center;">Registrar Pareja</ion-card-title>
     </ion-card-header>
     <ion-card-content>
- <form #formPareja="ngForm">
+ <form (ngSubmit)="registrarPareja()" #formPareja="ngForm">
   <ion-row>
     <ion-col sizeMd="6">
       <ion-label position="floating">Nombres</ion-label>
-      <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="nombresPareja" name="nombresPareja" required></ion-input>
+      <ion-input  (keypress)="soloLetras($event)" type="text" [(ngModel)]="nombresPareja" name="nombresPareja" required></ion-input>
     </ion-col>
     <ion-col sizeMd="6">
       <ion-label position="floating">Apellido Paterno</ion-label>
-      <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="apellidoPaternoPareja" name="apellidoPaternoPareja" required></ion-input>
+      <ion-input   (keypress)="soloLetras($event)" type="text" [(ngModel)]="apellidoPaternoPareja" name="apellidoPaternoPareja" required></ion-input>
     </ion-col>
   </ion-row>
 
@@ -135,7 +135,7 @@
     </ion-col>
     <ion-col sizeMd="6">
       <ion-label position="floating">Teléfono</ion-label>
-      <ion-input (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="telefonoPareja" name="telefonoPareja" required></ion-input>
+      <ion-input  (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="telefonoPareja" name="telefonoPareja" required></ion-input>
     </ion-col>
   </ion-row>
 
@@ -143,7 +143,7 @@
     <ion-col sizeMd="6">
 
       <ion-label position="floating">Fecha de Nacimiento</ion-label>
-        <ion-input type="date" name="fechaNacimiento" #fechaInput  [(ngModel)]="fechaNacimientoPareja" placeholder="dd/mm/aaaa" [attr.max]="hoy">
+        <ion-input  type="date" name="fechaNacimiento" #fechaInput  [(ngModel)]="fechaNacimientoPareja" placeholder="dd/mm/aaaa" [attr.max]="hoy">
           <ion-icon slot="end" name="calendar" class="calendar-icon"
               (click)="abrirSelectorFecha(fechaInput)">
         </ion-icon>
@@ -160,13 +160,14 @@
       </ion-select>
     </ion-col>
   </ion-row>
+     <div class="boton-contenedor">
+      <ion-button class="boton-volver" (click)="cerrarFormularioPareja()">Cancelar</ion-button>
+      <ion-button class="boton-registrar"    [disabled]="!formPareja.valid" type="submit" >Registrar</ion-button>
+    </div>
 </form>
 
 
     </ion-card-content>
-    <div class="boton-contenedor">
-      <ion-button class="boton-volver" (click)="cerrarFormularioPareja()">Cancelar</ion-button>
-      <ion-button class="boton-registrar"  [disabled]="!isFormValid" type="submit" (click)="registrarPareja()">Registrar</ion-button>
-    </div>
+
   </ion-card>
 </div>
