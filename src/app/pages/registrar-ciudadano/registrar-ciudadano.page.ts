@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonLabel, IonButton, IonInput, IonSelect, IonSelectOption, IonHeader, IonTitle,
   IonToolbar, IonRow,IonItem, IonCol, IonGrid, IonIcon, IonCardHeader, IonCardTitle, IonCardContent,
-  IonCard, IonButtons, IonModal, IonList } from '@ionic/angular/standalone';
+  IonCard, IonButtons, IonModal, IonList,ToastController } from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component'
 import { FooterComponent } from './../../components/footer/footer.component';
 import { addIcons } from 'ionicons';
@@ -33,6 +33,18 @@ export class RegistrarCiudadanoPage implements OnInit {
   estadoCivilPareja = '';
 
   hoy = '';
+resetFormularioPrincipal() {
+  this.nombres = '';
+  this.apellidoPaterno = '';
+  this.apellidoMaterno = '';
+  this.telefono = '';
+  this.fechaNacimiento = '';
+  this.estadoCivil = '';
+  this.parejaSeleccionada = null;
+  this.busquedaPareja = '';
+  this.ciudadanosFiltrados = [...this.personasDisponibles];
+  this.mostrarBuscador = false;
+}
 
   // Datos del ciudadano a registrar
   nombres = '';
@@ -60,6 +72,7 @@ searchTerm = '';
 ciudadanosFiltrados = [...this.personasDisponibles];
 
   constructor(
+     private toastController: ToastController,
     private location: Location,
     private ciudadanoService: CiudadanoService
   ) {
@@ -71,9 +84,27 @@ ciudadanosFiltrados = [...this.personasDisponibles];
     this.cargarPersonasDisponibles();
   }
 
+  async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color: 'success',
+      position: 'top'
+    });
+    await toast.present();
+  }
   volver() {
     this.location.back();
   }
+async mostrarToastError(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 3000,
+    color: 'danger',
+    position: 'top'
+  });
+  await toast.present();
+}
 
   abrirSelectorFecha(fechaInput: any) {
     const nativeInput = fechaInput?.getInputElement?.();
@@ -84,20 +115,20 @@ ciudadanosFiltrados = [...this.personasDisponibles];
     }
   }
 
-  soloNumeros(event: KeyboardEvent) {
+  async soloNumeros(event: KeyboardEvent) {
     const charCode = event.key.charCodeAt(0);
     if (charCode < 48 || charCode > 57) {
       event.preventDefault();
-      alert("No se permiten letras en este campo");
+       await this.mostrarToastError('No se aceptan letras en este campo.');
     }
   }
 
-  soloLetras(event: KeyboardEvent) {
+  async soloLetras(event: KeyboardEvent) {
     const tecla = event.key;
     const patron = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]$/;
     if (!patron.test(tecla)) {
       event.preventDefault();
-      alert("No se aceptan números en este campo");
+          await this.mostrarToastError('No se aceptan numeros en este campo.');
     }
   }
 
@@ -189,9 +220,9 @@ filtrarPersonas() {
     console.log('DTO que se enviará:', dto);
 
     this.ciudadanoService.crearCiudadano(dto).subscribe({
-      next: (res) => {
+      next: async (res) => {
         console.log('✅ Ciudadano registrado:', res);
-        alert('Ciudadano registrado correctamente');
+        await this.mostrarToast('Ciudadano registrado correctamente');
 
         // Limpiar campos
         this.nombres = '';
@@ -205,9 +236,9 @@ filtrarPersonas() {
 
         this.cargarPersonasDisponibles();
       },
-      error: (err) => {
+      error: async (err) => {
         console.error('❌ Error al registrar ciudadano:', err);
-        alert('Ocurrió un error al registrar al ciudadano.');
+       await this.mostrarToastError('Ocurrió un error al registrar al ciudadano.');
       }
     });
   }
@@ -225,9 +256,9 @@ filtrarPersonas() {
   console.log('Registrando pareja:', nuevaPareja);
 
   this.ciudadanoService.crearCiudadano(nuevaPareja).subscribe({
-    next: (res) => {
+    next: async (res) => {
       console.log('✅ Pareja registrada:', res);
-      alert('Pareja registrada correctamente');
+       await this.mostrarToast('Pateja registrada correctamente');
 
       // Actualiza lista para seleccionar
       this.cargarPersonasDisponibles();
@@ -243,10 +274,12 @@ filtrarPersonas() {
       this.fechaNacimientoPareja = '';
       this.estadoCivilPareja = '';
       this.mostrarFormularioPareja = false;
+
+        this.resetFormularioPrincipal();
     },
-    error: (err) => {
+    error: async(err) => {
       console.error('❌ Error al registrar pareja:', err);
-      alert('Ocurrió un error al registrar la pareja.');
+       await this.mostrarToastError('Ocurrió un error al registrar la pareja.');
     }
   });
 }

@@ -69,6 +69,16 @@ export class AgregarCargoPage implements OnInit {
     });
     await toast.present();
   }
+  async mostrarToastError(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 3000,
+    color: 'danger',
+    position: 'top'
+  });
+  await toast.present();
+}
+
 
   registrarCargo() {
     if (!this.service_id || !this.start_date || !this.end_date || !this.termination_status) {
@@ -95,8 +105,9 @@ export class AgregarCargoPage implements OnInit {
         localStorage.setItem('cargoActualizado', 'true');
         this.volver();
       },
-      error: err => {
+      error: async err => {
         console.error('❌ Error al registrar cargo:', err);
+        await this.mostrarToastError('Error al registrar cargo')
       }
     });
   }

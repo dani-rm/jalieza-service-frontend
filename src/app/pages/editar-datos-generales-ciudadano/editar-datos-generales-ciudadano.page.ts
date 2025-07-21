@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid,
+  IonContent, IonHeader, IonTitle,ToastController, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid,
   IonSelectOption, IonIcon, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
@@ -42,6 +42,7 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
   estadosConPareja = ['Casado', 'Divorciado', 'Viudo'];
 
   constructor(
+     private toastController: ToastController,
     private location: Location,
     private ciudadanoService: CiudadanoService,
     private route: ActivatedRoute
@@ -72,6 +73,26 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
   volver() {
     this.location.back();
   }
+
+     async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color: 'success',
+      position: 'top'
+    });
+    await toast.present();
+  }
+
+async mostrarToastError(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 3000,
+    color: 'danger',
+    position: 'top'
+  });
+  await toast.present();
+}
 
   cargarPersonasDisponibles() {
     this.ciudadanoService.getCiudadanos().subscribe(ciudadanos => {
@@ -138,13 +159,13 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     }
 
     this.ciudadanoService.actualizarCiudadano(id, dto).subscribe({
-      next: () => {
-        alert('✅ Datos actualizados correctamente');
+      next: async () => {
+        await this.mostrarToast('Datos actualizados correctamente')
         this.volver();
       },
-      error: (err) => {
+      error: async (err) => {
         console.error('❌ Error al actualizar ciudadano:', err);
-        alert('❌ Ocurrió un error al actualizar');
+        await this.mostrarToastError('Ocurrio un error al actualizar')
       }
     });
   }

@@ -97,34 +97,63 @@ console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanos.map(c => ({ 
 }
 
 filtrarCiudadanos() {
-  if (this.selectedFilter === 'todos') {
-    this.ciudadanosFiltrados = [...this.ciudadanos];
-  } else if (this.selectedFilter === 'sinCargos') {
-    this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano =>
-      !ciudadano.services || ciudadano.services.length === 0
-    );
-  } else if (this.selectedFilter === 'conCargos') {
-    this.ciudadanosFiltrados = this.ciudadanos.filter(ciudadano =>
-      ciudadano.services?.some((serv:any) =>
-        serv.termination_status === 'en_curso' &&
-        (this.selectedCargo === 'todos' || serv.service_name === this.selectedCargo)
-      )
-    );
+  let filtrados = [...this.ciudadanos];
+
+  switch(this.selectedFilter) {
+    case 'todos':
+      // No filtramos, dejamos todos
+      break;
+     case 'activo':
+      filtrados = filtrados.filter(c => !c.deleted_at); // deleted_at nulo = activo
+      break;
+    case 'inactivo':
+      filtrados = filtrados.filter(c => !!c.deleted_at); // deleted_at no nulo = inactivo
+      
+      break;
+    case 'soltero':
+      filtrados = filtrados.filter(c => c.marital_status === 'Soltero');
+      break;
+    case 'casado':
+      filtrados = filtrados.filter(c => c.marital_status === 'Casado');
+      break;
+    case 'divorciado':
+      filtrados = filtrados.filter(c => c.marital_status === 'Divorciado');
+      break;
+    case 'viudo':
+      filtrados = filtrados.filter(c => c.marital_status === 'Viudo');
+      break;
+    case 'conCargos':
+      filtrados = filtrados.filter(ciudadano =>
+        ciudadano.services?.some((serv:any) =>
+          serv.termination_status === 'en_curso' &&
+          (this.selectedCargo === 'todos' || serv.service_name === this.selectedCargo)
+        )
+      );
+      break;
+    case 'sinCargos':
+      filtrados = filtrados.filter(ciudadano =>
+        !ciudadano.services || ciudadano.services.length === 0
+      );
+      break;
+    case 'candidato':
+      filtrados = filtrados.filter(c => c.candidatoACargo === true);
+      break;
+    default:
+      break;
   }
 
-
-
-  // 🔍 Aplica el filtro de búsqueda por nombre
+  // Filtro de búsqueda
   if (this.searchTerm && this.searchTerm.trim() !== '') {
     const term = this.searchTerm.toLowerCase();
-    this.ciudadanosFiltrados = this.ciudadanosFiltrados.filter(ciudadano =>
-      (ciudadano.name?.toLowerCase().includes(term) ||
-       ciudadano.last_name_father?.toLowerCase().includes(term) ||
-       ciudadano.last_name_mother?.toLowerCase().includes(term))
+    filtrados = filtrados.filter(c =>
+      (c.name?.toLowerCase().includes(term) ||
+       c.last_name_father?.toLowerCase().includes(term) ||
+       c.last_name_mother?.toLowerCase().includes(term))
     );
   }
-}
 
+  this.ciudadanosFiltrados = filtrados;
+}
 
 verCiudadano(id: number) {
   this.navCtrl.navigateForward(`/ciudadano/${id}`);

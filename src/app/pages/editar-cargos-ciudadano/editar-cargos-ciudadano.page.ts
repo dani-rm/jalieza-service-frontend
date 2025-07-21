@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonGrid,
+  IonContent,ToastController, IonHeader, IonTitle, IonToolbar, IonButton, IonGrid,
   IonRow, IonCol, IonLabel, IonIcon, IonItem, IonSelect, IonInput, IonSelectOption
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
@@ -42,6 +42,7 @@ export class EditarCargosCiudadanoPage implements OnInit {
   actualizarHabilitado = false;
 
   constructor(
+     private toastController: ToastController,
       private route: ActivatedRoute,
     private location: Location,
     private ciudadanoService: CiudadanoService
@@ -65,6 +66,26 @@ export class EditarCargosCiudadanoPage implements OnInit {
       console.warn('⚠️ No se encontró ciudadano en sesión');
     }
   }
+
+   async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color: 'success',
+      position: 'top'
+    });
+    await toast.present();
+  }
+
+async mostrarToastError(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 3000,
+    color: 'danger',
+    position: 'top'
+  });
+  await toast.present();
+}
  cargarDatos(ciudadanoId: number) {
     // 1. Obtener ciudadano
     this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
@@ -148,13 +169,13 @@ export class EditarCargosCiudadanoPage implements OnInit {
 console.log('🔍 Datos a enviar:', datos);
 
     this.ciudadanoService.actualizarCargo(this.cargoSeleccionadoId, datos).subscribe({
-      next: () => {
-        alert('✅ Cargo actualizado con éxito');
+      next: async () => {
+        await this.mostrarToast('Cargo actualizado con exito')
         this.location.back();
       },
-      error: (err) => {
+      error: async (err) => {
         console.error('❌ Error al actualizar cargo:', err);
-        alert('❌ No se pudo actualizar el cargo');
+        await this.mostrarToastError('No se pudo actualizar el cargo')
       }
     });
   }

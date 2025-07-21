@@ -96,7 +96,9 @@
               ciudadano?.marital_status === 'Viudo' ? 'Cónyuge Fallecido' : ''
             }}
           </label>
-          <div class="valor-dato">{{ ciudadano?.partner }}</div>
+         <div class="valor-dato">
+             {{ ciudadano?.partner?.name }} {{ ciudadano?.partner?.last_name_father }} {{ ciudadano?.partner?.last_name_mother }}
+          </div>
         </div>
       </ion-col>
     </ion-row>
