@@ -64,7 +64,9 @@ export class CiudadanoPage implements OnInit {
     this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
       next: (data) => {
         this.ciudadano = data;
-        this.cargarCargosDelCiudadano(ciudadanoId); // 2. Obtener cargos
+         console.log('🧠 Ciudadano:', this.ciudadano);
+        this.cargarCargosDelCiudadano(ciudadanoId);
+         // 2. Obtener cargos
       },
       error: (error) => {
         console.error('❌ Error al obtener ciudadano:', error);

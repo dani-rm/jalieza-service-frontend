@@ -75,7 +75,7 @@
 <!-- Buscador tipo modal inline -->
 <div *ngIf="mostrarBuscador" class="buscador-contenedor">
 <ion-searchbar
-  [(ngModel)]="busquedaPareja"
+   [value]="busquedaPareja"
   (ionInput)="filtrarPersonasDirecto($event)"
   placeholder="Buscar ciudadano">
 </ion-searchbar>

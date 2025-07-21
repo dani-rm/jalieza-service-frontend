@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonLabel, IonButton, IonInput, IonSelect, IonSelectOption, IonHeader, IonTitle,
   IonToolbar, IonRow,IonItem, IonCol, IonGrid, IonIcon, IonCardHeader, IonCardTitle, IonCardContent,
-  IonCard, IonButtons, IonModal, IonList,ToastController } from '@ionic/angular/standalone';
+  IonCard, IonButtons, IonModal, IonList,ToastController, IonSearchbar } from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component'
 import { FooterComponent } from './../../components/footer/footer.component';
 import { addIcons } from 'ionicons';
@@ -16,7 +16,7 @@ import { CiudadanoService } from 'src/app/services/ciudadano.service';
   templateUrl: './registrar-ciudadano.page.html',
   styleUrls: ['./registrar-ciudadano.page.scss'],
   standalone: true,
-  imports: [IonList, IonModal, IonButtons,
+  imports: [IonSearchbar, IonList, IonModal, IonButtons,
     IonCard, IonCardContent,IonItem, IonCardTitle, IonCardHeader, IonIcon, IonGrid, IonCol,
     IonRow, IonToolbar, IonTitle, IonHeader, IonInput, IonButton, IonLabel, IonContent,
     CommonModule, FormsModule, NavbarComponent, FooterComponent, IonSelect, IonSelectOption
@@ -199,49 +199,62 @@ filtrarPersonas() {
   }
 
   registrarCiudadano() {
-    if (!this.isFormValid) return;
+  if (!this.isFormValid) return;
 
-    const partnerId = this.estadosConPareja.includes(this.estadoCivil) &&
-      this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar'
-      ? this.parejaSeleccionada.id
-      : undefined;
+  const partnerId = this.estadosConPareja.includes(this.estadoCivil) &&
+    this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar'
+    ? this.parejaSeleccionada.id
+    : undefined;
 
-    const dto: any = {
-      name: this.nombres,
-      last_name_father: this.apellidoPaterno,
-      last_name_mother: this.apellidoMaterno,
-      birth_date: this.fechaNacimiento,
-      phone: this.telefono,
-      marital_status: this.estadoCivil
-    };
+  const dto: any = {
+    name: this.nombres.trim(),
+    last_name_father: this.apellidoPaterno.trim(),
+    last_name_mother: this.apellidoMaterno.trim(),
+    birth_date: this.fechaNacimiento,
+    phone: this.telefono.trim(),
+    marital_status: this.estadoCivil
+  };
 
-    if (partnerId) dto.partner = partnerId;
-
-    console.log('DTO que se enviará:', dto);
-
-    this.ciudadanoService.crearCiudadano(dto).subscribe({
-      next: async (res) => {
-        console.log('✅ Ciudadano registrado:', res);
-        await this.mostrarToast('Ciudadano registrado correctamente');
-
-        // Limpiar campos
-        this.nombres = '';
-        this.apellidoPaterno = '';
-        this.apellidoMaterno = '';
-        this.fechaNacimiento = '';
-        this.telefono = '';
-        this.estadoCivil = '';
-        this.parejaSeleccionada = null;
-        this.mostrarFormularioPareja = false;
-
-        this.cargarPersonasDisponibles();
-      },
-      error: async (err) => {
-        console.error('❌ Error al registrar ciudadano:', err);
-       await this.mostrarToastError('Ocurrió un error al registrar al ciudadano.');
-      }
-    });
+  if (partnerId) {
+    dto.partner = partnerId;
   }
+
+  console.log('DTO que se enviará:', dto);
+
+  this.ciudadanoService.crearCiudadano(dto).subscribe({
+    next: async (res) => {
+      console.log('✅ Ciudadano registrado:', res);
+      await this.mostrarToast('Ciudadano registrado correctamente');
+
+      const ciudadanoId = res.data?.id;
+      // 🔁 Si tiene pareja seleccionada, actualizamos también a la pareja
+      if (partnerId && ciudadanoId) {
+        this.ciudadanoService.actualizarCiudadano(partnerId, {
+          partner: ciudadanoId
+        }).subscribe({
+          next: () => console.log(`🔁 Pareja actualizada con el ID de ${ciudadanoId}`),
+          error: (err) => console.error('❌ Error al actualizar pareja:', err)
+        });
+      }
+
+      // Limpiar campos
+      this.nombres = '';
+      this.apellidoPaterno = '';
+      this.apellidoMaterno = '';
+      this.fechaNacimiento = '';
+      this.telefono = '';
+      this.estadoCivil = '';
+      this.parejaSeleccionada = null;
+      this.mostrarFormularioPareja = false;
+
+      this.cargarPersonasDisponibles();
+    },
+    error: async (err) => {
+      console.error('❌ Error al registrar ciudadano:', err);
+      await this.mostrarToastError('Ocurrió un error al registrar al ciudadano.');
+    }
+  });
+}
 
  registrarPareja() {
   const nuevaPareja = {
@@ -265,6 +278,7 @@ filtrarPersonas() {
 
       // Selecciona automáticamente a la nueva pareja
       this.parejaSeleccionada = res.data || null;
+      this.registrarCiudadano();
 
       // Limpia campos y cierra formulario
       this.nombresPareja = '';
@@ -275,13 +289,13 @@ filtrarPersonas() {
       this.estadoCivilPareja = '';
       this.mostrarFormularioPareja = false;
 
-        this.resetFormularioPrincipal();
     },
     error: async(err) => {
       console.error('❌ Error al registrar pareja:', err);
        await this.mostrarToastError('Ocurrió un error al registrar la pareja.');
     }
   });
+
 }
 
 abrirBuscador() {
@@ -307,5 +321,11 @@ seleccionarPareja(persona: any) {
   this.verificarSeleccion();
   this.cerrarBuscador();
 }
+
+onSearchChange(event: any) {
+  this.busquedaPareja = event.detail.value;
+  this.filtrarPersonasDirecto(event);
+}
+
 
 }
