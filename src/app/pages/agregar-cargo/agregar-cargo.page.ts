@@ -15,13 +15,21 @@ interface CatalogoOrden {
   id: number;
   order_name: string;
   required_points: number;
-  services: ServicioOrden[]; // 👈 este campo lo causaba el error
+  services: ServicioOrden[];
 }
 
 interface ServicioOrden {
   id: number;
   service_name: string; // o 'titulo' o como venga el campo del servicio en tu JSON
 }
+interface Ciudadano {
+  id: number;
+  name: string;
+  last_name_father: string;
+  last_name_mother: string;
+  birth_date: string; // Asegúrate que venga como string ISO (ej. "1990-05-12")
+}
+
 @Component({
   selector: 'app-agregar-cargo',
   templateUrl: './agregar-cargo.page.html',
@@ -34,6 +42,9 @@ interface ServicioOrden {
   ]
 })
 export class AgregarCargoPage implements OnInit {
+
+  ciudadano: Ciudadano | null = null;
+
   ciudadanoId: number = 1;
   serviciosDelOrden:ServicioOrden[] = [];
 ordenSeleccionadoId: number | null = null;
@@ -56,11 +67,32 @@ ordenSeleccionadoId: number | null = null;
   }
 
   ngOnInit() {
+    this.http.get<Ciudadano>(`http://localhost:3000/api/v1/ciudadanos/${this.ciudadanoId}`).subscribe({
+  next: data => {
+    this.ciudadano = data;
+    console.log('👤 Ciudadano cargado:', data);
+  },
+  error: err => {
+    console.error('❌ Error al cargar ciudadano:', err);
+  }
+});
+
     // Obtener id del ciudadano de la ruta
     this.ciudadanoId = +this.route.snapshot.paramMap.get('id')!;
       this.cargarOrdenes();
 
   }
+  calcularEdad(fechaNacimiento: string): number {
+  const nacimiento = new Date(fechaNacimiento);
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const m = hoy.getMonth() - nacimiento.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
+  return edad;
+}
+
   onOrdenSeleccionado() {
   const orden = this.ordenes.find(o => o.id === this.ordenSeleccionadoId);
   this.serviciosDelOrden = orden?.services || [];
@@ -114,35 +146,47 @@ ordenSeleccionadoId: number | null = null;
 }
 
 
-  registrarCargo() {
-    if (!this.service_id || !this.start_date || !this.end_date || !this.termination_status) {
-      console.error('❌ Faltan campos obligatorios');
-      return;
-    }
-
-    const body = {
-      ciudadano_id: this.ciudadanoId,
-      service_id: this.service_id,
-      start_date: this.start_date,
-      end_date: this.end_date,
-      termination_status: this.termination_status,
-      observations: this.observations || ''
-    };
-      console.log('Payload a enviar:', body);
-
-    this.http.post('http://localhost:3000/api/v1/servicios-ciudadanos', body).subscribe({
-      next: async () => {
-        console.log('✅ Cargo registrado');
-        await this.mostrarToast('Cargo registrado correctamente');
-
-        // Marca para refrescar la vista anterior
-        localStorage.setItem('cargoActualizado', 'true');
-        this.volver();
-      },
-      error: async err => {
-        console.error('❌ Error al registrar cargo:', err);
-        await this.mostrarToastError('Error al registrar cargo')
-      }
-    });
+registrarCargo() {
+  if (!this.service_id || !this.start_date || !this.end_date || !this.termination_status) {
+    console.error('❌ Faltan campos obligatorios');
+    return;
   }
+
+  if (!this.ciudadano || !this.ciudadano.birth_date) {
+    console.error('❌ No se pudo obtener la fecha de nacimiento del ciudadano');
+    this.mostrarToastError('No se puede validar la edad del ciudadano');
+    return;
+  }
+
+  const edad = this.calcularEdad(this.ciudadano.birth_date);
+  if (edad < 18 || edad > 70) {
+    this.mostrarToastError(`El ciudadano tiene ${edad} años y no cumple con el rango permitido (18-70).`);
+    return;
+  }
+
+  const body = {
+    ciudadano_id: this.ciudadanoId,
+    service_id: this.service_id,
+    start_date: this.start_date,
+    end_date: this.end_date,
+    termination_status: this.termination_status,
+    observations: this.observations || ''
+  };
+
+  console.log('Payload a enviar:', body);
+
+  this.http.post('http://localhost:3000/api/v1/servicios-ciudadanos', body).subscribe({
+    next: async () => {
+      console.log('✅ Cargo registrado');
+      await this.mostrarToast('Cargo registrado correctamente');
+      localStorage.setItem('cargoActualizado', 'true');
+      this.volver();
+    },
+    error: async err => {
+      console.error('❌ Error al registrar cargo:', err);
+      await this.mostrarToastError('Error al registrar cargo');
+    }
+  });
+}
+
 }

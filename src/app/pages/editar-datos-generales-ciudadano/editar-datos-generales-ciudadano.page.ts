@@ -188,7 +188,7 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     this.ciudadanoService.actualizarCiudadano(id, dto).subscribe({
       next: async () => {
         await this.mostrarToast('Datos actualizados correctamente');
-        this.volver();
+          // Recarga la página completa
       },
       error: async (err) => {
         console.error('❌ Error al actualizar ciudadano:', err);

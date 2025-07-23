@@ -103,12 +103,11 @@ filtrarCiudadanos() {
     case 'todos':
       // No filtramos, dejamos todos
       break;
-     case 'activo':
+    case 'activo':
       filtrados = filtrados.filter(c => !c.deleted_at); // deleted_at nulo = activo
       break;
     case 'inactivo':
       filtrados = filtrados.filter(c => !!c.deleted_at); // deleted_at no nulo = inactivo
-      
       break;
     case 'soltero':
       filtrados = filtrados.filter(c => c.marital_status === 'Soltero');
@@ -135,9 +134,71 @@ filtrarCiudadanos() {
         !ciudadano.services || ciudadano.services.length === 0
       );
       break;
-    case 'candidato':
-      filtrados = filtrados.filter(c => c.candidatoACargo === true);
-      break;
+   case 'candidato':
+  filtrados = filtrados.filter(ciudadano => {
+    if (!ciudadano.services || ciudadano.services.length === 0) return false;
+
+    // Límite de edad 70 años
+    if (this.calcularEdad(ciudadano.birth_date) > 70) return false;
+
+    // Contadores por orden solo para servicios completados
+    const contadorOrdenes: Record<string, number> = {
+      Primer: 0,
+      Segundo: 0,
+      Tercer: 0,
+      Cuarto: 0,
+      Quinto: 0,
+      Sexto: 0
+    };
+
+    // Recorremos solo los completados
+  for (const cargo of ciudadano.services) {
+  if (cargo.termination_status === 'completado' && cargo.orden) {
+    const ordenNormalizado = this.normalizarOrden(cargo.orden);
+    if (ordenNormalizado) {
+      contadorOrdenes[ordenNormalizado] = (contadorOrdenes[ordenNormalizado] ?? 0) + 1;
+    }
+  }
+}
+
+    // Excluir si tiene ya un cargo en curso (en este nivel)
+    const cargosEnCurso = ciudadano.services
+      .filter((c: any) => c.termination_status === 'en_curso')
+      .map((c: any) => c.orden);
+
+    // Reglas por nivel
+    const reglas = {
+      Segundo: () =>
+        contadorOrdenes['Primer'] >= 3 && !cargosEnCurso.includes('Segundo'),
+      Tercer: () =>
+        contadorOrdenes['Primer'] >= 3 &&
+        contadorOrdenes['Segundo'] >= 3 &&
+        !cargosEnCurso.includes('Tercer'),
+      Cuarto: () =>
+        contadorOrdenes['Primer'] >= 3 &&
+        contadorOrdenes['Segundo'] >= 3 &&
+        contadorOrdenes['Tercer'] >= 2 &&
+        !cargosEnCurso.includes('Cuarto'),
+      Quinto: () =>
+        contadorOrdenes['Primer'] >= 3 &&
+        contadorOrdenes['Segundo'] >= 3 &&
+        contadorOrdenes['Tercer'] >= 2 &&
+        contadorOrdenes['Cuarto'] >= 1 &&
+        !cargosEnCurso.includes('Quinto'),
+      Sexto: () =>
+        contadorOrdenes['Primer'] >= 3 &&
+        contadorOrdenes['Segundo'] >= 3 &&
+        contadorOrdenes['Tercer'] >= 2 &&
+        contadorOrdenes['Cuarto'] >= 1 &&
+        contadorOrdenes['Quinto'] >= 1 &&
+        !cargosEnCurso.includes('Sexto'),
+    };
+
+    // Si cumple alguna regla, es candidato
+    return Object.values(reglas).some(fn => fn());
+  });
+  break;
+
     default:
       break;
   }
@@ -153,6 +214,54 @@ filtrarCiudadanos() {
   }
 
   this.ciudadanosFiltrados = filtrados;
+}
+normalizarOrden(orden: string): string | null {
+  const limpio = orden.trim().toLowerCase();
+  switch (limpio) {
+    case 'primer':
+    case '1er':
+    case '1':
+    case 'primer nivel':
+      return 'Primer';
+    case 'segundo':
+    case '2do':
+    case '2':
+    case 'segundo nivel':
+      return 'Segundo';
+    case 'tercer':
+    case '3ro':
+    case '3':
+    case 'tercer nivel':
+      return 'Tercer';
+    case 'cuarto':
+    case '4to':
+    case '4':
+    case 'cuarto nivel':
+      return 'Cuarto';
+    case 'quinto':
+    case '5to':
+    case '5':
+    case 'quinto nivel':
+      return 'Quinto';
+    case 'sexto':
+    case '6to':
+    case '6':
+    case 'sexto nivel':
+      return 'Sexto';
+    default:
+      return null;
+  }
+}
+
+calcularEdad(fechaNacimiento: string): number {
+  const hoy = new Date();
+  const nacimiento = new Date(fechaNacimiento);
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const mes = hoy.getMonth() - nacimiento.getMonth();
+  if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
+  return edad;
 }
 
 verCiudadano(id: number) {
