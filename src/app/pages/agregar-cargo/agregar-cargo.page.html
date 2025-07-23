@@ -12,23 +12,24 @@
             </ion-header>
 
             <ion-grid class="grid-formulario">
+<ion-item>
+  <ion-label>Orden</ion-label>
+  <ion-select [(ngModel)]="ordenSeleccionadoId" placeholder="Selecciona un orden" (ionChange)="onOrdenSeleccionado()">
+    <ion-select-option *ngFor="let orden of ordenes" [value]="orden.id">
+      {{ orden.order_name }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
 
-              <!-- Servicio (service_id) -->
-              <ion-row>
-                <ion-col size="12">
-                  <ion-item>
-                    <ion-label>Nombre del Cargo</ion-label>
-                    <ion-select [(ngModel)]="service_id">
-                      <ion-select-option [value]="1">Presidente</ion-select-option>
-                      <ion-select-option [value]="2">Tesorero</ion-select-option>
-                      <ion-select-option [value]="3">Secretario</ion-select-option>
-                      <ion-select-option [value]="4">Vocal</ion-select-option>
-                      <ion-select-option [value]="5">Fiscal</ion-select-option>
-                      <ion-select-option [value]="6">Vocal Suplente</ion-select-option>
-                    </ion-select>
-                  </ion-item>
-                </ion-col>
-              </ion-row>
+
+       <ion-item *ngIf="serviciosDelOrden.length > 0">
+  <ion-label>Servicio</ion-label>
+  <ion-select [(ngModel)]="service_id" placeholder="Selecciona un servicio">
+    <ion-select-option *ngFor="let servicio of serviciosDelOrden" [value]="servicio.id">
+      {{ servicio.service_name }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
 
               <!-- Fecha Inicio -->
               <ion-row>

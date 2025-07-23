@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonContent, IonHeader, IonTitle,ToastController, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid,
+  IonContent, IonHeader, IonTitle, ToastController, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid,
   IonSelectOption, IonIcon, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
@@ -34,15 +34,16 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     partner: null
   };
 
+  ciudadanoOriginal: any = null;
   estadoCivil: string = '';
-  parejaSeleccionada: any = null; // Cambiado a objeto
+  parejaSeleccionada: any = null;
   personasDisponibles: any[] = [];
   mostrarFormularioPareja: boolean = false;
 
   estadosConPareja = ['Casado', 'Divorciado', 'Viudo'];
 
   constructor(
-     private toastController: ToastController,
+    private toastController: ToastController,
     private location: Location,
     private ciudadanoService: CiudadanoService,
     private route: ActivatedRoute
@@ -66,6 +67,9 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
         }
       }
 
+      // 🔥 Clon del original para comparación
+      this.ciudadanoOriginal = JSON.parse(JSON.stringify(this.ciudadano));
+
       this.cargarPersonasDisponibles();
     });
   }
@@ -74,7 +78,7 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     this.location.back();
   }
 
-     async mostrarToast(mensaje: string) {
+  async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,
       duration: 2000,
@@ -84,15 +88,25 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     await toast.present();
   }
 
-async mostrarToastError(mensaje: string) {
-  const toast = await this.toastController.create({
-    message: mensaje,
-    duration: 3000,
-    color: 'danger',
-    position: 'top'
-  });
-  await toast.present();
-}
+  async mostrarToastError(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 3000,
+      color: 'danger',
+      position: 'top'
+    });
+    await toast.present();
+  }
+
+  async mostrarToasAdvertencia(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 3000,
+      color: 'warning',
+      position: 'top'
+    });
+    await toast.present();
+  }
 
   cargarPersonasDisponibles() {
     this.ciudadanoService.getCiudadanos().subscribe(ciudadanos => {
@@ -102,7 +116,6 @@ async mostrarToastError(mensaje: string) {
         c.marital_status === 'Soltero' || (parejaActual && c.id === parejaActual.id)
       );
 
-      // Asegura que la pareja actual esté en la lista
       if (parejaActual && !this.personasDisponibles.some(p => p.id === parejaActual.id)) {
         this.personasDisponibles.push(parejaActual);
       }
@@ -142,8 +155,6 @@ async mostrarToastError(mensaje: string) {
   }
 
   actualizarCiudadano() {
-    const id = this.ciudadano.id;
-
     const dto: any = {
       name: this.ciudadano.name,
       last_name_father: this.ciudadano.last_name_father,
@@ -151,43 +162,55 @@ async mostrarToastError(mensaje: string) {
       phone: this.ciudadano.phone,
       birth_date: this.ciudadano.birth_date,
       marital_status: this.estadoCivil,
-      partner: null
+      partner: this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar'
+        ? this.parejaSeleccionada.id
+        : null
     };
 
-    if (this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar') {
-      dto.partner = this.parejaSeleccionada.id;
+    const dtoComparable = JSON.stringify(dto);
+    const originalComparable = JSON.stringify({
+      name: this.ciudadanoOriginal.name,
+      last_name_father: this.ciudadanoOriginal.last_name_father,
+      last_name_mother: this.ciudadanoOriginal.last_name_mother,
+      phone: this.ciudadanoOriginal.phone,
+      birth_date: this.ciudadanoOriginal.birth_date,
+      marital_status: this.ciudadanoOriginal.marital_status,
+      partner: this.ciudadanoOriginal.partner?.id || null
+    });
+
+    if (dtoComparable === originalComparable) {
+      this.mostrarToasAdvertencia('No se detectaron cambios para actualizar');
+      return;
     }
+
+    const id = this.ciudadano.id;
 
     this.ciudadanoService.actualizarCiudadano(id, dto).subscribe({
       next: async () => {
-        await this.mostrarToast('Datos actualizados correctamente')
+        await this.mostrarToast('Datos actualizados correctamente');
         this.volver();
       },
       error: async (err) => {
         console.error('❌ Error al actualizar ciudadano:', err);
-        await this.mostrarToastError('Ocurrio un error al actualizar')
+        await this.mostrarToastError('Ocurrió un error al actualizar');
       }
     });
   }
 
-
-
-soloLetras(event: KeyboardEvent) {
-  const tecla = event.key;
-  const patron = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]$/;
-  if (!patron.test(tecla)) {
-    event.preventDefault();
-    alert("No se aceptan numeros en este campo")
-  }
-}
-
-soloNumeros(event: KeyboardEvent) {
-    const charCode = event.key.charCodeAt(0);
-    // Permite solo dígitos (0-9)
-    if (charCode < 48 || charCode > 57) {
+ async  soloLetras(event: KeyboardEvent) {
+    const tecla = event.key;
+    const patron = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]$/;
+    if (!patron.test(tecla)) {
       event.preventDefault();
-      alert("No se permiten letras en este campo")
+      await this.mostrarToastError('No se aceptan números en este campo')
     }
   }
 
+async  soloNumeros(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+      await this.mostrarToastError('No se permiten letras en este campo')
+    }
+  }
 }

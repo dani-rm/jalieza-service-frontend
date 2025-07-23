@@ -11,7 +11,17 @@ import { calendar } from 'ionicons/icons';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { HttpClient } from '@angular/common/http';
+interface CatalogoOrden {
+  id: number;
+  order_name: string;
+  required_points: number;
+  services: ServicioOrden[]; // 👈 este campo lo causaba el error
+}
 
+interface ServicioOrden {
+  id: number;
+  service_name: string; // o 'titulo' o como venga el campo del servicio en tu JSON
+}
 @Component({
   selector: 'app-agregar-cargo',
   templateUrl: './agregar-cargo.page.html',
@@ -25,6 +35,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AgregarCargoPage implements OnInit {
   ciudadanoId: number = 1;
+  serviciosDelOrden:ServicioOrden[] = [];
+ordenSeleccionadoId: number | null = null;
 
   service_id: number | null = null;
   start_date: string = '';
@@ -32,6 +44,7 @@ export class AgregarCargoPage implements OnInit {
  termination_status: 'completado' | 'en_curso' | 'inconcluso' = 'completado';
 
   observations: string = '';
+  ordenes: CatalogoOrden[] = [];
 
   constructor(
     private location: Location,
@@ -45,7 +58,28 @@ export class AgregarCargoPage implements OnInit {
   ngOnInit() {
     // Obtener id del ciudadano de la ruta
     this.ciudadanoId = +this.route.snapshot.paramMap.get('id')!;
+      this.cargarOrdenes();
+
   }
+  onOrdenSeleccionado() {
+  const orden = this.ordenes.find(o => o.id === this.ordenSeleccionadoId);
+  this.serviciosDelOrden = orden?.services || [];
+  this.service_id = null; // Reinicia el servicio seleccionado
+  console.log('🔍 Orden seleccionada:', orden);
+  console.log('🛠 Servicios disponibles:', orden?.services);
+}
+  cargarOrdenes() {
+  this.http.get<CatalogoOrden[]>('http://localhost:3000/api/v1/catalogo-orden')
+    .subscribe({
+      next: data => {
+        this.ordenes = data;
+        console.log('📦 Órdenes recibidas:', data);
+
+      },
+      error: err => {
+        console.error('❌ Error al obtener órdenes:', err);
+      }
+    });}
 
   abrirSelectorFecha(fechaInput: any) {
     const nativeInput = fechaInput?.getInputElement?.();

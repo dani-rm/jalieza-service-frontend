@@ -140,6 +140,11 @@ async mostrarToastError(mensaje: string) {
   });
 }
 
+formatearFecha(event: any) {
+  // Esto asegura que guardes solo la fecha, sin timezone
+  this.fechaNacimiento = event; // 'YYYY-MM-DD' sin Date()
+}
+
   compararPersonas(p1: any, p2: any): boolean {
     return p1 && p2 ? p1.id === p2.id : p1 === p2;
   }
@@ -197,6 +202,12 @@ filtrarPersonas() {
 
     return basicValid;
   }
+ajustarFechaLocal(fecha: string): string {
+  // Crea una fecha con la zona horaria local y saca solo el YYYY-MM-DD
+  const localDate = new Date(fecha);
+  localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
+  return localDate.toISOString().substring(0, 10); // Devuelve 'YYYY-MM-DD'
+}
 
   registrarCiudadano() {
   if (!this.isFormValid) return;
@@ -210,7 +221,8 @@ filtrarPersonas() {
     name: this.nombres.trim(),
     last_name_father: this.apellidoPaterno.trim(),
     last_name_mother: this.apellidoMaterno.trim(),
-    birth_date: this.fechaNacimiento,
+  birth_date: this.ajustarFechaLocal(this.fechaNacimiento),
+
     phone: this.telefono.trim(),
     marital_status: this.estadoCivil
   };
@@ -261,7 +273,8 @@ filtrarPersonas() {
     name: this.nombresPareja,
     last_name_father: this.apellidoPaternoPareja,
     last_name_mother: this.apellidoMaternoPareja,
-    birth_date: this.fechaNacimientoPareja,
+ birth_date: this.ajustarFechaLocal(this.fechaNacimiento),
+
     phone: this.telefonoPareja,
     marital_status: this.estadoCivilPareja
   };
