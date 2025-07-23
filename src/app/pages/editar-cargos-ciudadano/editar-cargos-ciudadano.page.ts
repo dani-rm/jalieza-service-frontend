@@ -40,6 +40,8 @@ export class EditarCargosCiudadanoPage implements OnInit {
   estadoSeleccionado: string = '';
 
   actualizarHabilitado = false;
+  observations: string = '';
+
 
   constructor(
      private toastController: ToastController,
@@ -112,12 +114,16 @@ async mostrarToastError(mensaje: string) {
 
   onCargoChange() {
     const cargo = this.cargos.find(c => c.id === this.cargoSeleccionadoId);
+    console.log('Cargo seleccionado:', cargo);
+console.log('Observaciones:', cargo.observations);
     if (cargo) {
       this.ordenSeleccionado = cargo.orden;
       this.nombreSeleccionado = cargo.servicio?.nombre || '';
       this.start_date = cargo.start_date?.split('T')[0] || '';
       this.end_date = cargo.end_date?.split('T')[0] || '';
       this.estadoSeleccionado = cargo.termination_status;
+      this.observations = cargo.observations || '';
+
       this.actualizarHabilitado = false;
     } else {
       this.limpiarCampos();
@@ -150,6 +156,8 @@ async mostrarToastError(mensaje: string) {
     this.start_date = '';
     this.end_date = '';
     this.estadoSeleccionado = '';
+    this.observations = '';
+
     this.actualizarHabilitado = false;
   }
 
@@ -164,7 +172,7 @@ async mostrarToastError(mensaje: string) {
       start_date: this.start_date,
       end_date: this.end_date,
       termination_status: this.estadoSeleccionado,
-      observations: ''
+      observations: this.observations
     };
 console.log('🔍 Datos a enviar:', datos);
 

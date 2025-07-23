@@ -88,6 +88,21 @@
                 </ion-col>
               </ion-row>
             </ion-grid>
+            <!-- Observaciones -->
+<ion-row>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="stacked">Observaciones</ion-label>
+      <ion-input
+        [(ngModel)]="observations"
+        type="text"
+        placeholder="Observaciones del cargo"
+        (ionChange)="onInputChange()"
+      ></ion-input>
+    </ion-item>
+  </ion-col>
+</ion-row>
+
 
             <!-- Botones -->
             <div class="boton-contenedor">
