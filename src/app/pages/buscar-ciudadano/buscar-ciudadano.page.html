@@ -39,7 +39,7 @@
 </ion-item>
 
               <!-- Filtro por cargo para "candidato" -->
-              <ion-item lines="none" class="filter-item" *ngIf="selectedFilter === 'candidato'">
+         <!-- <ion-item lines="none" class="filter-item" *ngIf="selectedFilter === 'candidato'">
   <ion-label>Candidato a:</ion-label>
   <ion-select [(ngModel)]="selectedCandidatoCargo" (ionChange)="filtrarCiudadanos()">
 <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.service_name">
@@ -48,7 +48,8 @@
 
 
   </ion-select>
-</ion-item>
+
+</ion-item>-->
 
             </div>
 
@@ -63,6 +64,14 @@
                       </ion-avatar>
                       <ion-label>{{ ciudadano.name + " " + ciudadano.last_name_father + " " +
                       ciudadano.last_name_mother}}</ion-label>
+
+      <!-- Mensaje de advertencia -->
+     <ion-item *ngIf="selectedFilter === 'candidato' && estaPorTerminarDescanso(ciudadano)" color="warning" lines="none">
+  <ion-label class="ion-text-wrap">
+    ⚠ Faltan menos de 3 meses para que termine su descanso
+  </ion-label>
+</ion-item>
+
                     </ion-card-content>
                   </ion-card>
                 </ion-col>

@@ -134,69 +134,10 @@ filtrarCiudadanos() {
         !ciudadano.services || ciudadano.services.length === 0
       );
       break;
-   case 'candidato':
-  filtrados = filtrados.filter(ciudadano => {
-    if (!ciudadano.services || ciudadano.services.length === 0) return false;
-
-    // Límite de edad 70 años
-    if (this.calcularEdad(ciudadano.birth_date) > 70) return false;
-
-    // Contadores por orden solo para servicios completados
-    const contadorOrdenes: Record<string, number> = {
-      Primer: 0,
-      Segundo: 0,
-      Tercer: 0,
-      Cuarto: 0,
-      Quinto: 0,
-      Sexto: 0
-    };
-
-    // Recorremos solo los completados
-  for (const cargo of ciudadano.services) {
-  if (cargo.termination_status === 'completado' && cargo.orden) {
-    const ordenNormalizado = this.normalizarOrden(cargo.orden);
-    if (ordenNormalizado) {
-      contadorOrdenes[ordenNormalizado] = (contadorOrdenes[ordenNormalizado] ?? 0) + 1;
-    }
-  }
-}
-
-    // Excluir si tiene ya un cargo en curso (en este nivel)
-    const cargosEnCurso = ciudadano.services
-      .filter((c: any) => c.termination_status === 'en_curso')
-      .map((c: any) => c.orden);
-
-    // Reglas por nivel
-    const reglas = {
-      Segundo: () =>
-        contadorOrdenes['Primer'] >= 3 && !cargosEnCurso.includes('Segundo'),
-      Tercer: () =>
-        contadorOrdenes['Primer'] >= 3 &&
-        contadorOrdenes['Segundo'] >= 3 &&
-        !cargosEnCurso.includes('Tercer'),
-      Cuarto: () =>
-        contadorOrdenes['Primer'] >= 3 &&
-        contadorOrdenes['Segundo'] >= 3 &&
-        contadorOrdenes['Tercer'] >= 2 &&
-        !cargosEnCurso.includes('Cuarto'),
-      Quinto: () =>
-        contadorOrdenes['Primer'] >= 3 &&
-        contadorOrdenes['Segundo'] >= 3 &&
-        contadorOrdenes['Tercer'] >= 2 &&
-        contadorOrdenes['Cuarto'] >= 1 &&
-        !cargosEnCurso.includes('Quinto'),
-      Sexto: () =>
-        contadorOrdenes['Primer'] >= 3 &&
-        contadorOrdenes['Segundo'] >= 3 &&
-        contadorOrdenes['Tercer'] >= 2 &&
-        contadorOrdenes['Cuarto'] >= 1 &&
-        contadorOrdenes['Quinto'] >= 1 &&
-        !cargosEnCurso.includes('Sexto'),
-    };
-
-    // Si cumple alguna regla, es candidato
-    return Object.values(reglas).some(fn => fn());
-  });
+case 'candidato':
+  filtrados = filtrados.filter(ciudadano =>
+    this.estaPorTerminarDescanso(ciudadano)
+  );
   break;
 
     default:
@@ -262,6 +203,33 @@ calcularEdad(fechaNacimiento: string): number {
     edad--;
   }
   return edad;
+}
+estaPorTerminarDescanso(ciudadano: any): boolean {
+  // Filtramos los servicios completados
+  const completados = ciudadano.services?.filter((s: any) => s.termination_status === 'completado');
+  if (!completados || completados.length === 0) return false;
+
+  // Tomamos el último servicio completado
+  const ultimoServicio = completados.reduce((másReciente: any, actual: any) => {
+    return new Date(actual.end_date) > new Date(másReciente.end_date) ? actual : másReciente;
+  });
+
+  const fechaInicio = new Date(ultimoServicio.start_date);
+  const fechaFin = new Date(ultimoServicio.end_date);
+
+  // Duración del servicio
+  const duracionMS = fechaFin.getTime() - fechaInicio.getTime();
+
+  // Fecha en que termina el descanso
+  const descansoFin = new Date(fechaFin.getTime() + duracionMS);
+
+  // Fecha actual + 3 meses
+  const hoy = new Date();
+  const tresMesesDespues = new Date(hoy);
+  tresMesesDespues.setMonth(hoy.getMonth() + 3);
+
+  // Si ya falta menos de 3 meses para terminar el descanso
+  return descansoFin <= tresMesesDespues && descansoFin > hoy;
 }
 
 verCiudadano(id: number) {
