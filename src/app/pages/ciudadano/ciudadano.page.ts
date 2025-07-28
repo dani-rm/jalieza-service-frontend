@@ -14,6 +14,8 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { addCircleOutline, menuOutline } from 'ionicons/icons';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-ciudadano',
@@ -36,7 +38,8 @@ export class CiudadanoPage implements OnInit {
     public authService: AuthService,
     private ciudadanoService: CiudadanoService,
     private navCtrl: NavController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+     private router: Router,
   ) {
     addIcons({ menuOutline, addCircleOutline });
   }
@@ -44,6 +47,7 @@ export class CiudadanoPage implements OnInit {
   ngOnInit() {
 
     const id = this.route.snapshot.paramMap.get('id');
+      console.log('ID ciudadano recibido en ruta:', id);
     if (id) {
       const ciudadanoId = +id;
 
@@ -73,6 +77,24 @@ export class CiudadanoPage implements OnInit {
       }
     });
   }
+eliminarCiudadano() {
+  const confirmacion = confirm('¿Estás seguro de que quieres eliminar este ciudadano? Esta acción no se puede deshacer.');
+
+  if (confirmacion) {
+    const id = this.ciudadano.id; // o de donde estés obteniendo el ID
+
+    this.ciudadanoService.eliminarCiudadano(id).subscribe({
+      next: () => {
+        alert('Ciudadano eliminado correctamente.');
+        this.router.navigate(['/ciudadanos']); // o donde quieras redirigir
+      },
+      error: (err) => {
+        console.error('Error al eliminar ciudadano', err);
+        alert('Ocurrió un error al eliminar al ciudadano.');
+      },
+    });
+  }
+}
 
   cargarCargosDelCiudadano(id: number) {
     this.ciudadanoService.getCargosDelCiudadano(id).subscribe({

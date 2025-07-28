@@ -179,7 +179,14 @@ console.log('🔍 Datos a enviar:', datos);
     this.ciudadanoService.actualizarCargo(this.cargoSeleccionadoId, datos).subscribe({
       next: async () => {
         await this.mostrarToast('Cargo actualizado con exito')
+             this.location.back();
+setTimeout(() => {
+  window.location.reload();
+}, 300); // Espera a que regrese para recargar
+
       },
+
+
       error: async (err) => {
         console.error('❌ Error al actualizar cargo:', err);
         await this.mostrarToastError('No se pudo actualizar el cargo')

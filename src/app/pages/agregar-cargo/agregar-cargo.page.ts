@@ -180,7 +180,11 @@ registrarCargo() {
       console.log('✅ Cargo registrado');
       await this.mostrarToast('Cargo registrado correctamente');
       localStorage.setItem('cargoActualizado', 'true');
-      this.volver();
+      this.location.back();
+setTimeout(() => {
+  window.location.reload();
+}, 300); // Espera a que regrese para recargar
+
     },
     error: async err => {
       console.error('❌ Error al registrar cargo:', err);

@@ -30,7 +30,7 @@
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-<ion-input type="tel" maxlength="10" placeholder="Ingresa hasta 10 dígitos"
+<ion-input type="tel" maxlength="10" placeholder="Ingrese los 10 dígitos"
   [(ngModel)]="telefono" name="telefono" (keypress)="soloNumeros($event)">
 </ion-input>
 
@@ -38,7 +38,7 @@
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label  class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-                    <ion-input  (ngModelChange)="formatearFecha($event)" name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
+                    <ion-input  name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
                       placeholder="dd/mm/aaaa" [attr.max]="hoy">
                       <ion-icon slot="end" name="calendar" class="calendar-icon"
                         (click)="abrirSelectorFecha(fechaInput)">
@@ -135,7 +135,7 @@
     </ion-col>
     <ion-col sizeMd="6">
       <ion-label position="floating">Teléfono</ion-label>
-      <ion-input  (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="telefonoPareja" name="telefonoPareja" required></ion-input>
+      <ion-input  (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="telefonoPareja" maxlength="10" placeholder="Ingrese los 10 dígitos" name="telefonoPareja" required></ion-input>
     </ion-col>
   </ion-row>
 

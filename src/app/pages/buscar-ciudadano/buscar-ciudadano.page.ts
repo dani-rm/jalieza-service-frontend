@@ -99,47 +99,50 @@ console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanos.map(c => ({ 
 filtrarCiudadanos() {
   let filtrados = [...this.ciudadanos];
 
-  switch(this.selectedFilter) {
+  // Aplicar filtro principal
+  switch (this.selectedFilter) {
     case 'todos':
-      // No filtramos, dejamos todos
+      // Mostrar todos los ciudadanos activos, sin filtrar por estado civil o cargos
+      filtrados = filtrados.filter(c => !c.deleted_at);
       break;
     case 'activo':
-      filtrados = filtrados.filter(c => !c.deleted_at); // deleted_at nulo = activo
+      filtrados = filtrados.filter(c => !c.deleted_at);
       break;
     case 'inactivo':
-      filtrados = filtrados.filter(c => !!c.deleted_at); // deleted_at no nulo = inactivo
+      filtrados = filtrados.filter(c => !!c.deleted_at);
       break;
     case 'soltero':
-      filtrados = filtrados.filter(c => c.marital_status === 'Soltero');
+      filtrados = filtrados.filter(c => c.marital_status === 'Soltero' && !c.deleted_at);
       break;
     case 'casado':
-      filtrados = filtrados.filter(c => c.marital_status === 'Casado');
+      filtrados = filtrados.filter(c => c.marital_status === 'Casado' && !c.deleted_at);
       break;
     case 'divorciado':
-      filtrados = filtrados.filter(c => c.marital_status === 'Divorciado');
+      filtrados = filtrados.filter(c => c.marital_status === 'Divorciado' && !c.deleted_at);
       break;
     case 'viudo':
-      filtrados = filtrados.filter(c => c.marital_status === 'Viudo');
+      filtrados = filtrados.filter(c => c.marital_status === 'Viudo' && !c.deleted_at);
       break;
     case 'conCargos':
-      filtrados = filtrados.filter(ciudadano =>
-        ciudadano.services?.some((serv:any) =>
+      filtrados = filtrados.filter(c =>
+        !c.deleted_at &&
+        c.services?.some((serv: any) =>
           serv.termination_status === 'en_curso' &&
           (this.selectedCargo === 'todos' || serv.service_name === this.selectedCargo)
         )
       );
       break;
     case 'sinCargos':
-      filtrados = filtrados.filter(ciudadano =>
-        !ciudadano.services || ciudadano.services.length === 0
+      filtrados = filtrados.filter(c =>
+        !c.deleted_at &&
+        (!c.services || c.services.length === 0)
       );
       break;
-case 'candidato':
-  filtrados = filtrados.filter(ciudadano =>
-    this.estaPorTerminarDescanso(ciudadano)
-  );
-  break;
-
+    case 'candidato':
+      filtrados = filtrados.filter(c =>
+        !c.deleted_at && this.estaPorTerminarDescanso(c)
+      );
+      break;
     default:
       break;
   }
@@ -156,6 +159,7 @@ case 'candidato':
 
   this.ciudadanosFiltrados = filtrados;
 }
+
 normalizarOrden(orden: string): string | null {
   const limpio = orden.trim().toLowerCase();
   switch (limpio) {

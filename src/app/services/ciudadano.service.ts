@@ -71,5 +71,10 @@ getCargos() {
   console.log('URL para getCargos:', JSON.stringify(url));
   return this.http.get<any[]>(url);
 }
+// Eliminar ciudadano por ID
+eliminarCiudadano(id: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/${id}`);
+}
+
 
 }

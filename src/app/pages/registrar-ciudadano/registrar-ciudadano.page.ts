@@ -80,7 +80,9 @@ ciudadanosFiltrados = [...this.personasDisponibles];
   }
 
   ngOnInit() {
-    this.hoy = new Date().toISOString().split('T')[0];
+  const hoyLocal = new Date();
+this.hoy = hoyLocal.toLocaleDateString('sv-SE'); // 'sv-SE' da formato 'YYYY-MM-DD'
+
     this.cargarPersonasDisponibles();
   }
 
@@ -141,8 +143,17 @@ async mostrarToastError(mensaje: string) {
 }
 
 formatearFecha(event: any) {
-  // Esto asegura que guardes solo la fecha, sin timezone
-  this.fechaNacimiento = event; // 'YYYY-MM-DD' sin Date()
+  if (typeof event === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(event)) {
+    this.fechaNacimiento = event; // ✅ Ya viene bien del input
+    return;
+  }
+
+  const date = new Date(event);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+
+  this.fechaNacimiento = `${year}-${month}-${day}`; // ✅ Nada de UTC
 }
 
   compararPersonas(p1: any, p2: any): boolean {
@@ -202,11 +213,15 @@ filtrarPersonas() {
 
     return basicValid;
   }
-ajustarFechaLocal(fecha: string): string {
-  // Crea una fecha con la zona horaria local y saca solo el YYYY-MM-DD
-  const localDate = new Date(fecha);
-  localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
-  return localDate.toISOString().substring(0, 10); // Devuelve 'YYYY-MM-DD'
+ajustarFechaLocal(fecha: string | Date): string {
+  if (typeof fecha === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+    // Ya está bien formateada, no toques nada
+    return fecha;
+  }
+
+  const date = new Date(fecha);
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date.toISOString().split('T')[0];
 }
 
   registrarCiudadano() {
@@ -221,8 +236,7 @@ ajustarFechaLocal(fecha: string): string {
     name: this.nombres.trim(),
     last_name_father: this.apellidoPaterno.trim(),
     last_name_mother: this.apellidoMaterno.trim(),
-  birth_date: this.ajustarFechaLocal(this.fechaNacimiento),
-
+    birth_date: this.fechaNacimiento.trim(), // ✅ directo
     phone: this.telefono.trim(),
     marital_status: this.estadoCivil
   };
@@ -273,8 +287,7 @@ ajustarFechaLocal(fecha: string): string {
     name: this.nombresPareja,
     last_name_father: this.apellidoPaternoPareja,
     last_name_mother: this.apellidoMaternoPareja,
- birth_date: this.ajustarFechaLocal(this.fechaNacimiento),
-
+birth_date: this.ajustarFechaLocal(this.fechaNacimientoPareja),
     phone: this.telefonoPareja,
     marital_status: this.estadoCivilPareja
   };
