@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel,
   IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonItem, IonCard,
-  IonCardContent, IonList, IonText
+  IonCardContent, IonList,ToastController, IonText,AlertController
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
@@ -35,6 +35,8 @@ export class CiudadanoPage implements OnInit {
   seccionActual = 'Datos Generales';
 
   constructor(
+       private toastController: ToastController,
+         private alertController: AlertController,
     public authService: AuthService,
     private ciudadanoService: CiudadanoService,
     private navCtrl: NavController,
@@ -62,6 +64,25 @@ export class CiudadanoPage implements OnInit {
       console.warn('⚠️ No se proporcionó ID de ciudadano en la ruta');
     }
   }
+ async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color: 'success',
+      position: 'top'
+    });
+    await toast.present();
+  }
+
+async mostrarToastError(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 3000,
+    color: 'danger',
+    position: 'top'
+  });
+  await toast.present();
+}
 
   cargarDatos(ciudadanoId: number) {
     // 1. Obtener ciudadano
@@ -77,24 +98,6 @@ export class CiudadanoPage implements OnInit {
       }
     });
   }
-eliminarCiudadano() {
-  const confirmacion = confirm('¿Estás seguro de que quieres eliminar este ciudadano? Esta acción no se puede deshacer.');
-
-  if (confirmacion) {
-    const id = this.ciudadano.id; // o de donde estés obteniendo el ID
-
-    this.ciudadanoService.eliminarCiudadano(id).subscribe({
-      next: () => {
-        alert('Ciudadano eliminado correctamente.');
-        this.router.navigate(['/ciudadanos']); // o donde quieras redirigir
-      },
-      error: (err) => {
-        console.error('Error al eliminar ciudadano', err);
-        alert('Ocurrió un error al eliminar al ciudadano.');
-      },
-    });
-  }
-}
 
   cargarCargosDelCiudadano(id: number) {
     this.ciudadanoService.getCargosDelCiudadano(id).subscribe({
@@ -127,4 +130,84 @@ eliminarCiudadano() {
   editarCargos() {
     this.navCtrl.navigateForward(`/ciudadano/${this.ciudadano.id}/editar-cargos-ciudadano`);
   }
+async eliminarCiudadano() {
+  const alert = await this.alertController.create({
+    header: '¿Estás seguro?',
+    message: 'Esta acción eliminará al ciudadano. ¿Deseas continuar?',
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        cssClass: 'secondary'
+      },
+      {
+        text: 'Eliminar',
+        handler: async () => {
+          const id = this.ciudadano.id;
+
+          this.ciudadanoService.eliminarCiudadano(id).subscribe({
+            next: async () => {
+              await this.mostrarToast('Ciudadano eliminado correctamente');
+           this.router.navigate(['/buscar-ciudadano']);
+              this.cargarCiudadano(); // 🔁 vuelve a cargar datos actualizados
+            },
+            error: async (err) => {
+              console.error('Error al eliminar ciudadano', err);
+              await this.mostrarToastError('Ocurrió un error al eliminar al ciudadano');
+            },
+          });
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+async restaurarCiudadano() {
+  const alert = await this.alertController.create({
+    header: 'Confirmar',
+    message: '¿Estás seguro que quieres restaurar este ciudadano?',
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+      },
+      {
+        text: 'Sí, restaurar',
+        handler: () => {
+          this.ejecutarRestauracion();
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+private ejecutarRestauracion() {
+  const id = this.ciudadano.id;
+
+  this.ciudadanoService.restaurarCiudadano(id).subscribe({
+    next: async () => {
+      await this.mostrarToast('Ciudadano restaurado correctamente');
+      this.router.navigate(['/buscar-ciudadano']);
+      this.cargarCiudadano(); // recarga
+      console.log('Ciudadano cargado:', this.ciudadano);
+    },
+    error: async (err) => {
+      console.error('Error al restaurar ciudadano', err);
+      await this.mostrarToastError('Ocurrió un error al restaurar al ciudadano');
+    },
+  });
+}
+
+
+// Método que recarga desde el backend
+cargarCiudadano() {
+  this.ciudadanoService.getCiudadanoPorId(this.ciudadano.id).subscribe((data) => {
+    this.ciudadano = data;
+  });
+}
+
 }

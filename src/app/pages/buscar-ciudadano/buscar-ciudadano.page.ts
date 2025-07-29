@@ -67,6 +67,8 @@ export class BuscarCiudadanoPage implements OnInit {
   ciudadanosFiltrados: any[] = [];
 
   ngOnInit() {
+    console.log('Ciudadanos cargados:', this.ciudadanos);
+
     console.log(this.ciudadanos)
     this.menuCtrl.enable(true);
      this.obtenerCargos(); // 👈s

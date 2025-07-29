@@ -75,6 +75,9 @@ getCargos() {
 eliminarCiudadano(id: number): Observable<any> {
   return this.http.delete(`${this.baseUrl}/${id}`);
 }
+restaurarCiudadano(id: number): Observable<any> {
+  return this.http.patch(`${this.baseUrl}/${id}/restaurar`, {});
+}
 
 
 }
