@@ -140,11 +140,14 @@ filtrarCiudadanos() {
         (!c.services || c.services.length === 0)
       );
       break;
-    case 'candidato':
-      filtrados = filtrados.filter(c =>
-        !c.deleted_at && this.estaPorTerminarDescanso(c)
-      );
-      break;
+   case 'candidato':
+  console.log('📢 Entrando a filtro CANDIDATO...');
+  filtrados = filtrados.filter(c => {
+    const resultado = !c.deleted_at && this.estaPorTerminarDescanso(c);
+    console.log(`🔍 ${c.name} → Pasa: ${resultado}`);
+    return resultado;
+  });
+  break;
     default:
       break;
   }
@@ -212,7 +215,9 @@ calcularEdad(fechaNacimiento: string): number {
 }
 estaPorTerminarDescanso(ciudadano: any): boolean {
   // Filtramos los servicios completados
-  const completados = ciudadano.services?.filter((s: any) => s.termination_status === 'completado');
+  const completados = ciudadano.services?.filter(
+    (s: any) => s.termination_status === 'completado'
+  );
   if (!completados || completados.length === 0) return false;
 
   // Tomamos el último servicio completado
@@ -223,20 +228,30 @@ estaPorTerminarDescanso(ciudadano: any): boolean {
   const fechaInicio = new Date(ultimoServicio.start_date);
   const fechaFin = new Date(ultimoServicio.end_date);
 
-  // Duración del servicio
-  const duracionMS = fechaFin.getTime() - fechaInicio.getTime();
+  // Duración del servicio (en milisegundos)
+  const duracion = fechaFin.getTime() - fechaInicio.getTime();
 
-  // Fecha en que termina el descanso
-  const descansoFin = new Date(fechaFin.getTime() + duracionMS);
+  // Descanso termina cuando se cumple la misma duración después de end_date
+  const descansoFin = new Date(fechaFin.getTime() + duracion);
 
-  // Fecha actual + 3 meses
-  const hoy = new Date();
-  const tresMesesDespues = new Date(hoy);
-  tresMesesDespues.setMonth(hoy.getMonth() + 3);
+  const hoy = new Date('2025-01-01');
 
-  // Si ya falta menos de 3 meses para terminar el descanso
-  return descansoFin <= tresMesesDespues && descansoFin > hoy;
+  // Calcular si falta menos de 3 meses para que termine el descanso
+  const tresMesesAntesDeDescansoFin = new Date(descansoFin);
+  tresMesesAntesDeDescansoFin.setMonth(descansoFin.getMonth() - 3);
+
+  console.log(`🧮 ${ciudadano.name} →
+  Último servicio: ${fechaInicio.toDateString()} a ${fechaFin.toDateString()},
+  Descanso termina: ${descansoFin.toDateString()},
+  Hoy: ${hoy.toDateString()},
+  En ventana de 3 meses: ${hoy >= tresMesesAntesDeDescansoFin && hoy < descansoFin}
+`);
+
+  // Si ya estamos en los 3 meses finales antes de que termine el descanso
+  return hoy >= tresMesesAntesDeDescansoFin && hoy < descansoFin;
 }
+
+
 
 verCiudadano(id: number) {
   this.navCtrl.navigateForward(`/ciudadano/${id}`);
