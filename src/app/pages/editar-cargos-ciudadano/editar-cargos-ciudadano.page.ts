@@ -88,6 +88,7 @@ async mostrarToastError(mensaje: string) {
   });
   await toast.present();
 }
+
  cargarDatos(ciudadanoId: number) {
     // 1. Obtener ciudadano
     this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
@@ -117,8 +118,9 @@ async mostrarToastError(mensaje: string) {
     console.log('Cargo seleccionado:', cargo);
 console.log('Observaciones:', cargo.observations);
     if (cargo) {
-      this.ordenSeleccionado = cargo.orden;
-      this.nombreSeleccionado = cargo.servicio?.nombre || '';
+      this.nombreSeleccionado = cargo.catalogoServicio?.service_name || '';
+    this.ordenSeleccionado = cargo.catalogoServicio?.order?.order_name || '';
+
       this.start_date = cargo.start_date?.split('T')[0] || '';
       this.end_date = cargo.end_date?.split('T')[0] || '';
       this.estadoSeleccionado = cargo.termination_status;

@@ -34,9 +34,7 @@
                 <ion-col size="12" sizeMd="6">
                   <ion-item>
                     <ion-label>Orden</ion-label>
-                    <ion-select [(ngModel)]="ordenSeleccionado" (ionChange)="onInputChange()">
-                      <ion-select-option *ngFor="let orden of ordenes" [value]="orden">{{ orden }}</ion-select-option>
-                    </ion-select>
+                  <ion-input [value]="ordenSeleccionado" readonly></ion-input>
                   </ion-item>
                 </ion-col>
 
@@ -45,11 +43,7 @@
 <ion-col size="12" sizeMd="6">
   <ion-item>
     <ion-label>Nombre</ion-label>
- <ion-select [(ngModel)]="nombreSeleccionado" (ionChange)="onInputChange()">
-  <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.catalogoServicio?.service_name">
-    {{ cargo.catalogoServicio?.service_name }}
-  </ion-select-option>
-</ion-select>
+ <ion-input [value]="nombreSeleccionado" readonly></ion-input>
 
   </ion-item>
 </ion-col>
