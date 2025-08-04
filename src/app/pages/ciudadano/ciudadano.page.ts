@@ -99,16 +99,19 @@ async mostrarToastError(mensaje: string) {
     });
   }
 
-  cargarCargosDelCiudadano(id: number) {
-    this.ciudadanoService.getCargosDelCiudadano(id).subscribe({
-      next: (cargos) => {
-        this.cargos = cargos;
-      },
-      error: (err) => {
-        console.error('❌ Error al obtener cargos del ciudadano:', err);
-      }
-    });
-  }
+cargarCargosDelCiudadano(id: number) {
+  this.ciudadanoService.getCargosDelCiudadano(id).subscribe({
+    next: (cargos) => {
+      this.cargos = cargos.sort((a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    },
+    error: (err) => {
+      console.error('❌ Error al obtener cargos del ciudadano:', err);
+    }
+  });
+}
+
 
   cambiarSeccion(seccion: string) {
     this.seccionActual = seccion;
