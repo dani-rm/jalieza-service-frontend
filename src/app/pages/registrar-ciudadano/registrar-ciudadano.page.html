@@ -150,15 +150,22 @@
         </ion-input>
 
     </ion-col>
-    <ion-col sizeMd="6">
-      <ion-label position="floating">Estado Civil</ion-label>
-      <ion-select [(ngModel)]="estadoCivilPareja" name="estadoCivilPareja" placeholder="Seleccione estado civil" required>
-        <ion-select-option value="Soltero">Soltero</ion-select-option>
-        <ion-select-option value="Casado">Casado</ion-select-option>
-        <ion-select-option value="Divorciado">Divorciado</ion-select-option>
-        <!-- agrega más opciones -->
-      </ion-select>
-    </ion-col>
+  <ion-col sizeMd="6">
+  <ion-label position="floating">Estado Civil</ion-label>
+  <ion-select
+    [(ngModel)]="estadoCivilPareja"
+    name="estadoCivilPareja"
+    placeholder="Seleccione estado civil"
+    [disabled]="estadoCivilParejaFijo"
+    required
+  >
+    <ion-select-option value="Soltero">Soltero</ion-select-option>
+    <ion-select-option value="Casado">Casado</ion-select-option>
+    <ion-select-option value="Divorciado">Divorciado</ion-select-option>
+    <!-- agrega más opciones -->
+  </ion-select>
+</ion-col>
+
   </ion-row>
      <div class="boton-contenedor">
       <ion-button class="boton-volver" (click)="cerrarFormularioPareja()">Cancelar</ion-button>

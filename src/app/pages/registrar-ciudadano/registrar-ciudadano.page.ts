@@ -70,6 +70,8 @@ ciudadanos = [];
   mostrarBuscadorPareja = false;
 searchTerm = '';
 ciudadanosFiltrados = [...this.personasDisponibles];
+estadoCivilParejaFijo: boolean = false;
+
 
   constructor(
      private toastController: ToastController,
@@ -343,10 +345,18 @@ filtrarCiudadanos() {
 }
 
 seleccionarPareja(persona: any) {
-  this.parejaSeleccionada = persona;
-  this.verificarSeleccion();
-  this.cerrarBuscador();
+  if (persona === 'registrar') {
+    this.estadoCivilPareja = this.estadoCivil;         // Prellenar
+    this.estadoCivilParejaFijo = true;                 // Bloquear cambios
+    this.mostrarFormularioPareja = true;               // Mostrar form
+    this.cerrarBuscador();
+  } else {
+    this.parejaSeleccionada = persona;
+    this.verificarSeleccion();
+    this.cerrarBuscador();
+  }
 }
+
 
 onSearchChange(event: any) {
   this.busquedaPareja = event.detail.value;

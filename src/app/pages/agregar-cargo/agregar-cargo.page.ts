@@ -149,6 +149,7 @@ ordenSeleccionadoId: number | null = null;
 registrarCargo() {
   if (!this.service_id || !this.start_date || !this.end_date || !this.termination_status) {
     console.error('❌ Faltan campos obligatorios');
+    this.mostrarToastError('Todos los campos son obligatorios');
     return;
   }
 
@@ -175,20 +176,23 @@ registrarCargo() {
 
   console.log('Payload a enviar:', body);
 
+  // ✅ Asegúrate que esta URL esté correcta, sin guion bajo ni errores
   this.http.post('http://localhost:3000/api/v1/servicios-ciudadanos', body).subscribe({
     next: async () => {
       console.log('✅ Cargo registrado');
       await this.mostrarToast('Cargo registrado correctamente');
       localStorage.setItem('cargoActualizado', 'true');
-      this.location.back();
-setTimeout(() => {
-  window.location.reload();
-}, 300); // Espera a que regrese para recargar
 
+      // Vuelve atrás y luego recarga para ver los cambios
+      this.location.back();
+
+      setTimeout(() => {
+        window.location.reload(); // 🔄 Recarga tras regresar
+      }, 300);
     },
     error: async err => {
       console.error('❌ Error al registrar cargo:', err);
-      await this.mostrarToastError('Error al registrar cargo');
+      this.mostrarToastError('Error al registrar cargo');
     }
   });
 }
