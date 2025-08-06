@@ -28,6 +28,7 @@ export class RegistrarCiudadanoPage implements OnInit {
   nombresPareja = '';
   apellidoPaternoPareja = '';
   apellidoMaternoPareja = '';
+  commentPareja = '';
   telefonoPareja = '';
   fechaNacimientoPareja = '';
   estadoCivilPareja = '';
@@ -37,6 +38,7 @@ resetFormularioPrincipal() {
   this.nombres = '';
   this.apellidoPaterno = '';
   this.apellidoMaterno = '';
+  this.comment = '';
   this.telefono = '';
   this.fechaNacimiento = '';
   this.estadoCivil = '';
@@ -50,6 +52,7 @@ resetFormularioPrincipal() {
   nombres = '';
   apellidoPaterno = '';
   apellidoMaterno = '';
+  comment = '';
   telefono = '';
   fechaNacimiento = '';
   estadoCivil = '';
@@ -238,6 +241,7 @@ ajustarFechaLocal(fecha: string | Date): string {
     name: this.nombres.trim(),
     last_name_father: this.apellidoPaterno.trim(),
     last_name_mother: this.apellidoMaterno.trim(),
+    comment: this.comment.trim(),
     birth_date: this.fechaNacimiento.trim(), // ✅ directo
     phone: this.telefono.trim(),
     marital_status: this.estadoCivil
@@ -269,6 +273,7 @@ ajustarFechaLocal(fecha: string | Date): string {
       this.nombres = '';
       this.apellidoPaterno = '';
       this.apellidoMaterno = '';
+      this.comment = '';
       this.fechaNacimiento = '';
       this.telefono = '';
       this.estadoCivil = '';
@@ -289,6 +294,7 @@ ajustarFechaLocal(fecha: string | Date): string {
     name: this.nombresPareja,
     last_name_father: this.apellidoPaternoPareja,
     last_name_mother: this.apellidoMaternoPareja,
+    commentPareja: this.commentPareja,
 birth_date: this.ajustarFechaLocal(this.fechaNacimientoPareja),
     phone: this.telefonoPareja,
     marital_status: this.estadoCivilPareja
@@ -312,6 +318,7 @@ birth_date: this.ajustarFechaLocal(this.fechaNacimientoPareja),
       this.nombresPareja = '';
       this.apellidoPaternoPareja = '';
       this.apellidoMaternoPareja = '';
+      this.commentPareja = '';
       this.telefonoPareja = '';
       this.fechaNacimientoPareja = '';
       this.estadoCivilPareja = '';

@@ -47,6 +47,7 @@ export class CiudadanoPage implements OnInit {
   }
 
   ngOnInit() {
+console.log(this.ciudadano);
 
     const id = this.route.snapshot.paramMap.get('id');
       console.log('ID ciudadano recibido en ruta:', id);

@@ -93,6 +93,10 @@
 
 
                   </ion-col>
+                    <ion-col sizeMd="6">
+      <ion-label position="floating">Comentario</ion-label>
+      <ion-input  type="text" [(ngModel)]="comment" name="comment"></ion-input>
+    </ion-col>
                 </ion-row>
               </ion-grid>
 
@@ -165,7 +169,10 @@
     <!-- agrega más opciones -->
   </ion-select>
 </ion-col>
-
+   <ion-col sizeMd="6">
+      <ion-label position="floating">Comentario</ion-label>
+      <ion-input  type="text" [(ngModel)]="apellidoMaternoPareja" name="apellidoMaternoPareja"></ion-input>
+    </ion-col>
   </ion-row>
      <div class="boton-contenedor">
       <ion-button class="boton-volver" (click)="cerrarFormularioPareja()">Cancelar</ion-button>

@@ -37,6 +37,7 @@
                     <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
                     <ion-input type="date" #fechaInput [(ngModel)]="ciudadano.birth_date" name="birth_date"></ion-input>
                   </ion-col>
+
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
                     <ion-select [(ngModel)]="estadoCivil" name="marital_status" (ionChange)="onEstadoCivilChange()">
@@ -46,6 +47,11 @@
                       <ion-select-option value="Viudo">Viudo</ion-select-option>
                     </ion-select>
                   </ion-col>
+ <ion-col size="12" size-md="4">
+  <ion-label class="etiqueta" position="floating">Comentario</ion-label>
+  <ion-input type="text" [(ngModel)]="ciudadano.comment"  name="comment"  maxlength="255"></ion-input>
+</ion-col>
+
                 </ion-row>
 
                 <ion-row *ngIf="estadosConPareja.includes(estadoCivil)">
