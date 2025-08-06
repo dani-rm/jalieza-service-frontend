@@ -58,6 +58,12 @@ guardarSesion(token: string): void {
   this.authStatus.next(true);
 }
 
+getUsuario(): any | null {
+  const token = localStorage.getItem(this.TOKEN_KEY);
+  if (!token) return null;
+
+  return this.parseJwt(token); // Ya tienes parseJwt implementado 👌
+}
 
 
 
@@ -69,6 +75,22 @@ guardarSesion(token: string): void {
   getUserRole(): string | null {
     return localStorage.getItem(this.ROLE_KEY);
   }
+
+  // auth.service.ts
+ /*getUserRole(): string | null {
+ const token = localStorage.getItem(this.TOKEN_KEY);
+  if (!token) return null;
+
+  const payload = JSON.parse(atob(token.split('.')[1]));
+
+  const roleMap: { [key: number]: string } = {
+    3: 'superAdmin',
+    4: 'visualizador',
+     // por ejemplo
+  };
+
+  return roleMap[payload.role_id] || null;
+}*/
 
   logout(): void {
     this.http.post('http://localhost:3000/api/v1/auth/logout', {}, {

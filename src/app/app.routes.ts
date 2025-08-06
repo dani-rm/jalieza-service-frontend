@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 export const routes: Routes = [
   {
     path: 'home',
@@ -13,32 +14,48 @@ export const routes: Routes = [
   {
     path: 'buscar-ciudadano',
     loadComponent: () => import('./pages/buscar-ciudadano/buscar-ciudadano.page').then( m => m.BuscarCiudadanoPage),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data:{roles:['3','4']}
   },
   {
     path: 'registrar-ciudadano',
     loadComponent: () => import('./pages/registrar-ciudadano/registrar-ciudadano.page').then( m => m.RegistrarCiudadanoPage),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,RoleGuard],
+     data: {
+    roles: ['3'] // solo estos roles entran
+  }
   },
   {
     path: 'ciudadano/:id',
     loadComponent: () => import('./pages/ciudadano/ciudadano.page').then( m => m.CiudadanoPage),
     canActivate: [AuthGuard],
+    data:{
+      roles:['3','4']
+    }
   },
   {
     path: 'ciudadano/:id/editar-datos-generales-ciudadano',
     loadComponent: () => import('./pages/editar-datos-generales-ciudadano/editar-datos-generales-ciudadano.page').then( m => m.EditarDatosGeneralesCiudadanoPage),
-    canActivate: [AuthGuard],
+        canActivate: [AuthGuard,RoleGuard],
+      data: {
+    roles: ['3'] // solo estos roles entran
+ }
   },
   {
     path: 'ciudadano/:id/editar-cargos-ciudadano',
     loadComponent: () => import('./pages/editar-cargos-ciudadano/editar-cargos-ciudadano.page').then( m => m.EditarCargosCiudadanoPage),
-    canActivate: [AuthGuard],
+        canActivate: [AuthGuard,RoleGuard],
+      data: {
+    roles: ['3'] // solo estos roles entran
+  }
   },
   {
     path: 'ciudadano/:id/agregar-cargo',
     loadComponent: () => import('./pages/agregar-cargo/agregar-cargo.page').then( m => m.AgregarCargoPage),
-    canActivate: [AuthGuard],
+        canActivate: [AuthGuard,RoleGuard],
+      data: {
+    roles: ['3'] // solo estos roles entran
+  }
   },
 
 ];

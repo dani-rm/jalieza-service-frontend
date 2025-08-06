@@ -234,7 +234,7 @@ estaPorTerminarDescanso(ciudadano: any): boolean {
   // Descanso termina cuando se cumple la misma duración después de end_date
   const descansoFin = new Date(fechaFin.getTime() + duracion);
 
-  const hoy = new Date('');
+  const hoy = new Date('05-08-2025');
 
   // Calcular si falta menos de 3 meses para que termine el descanso
   const tresMesesAntesDeDescansoFin = new Date(descansoFin);
