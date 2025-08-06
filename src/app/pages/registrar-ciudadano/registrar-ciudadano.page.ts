@@ -208,6 +208,7 @@ filtrarPersonas() {
     const basicValid = this.nombres.trim() !== '' &&
       this.apellidoPaterno.trim() !== '' &&
       this.apellidoMaterno.trim() !== '' &&
+      this.comment.trim() !== '' &&
       this.telefono.trim() !== '' &&
       this.fechaNacimiento.trim() !== '' &&
       this.estadoCivil.trim() !== '';
@@ -229,109 +230,90 @@ ajustarFechaLocal(fecha: string | Date): string {
   return date.toISOString().split('T')[0];
 }
 
-  registrarCiudadano() {
-  if (!this.isFormValid) return;
+registrarCiudadano(): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const dto = {
+      name: this.nombres.trim(),
+      last_name_father: this.apellidoPaterno.trim(),
+      last_name_mother: this.apellidoMaterno.trim(),
+      comment: this.comment.trim(),
+      birth_date: this.fechaNacimiento.trim(),
+      phone: this.telefono.trim(),
+      marital_status: this.estadoCivil
+    };
 
-  const partnerId = this.estadosConPareja.includes(this.estadoCivil) &&
-    this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar'
-    ? this.parejaSeleccionada.id
-    : undefined;
-
-  const dto: any = {
-    name: this.nombres.trim(),
-    last_name_father: this.apellidoPaterno.trim(),
-    last_name_mother: this.apellidoMaterno.trim(),
-    comment: this.comment.trim(),
-    birth_date: this.fechaNacimiento.trim(), // ✅ directo
-    phone: this.telefono.trim(),
-    marital_status: this.estadoCivil
-  };
-
-  if (partnerId) {
-    dto.partner = partnerId;
-  }
-
-  console.log('DTO que se enviará:', dto);
-
-  this.ciudadanoService.crearCiudadano(dto).subscribe({
-    next: async (res) => {
-      console.log('✅ Ciudadano registrado:', res);
-      await this.mostrarToast('Ciudadano registrado correctamente');
-
-      const ciudadanoId = res.data?.id;
-      // 🔁 Si tiene pareja seleccionada, actualizamos también a la pareja
-      if (partnerId && ciudadanoId) {
-        this.ciudadanoService.actualizarCiudadano(partnerId, {
-          partner: ciudadanoId
-        }).subscribe({
-          next: () => console.log(`🔁 Pareja actualizada con el ID de ${ciudadanoId}`),
-          error: (err) => console.error('❌ Error al actualizar pareja:', err)
-        });
+    this.ciudadanoService.crearCiudadano(dto).subscribe({
+      next: async (res) => {
+        const ciudadanoId = res.data?.id;
+        if (ciudadanoId) {
+          resolve(ciudadanoId);
+        } else {
+          await this.mostrarToastError('Error al registrar ciudadano');
+          reject('Sin ID');
+        }
+      },
+      error: async (err) => {
+        console.error('Error al registrar ciudadano:', err);
+        await this.mostrarToastError('Error al registrar ciudadano');
+        reject(err);
       }
-
-      // Limpiar campos
-      this.nombres = '';
-      this.apellidoPaterno = '';
-      this.apellidoMaterno = '';
-      this.comment = '';
-      this.fechaNacimiento = '';
-      this.telefono = '';
-      this.estadoCivil = '';
-      this.parejaSeleccionada = null;
-      this.mostrarFormularioPareja = false;
-
-      this.cargarPersonasDisponibles();
-    },
-    error: async (err) => {
-      console.error('❌ Error al registrar ciudadano:', err);
-      await this.mostrarToastError('Ocurrió un error al registrar al ciudadano.');
-    }
+    });
   });
 }
 
- registrarPareja() {
-  const nuevaPareja = {
-    name: this.nombresPareja,
-    last_name_father: this.apellidoPaternoPareja,
-    last_name_mother: this.apellidoMaternoPareja,
-    commentPareja: this.commentPareja,
-birth_date: this.ajustarFechaLocal(this.fechaNacimientoPareja),
-    phone: this.telefonoPareja,
-    marital_status: this.estadoCivilPareja
-  };
 
-  console.log('Registrando pareja:', nuevaPareja);
+ async registrarPareja() {
+  try {
+    const ciudadanoId = await this.registrarCiudadano();
 
-  this.ciudadanoService.crearCiudadano(nuevaPareja).subscribe({
-    next: async (res) => {
-      console.log('✅ Pareja registrada:', res);
-       await this.mostrarToast('Pateja registrada correctamente');
+    const dtoPareja = {
+      name: this.nombresPareja.trim(),
+      last_name_father: this.apellidoPaternoPareja.trim(),
+      last_name_mother: this.apellidoMaternoPareja.trim(),
+      comment: this.commentPareja.trim(),
+      birth_date: this.ajustarFechaLocal(this.fechaNacimientoPareja),
+      phone: this.telefonoPareja.trim(),
+      marital_status: this.estadoCivilPareja,
+      partner: ciudadanoId // 🔗 Enlaza al ciudadano
+    };
 
-      // Actualiza lista para seleccionar
-      this.cargarPersonasDisponibles();
+    this.ciudadanoService.crearCiudadano(dtoPareja).subscribe({
+      next: async (res) => {
+        const parejaId = res.data?.id;
 
-      // Selecciona automáticamente a la nueva pareja
-      this.parejaSeleccionada = res.data || null;
-      this.registrarCiudadano();
+        if (!parejaId) {
+          await this.mostrarToastError('Pareja registrada sin ID');
+          return;
+        }
 
-      // Limpia campos y cierra formulario
-      this.nombresPareja = '';
-      this.apellidoPaternoPareja = '';
-      this.apellidoMaternoPareja = '';
-      this.commentPareja = '';
-      this.telefonoPareja = '';
-      this.fechaNacimientoPareja = '';
-      this.estadoCivilPareja = '';
-      this.mostrarFormularioPareja = false;
+        // 🔁 Ahora actualiza al ciudadano con el ID de la pareja
+        this.ciudadanoService.actualizarCiudadano(ciudadanoId, {
+          partner: parejaId
+        }).subscribe({
+          next: async () => {
+            await this.mostrarToast('¡Ciudadano y pareja registrados correctamente!');
+            this.resetFormularioPrincipal();
+            this.mostrarFormularioPareja = false;
+            this.cargarPersonasDisponibles();
+          },
+          error: async (err) => {
+            console.error('Error al actualizar ciudadano con pareja:', err);
+            await this.mostrarToastError('Pareja registrada, pero no se pudo vincular al ciudadano');
+          }
+        });
+      },
+      error: async (err) => {
+        console.error('Error al registrar pareja:', err);
+        await this.mostrarToastError('Error al registrar pareja');
+      }
+    });
 
-    },
-    error: async(err) => {
-      console.error('❌ Error al registrar pareja:', err);
-       await this.mostrarToastError('Ocurrió un error al registrar la pareja.');
-    }
-  });
-
+  } catch (error) {
+    console.error('Error general:', error);
+  }
 }
+
+
 
 abrirBuscador() {
   this.busquedaPareja = '';
