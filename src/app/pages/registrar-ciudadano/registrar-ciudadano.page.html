@@ -94,7 +94,7 @@
 
                   </ion-col>
                     <ion-col sizeMd="6">
-      <ion-label position="floating">Comentario</ion-label>
+      <ion-label class="etiqueta" position="floating">Comentario</ion-label>
       <ion-input  type="text" [(ngModel)]="comment" name="comment"></ion-input>
     </ion-col>
                 </ion-row>
@@ -123,22 +123,22 @@
  <form (ngSubmit)="registrarPareja()" #formPareja="ngForm">
   <ion-row>
     <ion-col sizeMd="6">
-      <ion-label position="floating">Nombres</ion-label>
+      <ion-label class="etiqueta" position="floating">Nombres</ion-label>
       <ion-input  (keypress)="soloLetras($event)" type="text" [(ngModel)]="nombresPareja" name="nombresPareja" required></ion-input>
     </ion-col>
     <ion-col sizeMd="6">
-      <ion-label position="floating">Apellido Paterno</ion-label>
+      <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
       <ion-input   (keypress)="soloLetras($event)" type="text" [(ngModel)]="apellidoPaternoPareja" name="apellidoPaternoPareja" required></ion-input>
     </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col sizeMd="6">
-      <ion-label position="floating">Apellido Materno</ion-label>
+      <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
       <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="apellidoMaternoPareja" name="apellidoMaternoPareja" required></ion-input>
     </ion-col>
     <ion-col sizeMd="6">
-      <ion-label position="floating">Teléfono</ion-label>
+      <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
       <ion-input  (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="telefonoPareja" maxlength="10" placeholder="Ingrese los 10 dígitos" name="telefonoPareja" required></ion-input>
     </ion-col>
   </ion-row>
@@ -146,7 +146,7 @@
   <ion-row>
     <ion-col sizeMd="6">
 
-      <ion-label position="floating">Fecha de Nacimiento</ion-label>
+      <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
         <ion-input  (ngModelChange)="formatearFecha($event)" type="date" name="fechaNacimiento" #fechaInput  [(ngModel)]="fechaNacimientoPareja" placeholder="dd/mm/aaaa" [attr.max]="hoy" >
           <ion-icon slot="end" name="calendar" class="calendar-icon"
               (click)="abrirSelectorFecha(fechaInput)">
@@ -170,7 +170,7 @@
   </ion-select>
 </ion-col>
    <ion-col sizeMd="6">
-      <ion-label position="floating">Comentario</ion-label>
+      <ion-label class="etiqueta" position="floating">Comentario</ion-label>
       <ion-input  type="text" [(ngModel)]="commentPareja" name="apellidoMaternoPareja"></ion-input>
     </ion-col>
   </ion-row>
