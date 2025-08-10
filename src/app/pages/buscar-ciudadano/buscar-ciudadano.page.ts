@@ -148,6 +148,14 @@ filtrarCiudadanos() {
     return resultado;
   });
   break;
+case 'conComentario':
+  filtrados = filtrados.filter(c =>
+    !c.deleted_at &&
+    c.comment && c.comment.trim() !== ''
+  );
+  break;
+
+      break;
     default:
       break;
   }
