@@ -14,7 +14,7 @@ export class CiudadanoService {
   constructor(private http: HttpClient) {}
 
   getCiudadanos(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
+    return this.http.get<any[]>(this.baseUrl,{withCredentials:true});
   }
 
   setCiudadano(ciudadano: any): void {
