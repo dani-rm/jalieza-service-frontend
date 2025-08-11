@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment'; // importa el env
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonCol, IonRow, IonItem, IonGrid, IonLabel,
   IonButton, IonSelect, IonSelectOption, IonInput, IonIcon, ToastController
@@ -65,17 +66,19 @@ ordenSeleccionadoId: number | null = null;
   ) {
     addIcons({ calendar });
   }
+ngOnInit() {
+  this.http
+    .get<Ciudadano>(`${environment.apiUrl}/ciudadanos/${this.ciudadanoId}`)
+    .subscribe({
+      next: data => {
+        this.ciudadano = data;
+        console.log('👤 Ciudadano cargado:', data);
+      },
+      error: err => {
+        console.error('❌ Error al cargar ciudadano:', err);
+      }
+    });
 
-  ngOnInit() {
-    this.http.get<Ciudadano>(`http://localhost:3000/api/v1/ciudadanos/${this.ciudadanoId}`).subscribe({
-  next: data => {
-    this.ciudadano = data;
-    console.log('👤 Ciudadano cargado:', data);
-  },
-  error: err => {
-    console.error('❌ Error al cargar ciudadano:', err);
-  }
-});
 
     // Obtener id del ciudadano de la ruta
     this.ciudadanoId = +this.route.snapshot.paramMap.get('id')!;
@@ -101,7 +104,7 @@ ordenSeleccionadoId: number | null = null;
   console.log('🛠 Servicios disponibles:', orden?.services);
 }
   cargarOrdenes() {
-  this.http.get<CatalogoOrden[]>('http://localhost:3000/api/v1/catalogo-orden')
+this.http.get<CatalogoOrden[]>(`${environment.apiUrl}/catalogo-orden`)
     .subscribe({
       next: data => {
         this.ordenes = data;
@@ -177,7 +180,7 @@ registrarCargo() {
   console.log('Payload a enviar:', body);
 
   // ✅ Asegúrate que esta URL esté correcta, sin guion bajo ni errores
-  this.http.post('http://localhost:3000/api/v1/servicios-ciudadanos', body).subscribe({
+ this.http.post(`${environment.apiUrl}/servicios-ciudadanos`, body).subscribe({
     next: async () => {
       console.log('✅ Cargo registrado');
       await this.mostrarToast('Cargo registrado correctamente');
