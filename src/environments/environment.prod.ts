@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+   apiUrl: 'api.jalieza.com.mx/api/v1 '
 };

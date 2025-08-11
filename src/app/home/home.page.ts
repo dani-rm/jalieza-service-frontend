@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { MenuController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -48,14 +48,14 @@ export class HomePage {
 
  login() {
   const body = { email: this.email, password: this.password };
+  const url = `${environment.apiUrl}/auth/login`;
 
-  this.http.post<{token: string}>('http://localhost:3000/api/v1/auth/login', body, {
+  this.http.post<{token: string}>(url, body, {
     withCredentials: true,
   }).subscribe({
     next: (response) => {
       console.log('Token recibido:', response.token);
-
-      console.log('✅ Login exitoso',this.email);
+      console.log('✅ Login exitoso', this.email);
       this.authService.guardarSesion(response.token);
       this.router.navigate(['/buscar-ciudadano']);
     },
