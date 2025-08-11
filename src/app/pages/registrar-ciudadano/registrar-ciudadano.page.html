@@ -81,12 +81,13 @@
 </ion-searchbar>
 
   <ion-list>
+     <ion-item class="boton-registrar-pareja" (click)="seleccionarPareja('registrar')">
+      ¿Pareja no encontrada? Regístrela
+    </ion-item>
     <ion-item *ngFor="let persona of ciudadanosFiltrados" (click)="seleccionarPareja(persona)">
       {{ persona.name }} {{ persona.last_name_father }} {{ persona.last_name_mother }}
     </ion-item>
-    <ion-item (click)="seleccionarPareja('registrar')">
-      ¿Pareja no encontrada? Regístrela
-    </ion-item>
+
   </ion-list>
 </div>
 
