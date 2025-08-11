@@ -1,33 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CiudadanoService {
-  private baseUrl = 'http://localhost:3000/api/v1/ciudadanos';
-  private baseUrlServicios = 'http://localhost:3000/api/v1/servicios-ciudadanos';
+  private baseUrl = `${environment.apiUrl}/ciudadanos`;
+  private baseUrlServicios = `${environment.apiUrl}/servicios-ciudadanos`;
+  private baseUrlCatalogoServicios = `${environment.apiUrl}/catalogo-servicios`;
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todos los ciudadanos
   getCiudadanos(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
 
-  // Guardar en sessionStorage el ciudadano seleccionado
   setCiudadano(ciudadano: any): void {
     sessionStorage.setItem('ciudadanoSeleccionado', JSON.stringify(ciudadano));
   }
 
-  // Obtener ciudadano seleccionado desde sessionStorage
   getCiudadanoSeleccionado(): any {
     const ciudadano = sessionStorage.getItem('ciudadanoSeleccionado');
     return ciudadano ? JSON.parse(ciudadano) : null;
   }
 
-  // Registrar un nuevo ciudadano
   crearCiudadano(dto: {
     name: string;
     last_name_father: string;
@@ -40,17 +38,14 @@ export class CiudadanoService {
     return this.http.post<any>(this.baseUrl, dto);
   }
 
-  // Obtener un ciudadano por su ID
   getCiudadanoPorId(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
-  // Obtener cargos (servicios) asignados a un ciudadano
   getCargosDelCiudadano(id: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrlServicios}/ciudadano/${id}`);
   }
 
-  // Actualizar un cargo existente (PATCH)
   actualizarCargo(id: number, datosActualizados: Partial<{
     service_id: number;
     start_date: string;
@@ -61,23 +56,21 @@ export class CiudadanoService {
     return this.http.patch(`${this.baseUrlServicios}/${id}`, datosActualizados);
   }
 
-    // Actualizar datos generales del ciudadano
-actualizarCiudadano(id: number, dto: any) : Observable<any> {
-  return this.http.patch(`${this.baseUrl}/${id}`, dto);
-}
+  actualizarCiudadano(id: number, dto: any): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${id}`, dto);
+  }
 
-getCargos() {
-  const url = 'http://localhost:3000/api/v1/catalogo-servicios'.trim();
-  console.log('URL para getCargos:', JSON.stringify(url));
-  return this.http.get<any[]>(url);
-}
-// Eliminar ciudadano por ID
-eliminarCiudadano(id: number): Observable<any> {
-  return this.http.delete(`${this.baseUrl}/${id}`);
-}
-restaurarCiudadano(id: number): Observable<any> {
-  return this.http.patch(`${this.baseUrl}/${id}/restaurar`, {});
-}
+  getCargos(): Observable<any[]> {
+    const url = this.baseUrlCatalogoServicios;
+    console.log('URL para getCargos:', url);
+    return this.http.get<any[]>(url);
+  }
 
+  eliminarCiudadano(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
 
+  restaurarCiudadano(id: number): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${id}/restaurar`, {});
+  }
 }

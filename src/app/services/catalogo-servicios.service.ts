@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,8 +11,9 @@ export class CatalogoServiciosService {
     private http: HttpClient
   ) { }
 
-  getCatalogoServicios(): Observable<any[]> {
-  return this.http.get<any[]>('http://localhost:3000/api/v1/catalogo-servicios');
+getCatalogoServicios(): Observable<any[]> {
+  const url = `${environment.apiUrl}/catalogo-servicios`;
+  return this.http.get<any[]>(url);
 }
 
 }

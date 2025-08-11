@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
-
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -92,20 +92,22 @@ getUsuario(): any | null {
   return roleMap[payload.role_id] || null;
 }*/
 
-  logout(): void {
-    this.http.post('http://localhost:3000/api/v1/auth/logout', {}, {
-      withCredentials: true, // importante para cookies
-    }).subscribe({
-      next: () => {
-        localStorage.removeItem(this.TOKEN_KEY);
-        localStorage.removeItem(this.ROLE_KEY);
-        this.authStatus.next(false); // Avisar que cerró sesión
-        this.router.navigate(['/home']);
-        console.log('🚪 Sesión cerrada');
-      },
-      error: err => {
-        console.error('❌ Error al cerrar sesión:', err);
-      }
-    });
-  }
+logout(): void {
+  const url = `${environment.apiUrl}/auth/logout`;
+
+  this.http.post(url, {}, {
+    withCredentials: true, // importante para cookies
+  }).subscribe({
+    next: () => {
+      localStorage.removeItem(this.TOKEN_KEY);
+      localStorage.removeItem(this.ROLE_KEY);
+      this.authStatus.next(false); // Avisar que cerró sesión
+      this.router.navigate(['/home']);
+      console.log('🚪 Sesión cerrada');
+    },
+    error: err => {
+      console.error('❌ Error al cerrar sesión:', err);
+    }
+  });
+}
 }
