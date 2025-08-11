@@ -13,7 +13,7 @@ export class CatalogoServiciosService {
 
 getCatalogoServicios(): Observable<any[]> {
   const url = `${environment.apiUrl}/catalogo-servicios`;
-  return this.http.get<any[]>(url);
+  return this.http.get<any[]>(url, { withCredentials: true });
 }
 
 }
