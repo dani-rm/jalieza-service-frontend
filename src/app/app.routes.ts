@@ -14,7 +14,7 @@ export const routes: Routes = [
   {
     path: 'buscar-ciudadano',
     loadComponent: () => import('./pages/buscar-ciudadano/buscar-ciudadano.page').then( m => m.BuscarCiudadanoPage),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,RoleGuard],
     data:{roles:['3','4']}
   },
   {
