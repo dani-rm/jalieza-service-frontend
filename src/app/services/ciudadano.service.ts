@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -12,9 +12,17 @@ export class CiudadanoService {
   private baseUrlCatalogoServicios = `${environment.apiUrl}/catalogo-servicios`;
 
   constructor(private http: HttpClient) {}
-
+private getAuthOptions() {
+  const token = localStorage.getItem('auth_token') || '';
+  return {
+    headers: new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    }),
+    withCredentials: true,
+  };
+}
   getCiudadanos(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl, { withCredentials: true });
+    return this.http.get<any[]>(this.baseUrl, this.getAuthOptions());
   }
 
   setCiudadano(ciudadano: any): void {
@@ -35,15 +43,15 @@ export class CiudadanoService {
     marital_status: string;
     partner?: number;
   }): Observable<any> {
-    return this.http.post<any>(this.baseUrl, dto, { withCredentials: true });
+    return this.http.post<any>(this.baseUrl, dto, this.getAuthOptions());
   }
 
   getCiudadanoPorId(id: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${id}`, { withCredentials: true });
+    return this.http.get<any>(`${this.baseUrl}/${id}`, this.getAuthOptions());
   }
 
   getCargosDelCiudadano(id: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrlServicios}/ciudadano/${id}`, { withCredentials: true });
+    return this.http.get<any[]>(`${this.baseUrlServicios}/ciudadano/${id}`, this.getAuthOptions());
   }
 
   actualizarCargo(id: number, datosActualizados: Partial<{
@@ -53,24 +61,24 @@ export class CiudadanoService {
     termination_status: string;
     observations: string;
   }>): Observable<any> {
-    return this.http.patch(`${this.baseUrlServicios}/${id}`, datosActualizados, { withCredentials: true });
+    return this.http.patch(`${this.baseUrlServicios}/${id}`, datosActualizados, this.getAuthOptions());
   }
 
   actualizarCiudadano(id: number, dto: any): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/${id}`, dto, { withCredentials: true });
+    return this.http.patch(`${this.baseUrl}/${id}`, dto,this.getAuthOptions());
   }
 
   getCargos(): Observable<any[]> {
     const url = this.baseUrlCatalogoServicios;
     console.log('URL para getCargos:', url);
-    return this.http.get<any[]>(url, { withCredentials: true });
+    return this.http.get<any[]>(url,this.getAuthOptions());
   }
 
   eliminarCiudadano(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
+    return this.http.delete(`${this.baseUrl}/${id}`, this.getAuthOptions());
   }
 
   restaurarCiudadano(id: number): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/${id}/restaurar`, {}, { withCredentials: true });
+    return this.http.patch(`${this.baseUrl}/${id}/restaurar`, {}, this.getAuthOptions());
   }
 }

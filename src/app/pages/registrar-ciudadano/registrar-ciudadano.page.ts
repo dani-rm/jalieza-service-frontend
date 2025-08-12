@@ -10,6 +10,7 @@ import { FooterComponent } from './../../components/footer/footer.component';
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-ciudadano',
@@ -24,6 +25,7 @@ import { CiudadanoService } from 'src/app/services/ciudadano.service';
 })
 
 export class RegistrarCiudadanoPage implements OnInit {
+   ciudadano: any = null;
   // Variables de pareja
   nombresPareja = '';
   apellidoPaternoPareja = '';
@@ -79,7 +81,9 @@ estadoCivilParejaFijo: boolean = false;
   constructor(
      private toastController: ToastController,
     private location: Location,
-    private ciudadanoService: CiudadanoService
+    private ciudadanoService: CiudadanoService,
+     private route: ActivatedRoute,
+        private router: Router,
   ) {
     addIcons({ calendar });
   }
@@ -205,13 +209,8 @@ filtrarPersonas() {
 
 
   get isFormValid(): boolean {
-    const basicValid = this.nombres.trim() !== '' &&
-      this.apellidoPaterno.trim() !== '' &&
-      this.apellidoMaterno.trim() !== '' &&
-      this.comment.trim() !== '' &&
-      this.telefono.trim() !== '' &&
-      this.fechaNacimiento.trim() !== '' &&
-      this.estadoCivil.trim() !== '';
+    const basicValid =
+      this.nombres.trim() !== ''
 
     if (this.estadosConPareja.includes(this.estadoCivil)) {
       return basicValid && this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar';
@@ -246,6 +245,8 @@ registrarCiudadano(): Promise<number> {
       next: async (res) => {
         const ciudadanoId = res.data?.id;
         if (ciudadanoId) {
+          await this.mostrarToast('¡Ciudadano registrado con éxito!');
+           this.router.navigate(['/buscar-ciudadano']);
           resolve(ciudadanoId);
         } else {
           await this.mostrarToastError('Error al registrar ciudadano');
@@ -351,6 +352,11 @@ onSearchChange(event: any) {
   this.busquedaPareja = event.detail.value;
   this.filtrarPersonasDirecto(event);
 }
-
+// Método que recarga desde el backend
+cargarCiudadano() {
+  this.ciudadanoService.getCiudadanoPorId(this.ciudadano.id).subscribe((data) => {
+    this.ciudadano = data;
+  });
+}
 
 }

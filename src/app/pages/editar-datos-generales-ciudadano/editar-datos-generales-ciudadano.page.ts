@@ -3,27 +3,37 @@ import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, ToastController, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid,
-  IonSelectOption, IonIcon, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle
-} from '@ionic/angular/standalone';
+  IonSelectOption, IonIcon, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle, IonItem, IonSearchbar, IonList } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-editar-datos-generales-ciudadano',
   templateUrl: './editar-datos-generales-ciudadano.page.html',
   styleUrls: ['./editar-datos-generales-ciudadano.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonList, IonSearchbar, IonItem,
     IonCardTitle, IonCardHeader, IonInput, IonCardContent, IonCard, IonIcon, IonGrid, IonLabel,
     IonCol, IonRow, IonButton, IonContent, IonHeader, IonTitle, IonToolbar,
     CommonModule, FormsModule, NavbarComponent, FooterComponent, IonSelect, IonSelectOption
   ]
 })
 export class EditarDatosGeneralesCiudadanoPage implements OnInit {
+    // Variables de pareja
+  nombresPareja = '';
+  apellidoPaternoPareja = '';
+  apellidoMaternoPareja = '';
+  commentPareja = '';
+  telefonoPareja = '';
+  fechaNacimientoPareja = '';
+  estadoCivilPareja = '';
+  mostrarBuscadorPareja = false;
+
+  hoy = '';
   ciudadano: any = {
     name: '',
     last_name_father: '',
@@ -40,6 +50,12 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
   parejaSeleccionada: any = null;
   personasDisponibles: any[] = [];
   mostrarFormularioPareja: boolean = false;
+  ciudadanosFiltrados = [...this.personasDisponibles];
+mostrarBuscador = false;
+    busquedaPareja = '';
+    estadoCivilParejaFijo: boolean = false;
+
+
 
   estadosConPareja = ['Casado', 'Divorciado', 'Viudo'];
 
@@ -47,7 +63,8 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     private toastController: ToastController,
     private location: Location,
     private ciudadanoService: CiudadanoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+        private router: Router,
   ) {
     addIcons({ calendar });
   }
@@ -78,6 +95,12 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
   volver() {
     this.location.back();
   }
+    filtrarPersonasDirecto(event: any) {
+  const filtro = event.target.value.toLowerCase().trim();
+  this.ciudadanosFiltrados = this.personasDisponibles.filter(p =>
+    (`${p.name} ${p.last_name_father} ${p.last_name_mother}`).toLowerCase().includes(filtro)
+  );
+}
 
   async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
@@ -191,7 +214,10 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     this.ciudadanoService.actualizarCiudadano(id, dto).subscribe({
       next: async () => {
         await this.mostrarToast('Datos actualizados correctamente');
+          this.router.navigate(['/buscar-ciudadano']);
+        this.cargarCiudadano()
           // Recarga la página completa
+
       },
       error: async (err) => {
         console.error('❌ Error al actualizar ciudadano:', err);
@@ -216,4 +242,31 @@ async  soloNumeros(event: KeyboardEvent) {
       await this.mostrarToastError('No se permiten letras en este campo')
     }
   }
+
+onSearchChange(event: any) {
+  this.busquedaPareja = event.detail.value;
+  this.filtrarPersonasDirecto(event);
+}
+seleccionarPareja(persona: any) {
+  if (persona === 'registrar') {
+    this.estadoCivilPareja = this.estadoCivil;         // Prellenar
+    this.estadoCivilParejaFijo = true;                 // Bloquear cambios
+    this.mostrarFormularioPareja = true;               // Mostrar form
+    this.cerrarBuscador();
+  } else {
+    this.parejaSeleccionada = persona;
+    this.verificarSeleccion();
+    this.cerrarBuscador();
+  }
+}
+cerrarBuscador() {
+  this.mostrarBuscadorPareja = false;
+}
+cargarCiudadano() {
+  this.ciudadanoService.getCiudadanoPorId(this.ciudadano.id).subscribe((data) => {
+    this.ciudadano = data;
+  });
+}
+
+
 }

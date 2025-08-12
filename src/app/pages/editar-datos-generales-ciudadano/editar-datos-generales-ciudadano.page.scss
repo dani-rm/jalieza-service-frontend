@@ -21,6 +21,16 @@
   align-items: center;
   justify-content: center;
 }
+.boton-registrar-pareja {
+  --background: #709bdd;      /* Fondo naranja llamativo */
+  --color: rgb(13, 1, 1);             /* Texto blanco */
+  font-weight: bold;
+  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  --ion-item-background-hover: #e64a19; /* Oscurece al pasar mouse */
+}
 
 .titulo-formulario {
   font-size: 2rem; /* Tamaño de fuente más grande */

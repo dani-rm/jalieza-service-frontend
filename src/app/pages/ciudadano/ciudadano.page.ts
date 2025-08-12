@@ -152,6 +152,8 @@ async eliminarCiudadano() {
           this.ciudadanoService.eliminarCiudadano(id).subscribe({
             next: async () => {
               await this.mostrarToast('Ciudadano eliminado correctamente');
+              this.router.navigate(['/buscar-ciudadano']);
+      this.cargarCiudadano();
            this.router.navigate(['/buscar-ciudadano']);
               this.cargarCiudadano(); // 🔁 vuelve a cargar datos actualizados
             },
