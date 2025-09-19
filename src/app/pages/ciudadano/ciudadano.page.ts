@@ -13,8 +13,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { addCircleOutline, menuOutline } from 'ionicons/icons';
+import { addCircleOutline, menuOutline, checkmarkCircleOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
+import { FinalizacionServicio } from 'src/app/interfaces/servicios.interface';
 
 
 @Component({
@@ -43,7 +44,7 @@ export class CiudadanoPage implements OnInit {
     private route: ActivatedRoute,
      private router: Router,
   ) {
-    addIcons({ menuOutline, addCircleOutline });
+    addIcons({ menuOutline, addCircleOutline, checkmarkCircleOutline });
   }
 
   ngOnInit() {
@@ -86,13 +87,21 @@ async mostrarToastError(mensaje: string) {
 }
 
   cargarDatos(ciudadanoId: number) {
-    // 1. Obtener ciudadano
+    // 1. Obtener ciudadano (que ya incluye los servicios)
     this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
       next: (data) => {
         this.ciudadano = data;
-         console.log('🧠 Ciudadano:', this.ciudadano);
-        this.cargarCargosDelCiudadano(ciudadanoId);
-         // 2. Obtener cargos
+        console.log('🧠 Ciudadano:', this.ciudadano);
+        
+        // 2. Usar los servicios que vienen en el objeto del ciudadano
+        if (this.ciudadano.services) {
+          this.cargos = this.ciudadano.services.sort((a: any, b: any) =>
+            new Date(b.start_date).getTime() - new Date(a.start_date).getTime()
+          );
+          console.log('📋 Servicios del ciudadano:', this.cargos);
+        } else {
+          this.cargos = [];
+        }
       },
       error: (error) => {
         console.error('❌ Error al obtener ciudadano:', error);
@@ -100,18 +109,6 @@ async mostrarToastError(mensaje: string) {
     });
   }
 
-cargarCargosDelCiudadano(id: number) {
-  this.ciudadanoService.getCargosDelCiudadano(id).subscribe({
-    next: (cargos) => {
-      this.cargos = cargos.sort((a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
-    },
-    error: (err) => {
-      console.error('❌ Error al obtener cargos del ciudadano:', err);
-    }
-  });
-}
 
 
   cambiarSeccion(seccion: string) {
@@ -213,6 +210,68 @@ private ejecutarRestauracion() {
 cargarCiudadano() {
   this.ciudadanoService.getCiudadanoPorId(this.ciudadano.id).subscribe((data) => {
     this.ciudadano = data;
+    // Actualizar también los servicios
+    if (this.ciudadano.services) {
+      this.cargos = this.ciudadano.services.sort((a: any, b: any) =>
+        new Date(b.start_date).getTime() - new Date(a.start_date).getTime()
+      );
+    } else {
+      this.cargos = [];
+    }
+  });
+}
+
+// ✅ NUEVO: Finalizar servicio
+async finalizarServicio(servicioId: number) {
+  const alert = await this.alertController.create({
+    header: 'Finalizar Servicio',
+    message: '¿Está seguro que desea finalizar este servicio?',
+    inputs: [
+      {
+        name: 'end_date',
+        type: 'date',
+        label: 'Fecha de finalización',
+        value: new Date().toISOString().split('T')[0]
+      }
+    ],
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel'
+      },
+      {
+        text: 'Finalizar',
+        handler: (data) => {
+          if (data.end_date) {
+            this.procesarFinalizacion(servicioId, data.end_date);
+          } else {
+            this.mostrarToastError('Debe seleccionar una fecha de finalización');
+          }
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+// ✅ NUEVO: Procesar finalización del servicio
+procesarFinalizacion(servicioId: number, endDate: string) {
+  const datos: FinalizacionServicio = {
+    service_status: 'completado',
+    end_date: endDate
+  };
+
+  this.ciudadanoService.finalizarServicio(servicioId, datos).subscribe({
+    next: async () => {
+      console.log('✅ Servicio finalizado correctamente');
+      await this.mostrarToast('Servicio finalizado correctamente');
+      this.cargarDatos(this.ciudadano.id); // Recargar la lista de cargos
+    },
+    error: async (err) => {
+      console.error('❌ Error al finalizar servicio:', err);
+      await this.mostrarToastError('Error al finalizar servicio');
+    }
   });
 }
 

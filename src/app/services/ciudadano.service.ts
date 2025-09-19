@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { OrdenDisponible, ServicioCompleto, AsignacionServicio, FinalizacionServicio } from '../interfaces/servicios.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -40,8 +41,8 @@ private getAuthOptions() {
     last_name_mother: string;
     birth_date: string;
     phone: string;
-    marital_status: string;
-    partner?: number;
+    marital_status: number;
+    partner?: number | null;
   }): Observable<any> {
     return this.http.post<any>(this.baseUrl, dto, this.getAuthOptions());
   }
@@ -80,5 +81,27 @@ private getAuthOptions() {
 
   restaurarCiudadano(id: number): Observable<any> {
     return this.http.patch(`${this.baseUrl}/${id}/restaurar`, {}, this.getAuthOptions());
+  }
+
+  // ✅ NUEVOS MÉTODOS PARA EL FLUJO DE SERVICIOS
+
+  // Obtener órdenes disponibles para un ciudadano específico
+  getOrdenesDisponibles(ciudadanoId: number): Observable<OrdenDisponible[]> {
+    return this.http.get<OrdenDisponible[]>(`${this.baseUrl}/${ciudadanoId}/ordenes-disponibles`, this.getAuthOptions());
+  }
+
+  // Obtener catálogo completo de servicios
+  getCatalogoServicios(): Observable<ServicioCompleto[]> {
+    return this.http.get<ServicioCompleto[]>(`${this.baseUrlCatalogoServicios}`, this.getAuthOptions());
+  }
+
+  // Asignar servicio a un ciudadano
+  asignarServicio(datos: AsignacionServicio): Observable<any> {
+    return this.http.post(`${this.baseUrlServicios}`, datos, this.getAuthOptions());
+  }
+
+  // Finalizar servicio
+  finalizarServicio(servicioId: number, datos: FinalizacionServicio): Observable<any> {
+    return this.http.patch(`${this.baseUrlServicios}/${servicioId}`, datos, this.getAuthOptions());
   }
 }

@@ -30,8 +30,8 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
   commentPareja = '';
   telefonoPareja = '';
   fechaNacimientoPareja = '';
-  estadoCivilPareja = '';
-  mostrarBuscadorPareja = false;
+  estadoCivilPareja = -1;
+  // mostrarBuscadorPareja = false;
 
   hoy = '';
   ciudadano: any = {
@@ -46,18 +46,18 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
   };
 
   ciudadanoOriginal: any = null;
-  estadoCivil: string = '';
+  estadoCivil: number = -1;
   parejaSeleccionada: any = null;
   personasDisponibles: any[] = [];
   mostrarFormularioPareja: boolean = false;
   ciudadanosFiltrados = [...this.personasDisponibles];
-mostrarBuscador = false;
-    busquedaPareja = '';
-    estadoCivilParejaFijo: boolean = false;
+  mostrarBuscadorPareja = false;
+  busquedaPareja = '';
+  estadoCivilParejaFijo: boolean = false;
 
 
 
-  estadosConPareja = ['Casado', 'Divorciado', 'Viudo'];
+  estadosConPareja = [2, /* 'Divorciado', 'Viudo' */];
 
   constructor(
     private toastController: ToastController,
@@ -137,7 +137,7 @@ mostrarBuscador = false;
       const parejaActual = this.ciudadano?.partner;
 
       this.personasDisponibles = ciudadanos.filter(c =>
-        c.marital_status === 'Soltero' || (parejaActual && c.id === parejaActual.id)
+        c.marital_status === 1 || (parejaActual && c.id === parejaActual.id)
       );
 
       if (parejaActual && !this.personasDisponibles.some(p => p.id === parejaActual.id)) {

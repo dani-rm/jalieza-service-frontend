@@ -1,0 +1,200 @@
+.container {
+    padding: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.titulo-pagina {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+// Estilos para el formulario
+ion-card {
+    --background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+ion-item {
+    --background: transparent;
+    --border-radius: 8px;
+    --padding-start: 0;
+    --padding-end: 0;
+    margin-bottom: 16px;
+    --inner-padding-end: 0;
+    --inner-padding-start: 0;
+    --inner-padding-top: 0;
+    --inner-padding-bottom: 0;
+}
+
+ion-label {
+    font-weight: 600;
+    color: #333 !important;
+    margin-bottom: 8px;
+    display: block;
+    width: 100%;
+}
+
+// Estilos específicos para labels con position="stacked"
+ion-item ion-label[position="stacked"] {
+    margin-bottom: 8px;
+    transform: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333 !important;
+}
+
+ion-input,
+ion-select {
+    --background: #f8f9fa;
+    --color: #333 !important;
+    --border-radius: 8px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    border: 1px solid #e0e0e0;
+    transition: border-color 0.2s ease;
+    margin-top: 8px;
+    width: 100%;
+
+    &:focus-within {
+        border-color: #667eea;
+        --border-color: #667eea;
+    }
+
+    &.ion-invalid.ion-touched {
+        border-color: #f44336;
+        --border-color: #f44336;
+    }
+}
+
+// Estilos específicos para inputs dentro de items con labels stacked
+ion-item ion-input,
+ion-item ion-select {
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
+// Estilos para mensajes de error
+.error-message {
+    font-size: 0.875rem;
+    margin: 4px 0 0 0;
+    padding-left: 12px;
+}
+
+// Estilos para botones
+.botones-container {
+    margin-top: 24px;
+}
+
+ion-button {
+    --border-radius: 8px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.5px;
+
+    &[type="submit"] {
+        --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --color: white;
+        --box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+
+        &:hover:not([disabled]) {
+            --box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+            transform: translateY(-1px);
+        }
+
+        &[disabled] {
+            --background: #e0e0e0;
+            --color: #999;
+            --box-shadow: none;
+        }
+    }
+
+    &[fill="outline"] {
+        --color: #667eea;
+        --border-color: #667eea;
+        --border-width: 1px;
+
+        &:hover {
+            --background: #667eea;
+            --color: white;
+        }
+    }
+}
+
+// Estilos para campos de solo lectura
+ion-input[readonly] {
+    --background: #f5f5f5;
+    --color: #666 !important;
+    cursor: not-allowed;
+}
+
+// Asegurar que los textos sean visibles
+ion-text {
+    color: #333 !important;
+}
+
+ion-text p {
+    color: #333 !important;
+}
+
+// Estilos específicos para el formulario
+.formulario-container {
+    ion-label {
+        color: #333 !important;
+    }
+
+    ion-input {
+        --color: #333 !important;
+    }
+
+    ion-select {
+        --color: #333 !important;
+    }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .container {
+        padding: 8px;
+    }
+
+    .titulo-pagina {
+        font-size: 1.5rem;
+    }
+
+    ion-card {
+        margin: 0 -8px 16px -8px;
+        border-radius: 0;
+    }
+}
+
+// Animaciones
+ion-button {
+    transition: all 0.2s ease;
+}
+
+ion-input,
+ion-select {
+    transition: all 0.2s ease;
+}
+
+// Estilos para el header
+ion-toolbar {
+    --background: white;
+    --color: #333;
+    --border-width: 0 0 1px 0;
+    --border-color: #e0e0e0;
+}
+
+// Estilos para el título
+ion-title {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}

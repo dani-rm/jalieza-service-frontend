@@ -1,0 +1,142 @@
+<ion-content>
+    <div class="container">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="12">
+                    <app-navbar [title]="obtenerTitulo()"></app-navbar>
+                </ion-col>
+            </ion-row>
+
+            <!-- Header con título y acciones -->
+            <ion-row>
+                <ion-col size="12">
+                    <ion-header>
+                        <ion-toolbar>
+                            <ion-buttons slot="start">
+                                <ion-button (click)="volver()" fill="outline">
+                                    <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+                                    Volver
+                                </ion-button>
+                            </ion-buttons>
+                        </ion-toolbar>
+                    </ion-header>
+                </ion-col>
+            </ion-row>
+
+            <!-- Estado de carga -->
+            <ion-row *ngIf="cargando">
+                <ion-col size="12">
+                    <ion-card>
+                        <ion-card-content>
+                            <ion-text class="ion-text-center">
+                                <p>Cargando datos...</p>
+                            </ion-text>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+
+            <!-- Error -->
+            <ion-row *ngIf="error && !cargando">
+                <ion-col size="12">
+                    <ion-card color="danger">
+                        <ion-card-content>
+                            <ion-text color="light">
+                                <p>{{ error }}</p>
+                            </ion-text>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+
+            <!-- Formulario -->
+            <ion-row *ngIf="!cargando && !error">
+                <ion-col size="12" size-md="8" size-lg="6" offset-md="2" offset-lg="3">
+                    <ion-card>
+                        <ion-card-content class="formulario-container">
+                            <form [formGroup]="servicioForm" (ngSubmit)="guardarServicio()">
+                                <ion-grid>
+                                    <!-- Nombre del servicio -->
+                                    <ion-row>
+                                        <ion-col size="12">
+                                            <ion-item>
+                                                <ion-label position="stacked">Nombre del Servicio *</ion-label>
+                                                <ion-input formControlName="service_name"
+                                                    placeholder="Ej: barrendero, policía, presidente..."
+                                                    [class.ion-invalid]="esCampoInvalido('service_name')"
+                                                    [class.ion-touched]="servicioForm.get('service_name')?.touched">
+                                                </ion-input>
+                                            </ion-item>
+                                            <ion-text *ngIf="esCampoInvalido('service_name')" color="danger">
+                                                <p class="error-message">{{ obtenerMensajeError('service_name') }}</p>
+                                            </ion-text>
+                                        </ion-col>
+                                    </ion-row>
+
+                                    <!-- Orden -->
+                                    <ion-row>
+                                        <ion-col size="12">
+                                            <ion-item>
+                                                <ion-label position="stacked">Orden *</ion-label>
+                                                <ion-select formControlName="orden_id"
+                                                    placeholder="Seleccione una orden"
+                                                    [class.ion-invalid]="esCampoInvalido('orden_id')"
+                                                    [class.ion-touched]="servicioForm.get('orden_id')?.touched">
+                                                    <ion-select-option *ngFor="let orden of ordenes" [value]="orden.id">
+                                                        {{ orden.order_name }} ({{ orden.required_points }} puntos)
+                                                    </ion-select-option>
+                                                </ion-select>
+                                            </ion-item>
+                                            <ion-text *ngIf="esCampoInvalido('orden_id')" color="danger">
+                                                <p class="error-message">{{ obtenerMensajeError('orden_id') }}</p>
+                                            </ion-text>
+                                        </ion-col>
+                                    </ion-row>
+
+                                    <!-- Información adicional (solo en edición) -->
+                                    <ion-row *ngIf="esEdicion && servicio">
+                                        <ion-col size="12">
+                                            <ion-item>
+                                                <ion-label position="stacked">Fecha de Creación</ion-label>
+                                                <ion-input [value]="servicio.created_at | date:'medium'"
+                                                    readonly></ion-input>
+                                            </ion-item>
+                                        </ion-col>
+                                    </ion-row>
+
+                                    <ion-row *ngIf="esEdicion && servicio">
+                                        <ion-col size="12">
+                                            <ion-item>
+                                                <ion-label position="stacked">Última Actualización</ion-label>
+                                                <ion-input [value]="servicio.updated_at | date:'medium'"
+                                                    readonly></ion-input>
+                                            </ion-item>
+                                        </ion-col>
+                                    </ion-row>
+
+                                    <!-- Botones de acción -->
+                                    <ion-row>
+                                        <ion-col size="12">
+                                            <div class="botones-container">
+                                                <ion-button type="submit" [disabled]="servicioForm.invalid || guardando"
+                                                    expand="block" color="primary">
+                                                    <ion-icon *ngIf="!guardando" name="save-outline"
+                                                        slot="start"></ion-icon>
+                                                    <ion-icon *ngIf="guardando" name="checkmark-circle-outline"
+                                                        slot="start"></ion-icon>
+                                                    {{ guardando ? 'Guardando...' : obtenerTextoBoton() }}
+                                                </ion-button>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </form>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>
+
+<app-footer></app-footer>

@@ -16,29 +16,32 @@
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Nombres</ion-label>
-                    <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" type="text" [(ngModel)]="nombres" name="nombres"></ion-input>
+                    <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                      type="text" [(ngModel)]="nombres" name="nombres"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
-                    <ion-input (keypress)="soloLetras($event)" inputmode="text"  pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"type="text" [(ngModel)]="apellidoPaterno" name="apellidoPaterno"></ion-input>
+                    <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                      type="text" [(ngModel)]="apellidoPaterno" name="apellidoPaterno"></ion-input>
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
-                    <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" type="text" [(ngModel)]="apellidoMaterno" name="apellidoMaterno"></ion-input>
+                    <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                      type="text" [(ngModel)]="apellidoMaterno" name="apellidoMaterno"></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-<ion-input type="tel" maxlength="10" placeholder="Ingrese los 10 dígitos"
-  [(ngModel)]="telefono" name="telefono" (keypress)="soloNumeros($event)">
-</ion-input>
+                    <ion-input type="tel" maxlength="10" placeholder="Ingrese los 10 dígitos" [(ngModel)]="telefono"
+                      name="telefono" (keypress)="soloNumeros($event)">
+                    </ion-input>
 
 
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
-                    <ion-label  class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-                    <ion-input  name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
+                    <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
+                    <ion-input name="fechaNacimiento" #fechaInput type="date" [(ngModel)]="fechaNacimiento"
                       placeholder="dd/mm/aaaa" [attr.max]="hoy">
                       <ion-icon slot="end" name="calendar" class="calendar-icon"
                         (click)="abrirSelectorFecha(fechaInput)">
@@ -47,57 +50,53 @@
                   </ion-col>
                   <ion-col sizeXs="12" sizeSm="12" sizeMd="4">
                     <ion-label class="etiqueta" position="floating">Estado Civil</ion-label>
-                    <ion-select [(ngModel)]="estadoCivil" name="estadoCivil" placeholder="Seleccione estado civil" (ionChange)="onEstadoCivilChange()">
-                      <ion-select-option value="Soltero">Soltero</ion-select-option>
-                      <ion-select-option value="Casado">Casado</ion-select-option>
-                      <ion-select-option value="Divorciado">Divorciado</ion-select-option>
-                      <ion-select-option value="Viudo">Viudo</ion-select-option>
+                    <ion-select [(ngModel)]="estadoCivil" name="estadoCivil" placeholder="Seleccione estado civil"
+                      (ionChange)="onEstadoCivilChange()">
+                      <ion-select-option [value]="1">Soltero</ion-select-option>
+                      <ion-select-option [value]="2">Casado</ion-select-option>
+                      <!-- <ion-select-option value="Divorciado">Divorciado</ion-select-option>
+                      <ion-select-option value="Viudo">Viudo</ion-select-option> -->
                     </ion-select>
+                  </ion-col>
+                  <ion-col sizeMd="6">
+                    <ion-label class="etiqueta" position="floating">Comentario</ion-label>
+                    <ion-input type="text" [(ngModel)]="comment" name="comment"></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
                   <ion-col *ngIf="estadosConPareja.includes(estadoCivil)" size="12">
                     <ion-label class="etiqueta" position="floating">
                       {{
-                        estadoCivil === 'Casado' ? 'Seleccione Pareja' :
-                        estadoCivil === 'Divorciado' ? 'Seleccione Expareja' :
-                        estadoCivil === 'Viudo' ? 'Seleccione Cónyuge Fallecido' : ''
+                      estadoCivil === 2 ? 'Seleccione Pareja' : ''
                       }}
                     </ion-label>
 
-<ion-item>
-  <ion-label position="stacked">Pareja seleccionada</ion-label>
-  <ion-button expand="block" (click)="mostrarBuscador = !mostrarBuscador">
-    {{ parejaSeleccionada ? parejaSeleccionada.name + ' ' + parejaSeleccionada.last_name_father + ' ' + parejaSeleccionada.last_name_mother : 'Seleccionar pareja' }}
-  </ion-button>
-</ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">Pareja seleccionada</ion-label>
+                      <ion-button expand="block" (click)="mostrarBuscadorPareja = !mostrarBuscadorPareja">
+                        {{ parejaSeleccionada ? parejaSeleccionada.name + ' ' + parejaSeleccionada.last_name_father + '
+                        ' + parejaSeleccionada.last_name_mother : 'Seleccionar pareja' }}
+                      </ion-button>
+                    </ion-item>
+                    <!-- Buscador tipo modal inline -->
+                    <div *ngIf="mostrarBuscadorPareja" class="buscador-contenedor">
+                      <ion-searchbar [value]="busquedaPareja" (ionInput)="filtrarPersonasDirecto($event)"
+                        placeholder="Buscar ciudadano">
+                      </ion-searchbar>
 
-<!-- Buscador tipo modal inline -->
-<div *ngIf="mostrarBuscador" class="buscador-contenedor">
-<ion-searchbar
-   [value]="busquedaPareja"
-  (ionInput)="filtrarPersonasDirecto($event)"
-  placeholder="Buscar ciudadano">
-</ion-searchbar>
+                      <ion-list>
+                        <ion-item class="boton-registrar-pareja" (click)="seleccionarPareja('registrar')">
+                          ¿Pareja no encontrada? Regístrela
+                        </ion-item>
+                        <ion-item *ngFor="let persona of personasDisponibles" (click)="seleccionarPareja(persona)">
+                          {{ persona.name }} {{ persona.last_name_father }} {{ persona.last_name_mother }}
+                        </ion-item>
 
-  <ion-list>
-     <ion-item class="boton-registrar-pareja" (click)="seleccionarPareja('registrar')">
-      ¿Pareja no encontrada? Regístrela
-    </ion-item>
-    <ion-item *ngFor="let persona of ciudadanosFiltrados" (click)="seleccionarPareja(persona)">
-      {{ persona.name }} {{ persona.last_name_father }} {{ persona.last_name_mother }}
-    </ion-item>
-
-  </ion-list>
-</div>
-
-
-
+                      </ion-list>
+                    </div>
                   </ion-col>
-                    <ion-col sizeMd="6">
-      <ion-label class="etiqueta" position="floating">Comentario</ion-label>
-      <ion-input  type="text" [(ngModel)]="comment" name="comment"></ion-input>
-    </ion-col>
+
+
                 </ion-row>
               </ion-grid>
 
@@ -121,65 +120,62 @@
       <ion-card-title style="color: white; text-align: center;">Registrar Pareja</ion-card-title>
     </ion-card-header>
     <ion-card-content>
- <form (ngSubmit)="registrarPareja()" #formPareja="ngForm">
-  <ion-row>
-    <ion-col sizeMd="6">
-      <ion-label class="etiqueta" position="floating">Nombres</ion-label>
-      <ion-input  (keypress)="soloLetras($event)" type="text" [(ngModel)]="nombresPareja" name="nombresPareja" required></ion-input>
-    </ion-col>
-    <ion-col sizeMd="6">
-      <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
-      <ion-input   (keypress)="soloLetras($event)" type="text" [(ngModel)]="apellidoPaternoPareja" name="apellidoPaternoPareja" required></ion-input>
-    </ion-col>
-  </ion-row>
+      <form (ngSubmit)="registrarPareja()" #formPareja="ngForm">
+        <ion-row>
+          <ion-col sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Nombres</ion-label>
+            <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="nombresPareja" name="nombresPareja"
+              required></ion-input>
+          </ion-col>
+          <ion-col sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Apellido Paterno</ion-label>
+            <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="apellidoPaternoPareja"
+              name="apellidoPaternoPareja" required></ion-input>
+          </ion-col>
+        </ion-row>
 
-  <ion-row>
-    <ion-col sizeMd="6">
-      <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
-      <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="apellidoMaternoPareja" name="apellidoMaternoPareja" required></ion-input>
-    </ion-col>
-    <ion-col sizeMd="6">
-      <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
-      <ion-input  (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="telefonoPareja" maxlength="10" placeholder="Ingrese los 10 dígitos" name="telefonoPareja" required></ion-input>
-    </ion-col>
-  </ion-row>
+        <ion-row>
+          <ion-col sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Apellido Materno</ion-label>
+            <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="apellidoMaternoPareja"
+              name="apellidoMaternoPareja"></ion-input>
+          </ion-col>
+          <ion-col sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Teléfono</ion-label>
+            <ion-input (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="telefonoPareja" maxlength="10"
+              placeholder="Ingrese los 10 dígitos" name="telefonoPareja"></ion-input>
+          </ion-col>
+        </ion-row>
 
-  <ion-row>
-    <ion-col sizeMd="6">
+        <ion-row>
+          <ion-col sizeMd="6">
 
-      <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
-        <ion-input  (ngModelChange)="formatearFecha($event)" type="date" name="fechaNacimiento" #fechaInput  [(ngModel)]="fechaNacimientoPareja" placeholder="dd/mm/aaaa" [attr.max]="hoy" >
-          <ion-icon slot="end" name="calendar" class="calendar-icon"
-              (click)="abrirSelectorFecha(fechaInput)">
-        </ion-icon>
-        </ion-input>
+            <ion-label class="etiqueta" position="floating">Fecha de Nacimiento</ion-label>
+            <ion-input (ngModelChange)="formatearFecha($event)" type="date" name="fechaNacimientoPareja" #fechaInput
+              [(ngModel)]="fechaNacimientoPareja" placeholder="dd/mm/aaaa" [attr.max]="hoy">
+              <ion-icon slot="end" name="calendar" class="calendar-icon" (click)="abrirSelectorFecha(fechaInput)">
+              </ion-icon>
+            </ion-input>
 
-    </ion-col>
-  <ion-col sizeMd="6">
-  <ion-label position="floating">Estado Civil</ion-label>
-  <ion-select
-    [(ngModel)]="estadoCivilPareja"
-    name="estadoCivilPareja"
-    placeholder="Seleccione estado civil"
-    [disabled]="estadoCivilParejaFijo"
-    required
-  >
-    <ion-select-option value="Soltero">Soltero</ion-select-option>
-    <ion-select-option value="Casado">Casado</ion-select-option>
-    <ion-select-option value="Divorciado">Divorciado</ion-select-option>
-    <!-- agrega más opciones -->
-  </ion-select>
-</ion-col>
-   <ion-col sizeMd="6">
-      <ion-label class="etiqueta" position="floating">Comentario</ion-label>
-      <ion-input  type="text" [(ngModel)]="commentPareja" name="apellidoMaternoPareja"></ion-input>
-    </ion-col>
-  </ion-row>
-     <div class="boton-contenedor">
-      <ion-button class="boton-volver" (click)="cerrarFormularioPareja()">Cancelar</ion-button>
-      <ion-button class="boton-registrar"    [disabled]="!formPareja.valid" type="submit" >Registrar</ion-button>
-    </div>
-</form>
+          </ion-col>
+          <ion-col sizeMd="6">
+            <ion-label position="floating">Estado Civil</ion-label>
+            <ion-select [(ngModel)]="estadoCivilPareja" name="estadoCivilPareja" placeholder="Solter@"
+              [disabled]="estadoCivilParejaFijo" required>
+              <ion-select-option [value]="1">Soltero</ion-select-option>
+              <!-- agrega más opciones -->
+            </ion-select>
+          </ion-col>
+          <ion-col sizeMd="6">
+            <ion-label class="etiqueta" position="floating">Comentario</ion-label>
+            <ion-input type="text" [(ngModel)]="commentPareja" name="commentPareja"></ion-input>
+          </ion-col>
+        </ion-row>
+        <div class="boton-contenedor">
+          <ion-button class="boton-volver" (click)="cerrarFormularioPareja()">Cancelar</ion-button>
+          <ion-button class="boton-registrar" [disabled]="!formPareja.valid" type="submit">Registrar</ion-button>
+        </div>
+      </form>
 
 
     </ion-card-content>

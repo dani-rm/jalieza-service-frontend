@@ -1,0 +1,390 @@
+.container {
+    padding: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.titulo-pagina {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.orden-container {
+    margin-bottom: 32px;
+}
+
+.orden-header {
+    margin-bottom: 16px;
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --color: white;
+
+    h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white !important;
+    }
+
+    p {
+        margin: 4px 0 0 0;
+        opacity: 0.9;
+        color: white !important;
+    }
+}
+
+// Estilos para tabla de servicios
+.tabla-servicios {
+    margin-top: 16px;
+    --background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tabla-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 2px solid #dee2e6;
+    padding: 16px 0;
+    margin: 0;
+
+    h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #495057 !important;
+    }
+}
+
+.tabla-fila {
+    border-bottom: 1px solid #e9ecef;
+    padding: 12px 0;
+    margin: 0;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: #f8f9fa;
+    }
+
+    &.fila-par {
+        background-color: #f8f9fa;
+
+        &:hover {
+            background-color: #e9ecef;
+        }
+    }
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.nombre-servicio {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333 !important;
+    line-height: 1.4;
+}
+
+.acciones-tabla {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.sin-servicios {
+    margin: 24px 0;
+    color: #6c757d !important;
+    font-style: italic;
+}
+
+.acciones-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.acciones-container ion-button {
+    flex: 1;
+    min-width: 80px;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .container {
+        padding: 8px;
+    }
+
+    .titulo-pagina {
+        font-size: 1.5rem;
+    }
+
+    .orden-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .acciones-container {
+        flex-direction: column;
+    }
+
+    .acciones-container ion-button {
+        width: 100%;
+    }
+
+    // Estilos responsive para tabla
+    .tabla-header {
+        padding: 12px 0;
+
+        h4 {
+            font-size: 1rem;
+        }
+    }
+
+    .tabla-fila {
+        padding: 8px 0;
+    }
+
+    .acciones-tabla {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .acciones-tabla ion-button {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .nombre-servicio {
+        font-size: 0.9rem;
+    }
+}
+
+// Estilos para la fila de filtros
+.filtros-row {
+    align-items: center;
+    display: flex;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+// Estilos para el searchbar
+ion-searchbar {
+    --color: #000000 !important;
+    --placeholder-color: #666666 !important;
+    --icon-color: #000000 !important;
+    --clear-button-color: #000000 !important;
+
+    .searchbar-input {
+        color: #000000 !important;
+    }
+}
+
+// Estilos específicos para el searchbar de filtros
+ion-searchbar.searchbar-filtros {
+    --background: transparent !important;
+    --box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: 48px !important;
+    display: block !important;
+
+    .searchbar-input-container {
+        border: 1px solid #ddd !important;
+        border-radius: 8px !important;
+        background: white !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+        transition: box-shadow 0.3s ease !important;
+        min-height: 48px !important;
+        height: 48px !important;
+        width: 100% !important;
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .searchbar-input-container:focus-within {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+        border-color: #1976d2 !important;
+    }
+
+    .searchbar-input {
+        color: #000000 !important;
+        padding: 12px 16px !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        height: 100% !important;
+        flex: 1 !important;
+    }
+
+    .searchbar-search-icon {
+        color: #000000 !important;
+    }
+
+    .searchbar-clear-button {
+        color: #000000 !important;
+    }
+}
+
+// Estilos adicionales para forzar el sombreado
+.filtros-row ion-searchbar.searchbar-filtros {
+    .searchbar-input-container {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .searchbar-input-container:focus-within {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+    }
+}
+
+// Estilos globales para forzar el sombreado en searchbar
+ion-searchbar.searchbar-filtros .searchbar-input-container {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+ion-searchbar.searchbar-filtros .searchbar-input-container:focus-within {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+// Estilos con ::ng-deep para penetrar en los estilos de Ionic
+::ng-deep ion-searchbar.searchbar-filtros .searchbar-input-container {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    background: white !important;
+    min-height: 48px !important;
+    height: 48px !important;
+}
+
+::ng-deep ion-searchbar.searchbar-filtros .searchbar-input-container:focus-within {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+    border-color: #1976d2 !important;
+}
+
+// Estilos adicionales con mayor especificidad
+.catalogo-servicios-page ion-searchbar.searchbar-filtros .searchbar-input-container {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.catalogo-servicios-page ion-searchbar.searchbar-filtros .searchbar-input-container:focus-within {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+// Estilos para el select
+ion-select {
+    &.select-filtros {
+        --background: white;
+        --border-radius: 8px;
+        --border-width: 1px;
+        --border-color: #ddd;
+        --padding-start: 16px;
+        --padding-end: 16px;
+        --padding-top: 12px;
+        --padding-bottom: 12px;
+        min-height: 48px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: box-shadow 0.3s ease;
+
+        .select-text {
+            color: #000000 !important;
+        }
+
+        .select-placeholder {
+            color: #666666 !important;
+        }
+
+        &:focus-within {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            --border-color: #1976d2;
+        }
+    }
+}
+
+// Estilos para chips y badges
+ion-chip {
+    --background: #e3f2fd;
+    --color: #1976d2;
+
+    // Chip de puntos en header de orden
+    &[color="light"] {
+        --background: rgba(255, 255, 255, 0.2);
+        --color: white;
+
+        ion-label {
+            color: white !important;
+        }
+    }
+}
+
+ion-badge {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+}
+
+// Estilos para cards
+ion-card {
+    --background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+// Estilos para searchbar
+ion-searchbar {
+    --background: #f8f9fa;
+    --border-radius: 8px;
+    --box-shadow: none;
+}
+
+// Estilos para select
+ion-select {
+    --background: #f8f9fa;
+    --border-radius: 8px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+}
+
+
+// Asegurar contraste en todos los textos
+ion-text {
+    color: #333 !important;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #333 !important;
+    }
+
+    p {
+        color: #333 !important;
+    }
+}
+
+// Estilos específicos para cards
+ion-card {
+    ion-text {
+        color: #333 !important;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #333 !important;
+    }
+
+    p {
+        color: #333 !important;
+    }
+}

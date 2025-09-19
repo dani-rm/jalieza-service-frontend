@@ -1,5 +1,6 @@
 .grid-wrapper {
-  min-height: calc(100vh - 131px); /* Resta navbar + footer */
+  min-height: calc(100vh - 131px);
+  /* Resta navbar + footer */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,12 +25,14 @@
 
 .titulo-contenedor {
   font-size: 2rem;
-  color: #FFFFFF; /* Color del texto del título */
+  color: #FFFFFF;
+  /* Color del texto del título */
 }
 
 .menu-icono {
   font-size: 3rem;
-  color: #FFFFFF; /* Color del icono del menú */
+  color: #FFFFFF;
+  /* Color del icono del menú */
 }
 
 .fondo-menu {
@@ -50,25 +53,33 @@
   border: 1px solid #ccc;
   z-index: 100;
   border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   width: 200px;
 
-  ion-list {/*Define las propiedades de la lista del menu*/
-    background: #FFF8F8; /* Fondo del contenido */
-    padding: 0; /* Elimina el padding para que ocupe todo el espacio */
+  ion-list {
+    /*Define las propiedades de la lista del menu*/
+    background: #FFF8F8;
+    /* Fondo del contenido */
+    padding: 0;
+    /* Elimina el padding para que ocupe todo el espacio */
     display: flex;
-    justify-content: center;   /* Centrado vertical */
+    justify-content: center;
+    /* Centrado vertical */
     align-items: center;
-    flex-direction: column; /* Alinea los items en columna */
+    flex-direction: column;
+    /* Alinea los items en columna */
   }
 
   ion-item {
     font-size: 1.2rem;
     --background: #D9D9D9;
     width: 70%;
-    margin: 25px auto; /* Centra el ion-item horizontalmente */
-    text-align: center; /* Centra el texto dentro del ion-item */
-    --color: #000000; /* Color del texto del item */
+    margin: 25px auto;
+    /* Centra el ion-item horizontalmente */
+    text-align: center;
+    /* Centra el texto dentro del ion-item */
+    --color: #000000;
+    /* Color del texto del item */
   }
 }
 
@@ -77,22 +88,34 @@
 }
 
 .etiqueta {
-  font-size: 1.2rem; /* Tamaño de fuente más grande */
-  color: #000000; /* Color del texto de las etiquetas */
+  font-size: 1.2rem;
+  /* Tamaño de fuente más grande */
+  color: #000000;
+  /* Color del texto de las etiquetas */
 }
 
-ion-input, ion-select {
-  --border-radius: 20px; /* Bordes redondeados para los campos de entrada */
-  --background: #ffffff; /* Fondo blanco para los campos de entrada */
-  color: #000000; /* Color del texto en los campos de entrada */
-  font-size: 1rem; /* Tamaño de fuente para los campos de entrada */
+ion-input,
+ion-select {
+  --border-radius: 20px;
+  /* Bordes redondeados para los campos de entrada */
+  --background: #ffffff;
+  /* Fondo blanco para los campos de entrada */
+  color: #000000;
+  /* Color del texto en los campos de entrada */
+  font-size: 1rem;
+  /* Tamaño de fuente para los campos de entrada */
 }
 
-ion-input, ion-select {
-  --border-width: 0px !important; /* Elimina el borde */
-  border-bottom: none !important; /* Asegura que no haya línea */
-  --highlight-background: transparent !important; /* Evita el resaltado al escribir */
-  --highlight-color-focused: transparent !important; /* Elimina el color de enfoque */
+ion-input,
+ion-select {
+  --border-width: 0px !important;
+  /* Elimina el borde */
+  border-bottom: none !important;
+  /* Asegura que no haya línea */
+  --highlight-background: transparent !important;
+  /* Evita el resaltado al escribir */
+  --highlight-color-focused: transparent !important;
+  /* Elimina el color de enfoque */
   --highlight-color: transparent !important;
   --border-color: transparent !important;
   box-shadow: none !important;
@@ -112,7 +135,8 @@ input.native-input {
 }
 
 .calendar-icon {
-  color: #862471; /* O el color que contraste con el fondo */
+  color: #862471;
+  /* O el color que contraste con el fondo */
   font-size: 22px;
   cursor: pointer;
   padding-right: 5px;
@@ -121,7 +145,8 @@ input.native-input {
 .boton-contenedor {
   display: flex;
   background: #D9D9D9;
-  justify-content: space-between; /* Distribuye los botones en extremos opuestos */
+  justify-content: space-between;
+  /* Distribuye los botones en extremos opuestos */
   width: 100%;
   margin: auto;
   padding: 10px;
@@ -134,12 +159,21 @@ input.native-input {
   font-size: 1rem;
   width: 200px;
   text-align: center;
-  --border-radius: 20px; /* Bordes redondeados */
+  --border-radius: 20px;
+  /* Bordes redondeados */
 }
 
 .boton-volver {
   --background: #F0DAC3;
   --color: #000000;
+}
+
+.boton-finalizar {
+  --background: #F0DAC3;
+  --color: #000000;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  --border-radius: 15px;
 }
 
 .boton-editar {
@@ -166,6 +200,8 @@ input.native-input {
 }
 
 ion-card {
-  --background: #862471; /* Fondo blanco para las tarjetas */
-  border-radius: 20px; /* Bordes redondeados para las tarjetas */
+  --background: #862471;
+  /* Fondo blanco para las tarjetas */
+  border-radius: 20px;
+  /* Bordes redondeados para las tarjetas */
 }

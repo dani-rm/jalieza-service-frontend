@@ -15,14 +15,14 @@ export const routes: Routes = [
     path: 'buscar-ciudadano',
     loadComponent: () => import('./pages/buscar-ciudadano/buscar-ciudadano.page').then( m => m.BuscarCiudadanoPage),
     canActivate: [AuthGuard,RoleGuard],
-    data:{roles:['3','4']}
+    data:{roles:['3','4', '1']}
   },
   {
     path: 'registrar-ciudadano',
     loadComponent: () => import('./pages/registrar-ciudadano/registrar-ciudadano.page').then( m => m.RegistrarCiudadanoPage),
     canActivate: [AuthGuard,RoleGuard],
      data: {
-    roles: ['3'] // solo estos roles entran
+    roles: ['3', '1'] // solo estos roles entran
   }
   },
   {
@@ -30,7 +30,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/ciudadano/ciudadano.page').then( m => m.CiudadanoPage),
     canActivate: [AuthGuard],
     data:{
-      roles:['3','4']
+      roles:['3','4', '1']
     }
   },
   {
@@ -38,7 +38,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/editar-datos-generales-ciudadano/editar-datos-generales-ciudadano.page').then( m => m.EditarDatosGeneralesCiudadanoPage),
         canActivate: [AuthGuard,RoleGuard],
       data: {
-    roles: ['3'] // solo estos roles entran
+    roles: ['3', '1'] // solo estos roles entran
  }
   },
   {
@@ -46,7 +46,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/editar-cargos-ciudadano/editar-cargos-ciudadano.page').then( m => m.EditarCargosCiudadanoPage),
         canActivate: [AuthGuard,RoleGuard],
       data: {
-    roles: ['3'] // solo estos roles entran
+    roles: ['3', '1'] // solo estos roles entran
   }
   },
   {
@@ -54,8 +54,33 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/agregar-cargo/agregar-cargo.page').then( m => m.AgregarCargoPage),
         canActivate: [AuthGuard,RoleGuard],
       data: {
-    roles: ['3'] // solo estos roles entran
+    roles: ['3', '1'] // solo estos roles entran
   }
+  },
+  // ✅ Rutas del módulo de Catálogo de Servicios
+  {
+    path: 'catalogo-servicios',
+    loadComponent: () => import('./pages/catalogo-servicios/catalogo-servicios.page').then(m => m.CatalogoServiciosPage),
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      roles: ['3', '1'] // Solo administradores y super administradores
+    }
+  },
+  {
+    path: 'catalogo-servicios/crear',
+    loadComponent: () => import('./pages/crear-editar-servicio/crear-editar-servicio.page').then(m => m.CrearEditarServicioPage),
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      roles: ['3', '1'] // Solo administradores y super administradores
+    }
+  },
+  {
+    path: 'catalogo-servicios/editar/:id',
+    loadComponent: () => import('./pages/crear-editar-servicio/crear-editar-servicio.page').then(m => m.CrearEditarServicioPage),
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      roles: ['3', '1'] // Solo administradores y super administradores
+    }
   },
 
 ];
