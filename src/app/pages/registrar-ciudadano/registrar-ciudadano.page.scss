@@ -1,63 +1,36 @@
-.grid-wrapper {
-  min-height: calc(100vh - 131px); /* Altura disponible sin header/footer */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* 
+ * 🎨 ESTILOS ESPECÍFICOS - Registrar Ciudadano
+ * ============================================================================
+ * Solo estilos únicos de esta página. Los globales están en global.scss
+ */
 
-.grid-center {
-  width: 100%;
-}
-
-.contenedor-formulario {
-  width: 100%;
-  height: 100%;
-}
-
-.cabeza {
-  --background: #000000;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.titulo-formulario {
-  font-size: 2rem; /* Tamaño de fuente más grande */
-  color: #FFFFFF; /* Color del texto del título */
-}
-
-.grid-formulario {
-  background: #D9D9D9;
-}
-
-.etiqueta {
-  font-size: 1.2rem; /* Tamaño de fuente más grande */
-  color: #000000; /* Color del texto de las etiquetas */
-}
-
-ion-input, ion-select {
-  --border-radius: 20px; /* Bordes redondeados para los campos de entrada */
-  --background: #ffffff; /* Fondo blanco para los campos de entrada */
-  color: #000000; /* Color del texto en los campos de entrada */
-  font-size: 1rem; /* Tamaño de fuente para los campos de entrada */
-}
+/* 👥 Botón específico para registrar pareja */
 .boton-registrar-pareja {
-  --background: #709bdd;      /* Fondo naranja llamativo */
-  --color: rgb(13, 1, 1);             /* Texto blanco */
+  --background: #709bdd;
+  --color: rgb(13, 1, 1);
   font-weight: bold;
   text-align: center;
   border-radius: 8px;
   margin-bottom: 10px;
   cursor: pointer;
-  --ion-item-background-hover: #e64a19; /* Oscurece al pasar mouse */
+  --ion-item-background-hover: #e64a19;
 }
 
-ion-input, ion-select {
-  --border-width: 0px !important; /* Elimina el borde */
-  border-bottom: none !important; /* Asegura que no haya línea */
-  --highlight-background: transparent !important; /* Evita el resaltado al escribir */
-  --highlight-color-focused: transparent !important; /* Elimina el color de enfoque */
+/* 📅 Icono de calendario específico */
+.calendar-icon {
+  color: var(--color-primary);
+  font-size: 22px;
+  cursor: pointer;
+  padding-right: 5px;
+}
+
+/* 📝 Campos de entrada sin borde (específico de esta página) */
+ion-input,
+ion-select {
+  --border-width: 0px !important;
+  border-bottom: none !important;
+  --highlight-background: transparent !important;
+  --highlight-color-focused: transparent !important;
   --highlight-color: transparent !important;
   --border-color: transparent !important;
   box-shadow: none !important;
@@ -76,70 +49,13 @@ input.native-input {
   background: transparent !important;
 }
 
-.calendar-icon {
-  color: #862471; /* O el color que contraste con el fondo */
-  font-size: 22px;
-  cursor: pointer;
-  padding-right: 5px;
-}
-
+/* 🎯 Contenedor de botones específico */
 .boton-contenedor {
   display: flex;
-  background: #D9D9D9;
-  justify-content: space-between; /* Distribuye los botones en extremos opuestos */
+  background: var(--color-background);
+  justify-content: space-between;
   width: 100%;
   margin: auto;
   padding: 10px;
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 var(--border-radius-standard) var(--border-radius-standard);
 }
-
-.boton-volver,
-.boton-registrar {
-  padding: 12px;
-  font-size: 1rem;
-  width: 200px;
-  text-align: center;
-  --border-radius: 20px; /* Bordes redondeados */
-}
-
-.boton-volver {
-  --background: #F0DAC3;
-  --color: #000000;
-}
-
-.boton-registrar {
-  --background: #862471;
-  --color: #FFFFFF;
-}
-
-.overlay-pareja {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.25);
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.formulario-emergente.tarjeta-flotante {
-  background: #d9d9d9;
-  width: 95%;
-  max-width: 720px;
-  animation: fadeIn 0.25s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    transform: scale(0.96);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-

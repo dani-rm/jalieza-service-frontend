@@ -1,6 +1,40 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
 @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+
 :root {
+  /* 🎨 Fuentes */
   --fuente-principal: 'Itim', sans-serif;
+
+  /* 🎨 Colores principales del sistema */
+  --color-primary: #862471;
+  /* Morado principal - botones primarios */
+  --color-secondary: #F0DAC3;
+  /* Beige - botones secundarios */
+  --color-background: #D9D9D9;
+  /* Gris claro - fondos de formularios */
+  --color-header: #000000;
+  /* Negro - headers de formularios */
+  --color-white: #ffffff;
+  /* Blanco - campos de entrada */
+  --color-text: #000000;
+  /* Negro - texto principal */
+  --color-text-white: #FFFFFF;
+  /* Blanco - texto en headers */
+
+  /* 🎨 Bordes y espaciado */
+  --border-radius-standard: 20px;
+  /* Radio estándar para botones y campos */
+  --border-radius-small: 15px;
+  /* Radio pequeño */
+  --border-radius-card: 10px;
+  /* Radio para tarjetas */
+
+  /* 🎨 Sombras */
+  --shadow-standard: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* 🎨 Transiciones */
+  --transition-standard: all 0.2s ease;
+  --transition-fast: all 0.15s ease;
 }

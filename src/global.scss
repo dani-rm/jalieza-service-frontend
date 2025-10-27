@@ -35,16 +35,170 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
 /*Para el tipo de letra sea igual*/
 body {
   --ion-font-family: var(--fuente-principal);
   font-weight: normal;
 }
+
 /*Para el color de todas las paginas sea en blanco*/
 ion-content {
   --background: white;
 }
 
-input, textarea {
-  caret-color: black !important; /* Asegura que el cursor sea visible */
+input,
+textarea {
+  caret-color: black !important;
+  /* Asegura que el cursor sea visible */
+}
+
+/* 
+ * 🎨 ESTILOS GLOBALES REUTILIZABLES
+ * ============================================================================
+ * Estilos centralizados para evitar duplicación en componentes individuales
+ */
+
+/* 📱 Layout Components - Contenedores principales */
+.grid-wrapper {
+  min-height: calc(100vh - 131px);
+  /* Altura disponible sin header */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-center {
+  width: 100%;
+}
+
+.contenedor-formulario {
+  width: 100%;
+  height: 100%;
+}
+
+/* 🎯 Header Components - Cabeceras de formularios */
+.cabeza {
+  --background: var(--color-header);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.titulo-formulario {
+  font-size: 2rem;
+  color: var(--color-text-white);
+}
+
+/* 🔄 Grid Components - Fondos de formularios */
+.grid-formulario {
+  background: var(--color-background);
+}
+
+.grid-datos {
+  background: var(--color-background);
+}
+
+/* 🏷️ Text Components - Etiquetas y texto */
+.etiqueta {
+  font-size: 1.2rem;
+  color: var(--color-text);
+}
+
+/* 📝 Form Components - Campos de entrada estándar */
+ion-input.form-field,
+ion-select.form-field {
+  --border-radius: var(--border-radius-standard);
+  --background: var(--color-white);
+  color: var(--color-text);
+  font-size: 1rem;
+  transition: var(--transition-standard);
+}
+
+/* 🎨 Animaciones globales */
+@keyframes fadeIn {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 🔘 Button Components - Botones estándar del sistema */
+.boton-volver,
+.boton-registrar {
+  padding: 12px;
+  font-size: 1rem;
+  width: 200px;
+  text-align: center;
+  --border-radius: var(--border-radius-standard);
+  transition: var(--transition-standard);
+  cursor: pointer;
+}
+
+.boton-volver {
+  --background: var(--color-secondary);
+  --color: var(--color-text);
+
+  &:hover {
+    --background: var(--color-secondary);
+    opacity: 0.9;
+    box-shadow: var(--shadow-hover);
+  }
+}
+
+.boton-registrar {
+  --background: var(--color-primary);
+  --color: var(--color-text-white);
+
+  &:hover {
+    --background: var(--color-primary);
+    opacity: 0.9;
+    box-shadow: var(--shadow-hover);
+  }
+
+  &[disabled] {
+    --background: #e0e0e0;
+    --color: #999;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+/* 🎯 Contenedores de botones */
+.contenedor-botones {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: auto;
+  padding: 10px;
+  border-radius: 0 0 var(--border-radius-standard) var(--border-radius-standard);
+}
+
+/* 🎨 Overlays y modales */
+.overlay-pareja {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formulario-emergente.tarjeta-flotante {
+  background: var(--color-background);
+  width: 95%;
+  max-width: 720px;
+  animation: fadeIn 0.25s ease;
+  border-radius: var(--border-radius-card);
+  box-shadow: var(--shadow-hover);
 }
