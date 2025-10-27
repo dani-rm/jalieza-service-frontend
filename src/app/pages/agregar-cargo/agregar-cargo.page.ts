@@ -10,7 +10,6 @@ import {
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
-import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { OrdenDisponible, ServicioDisponible, AsignacionServicio } from 'src/app/interfaces/servicios.interface';
 interface Ciudadano {
@@ -29,7 +28,7 @@ interface Ciudadano {
   imports: [
     IonIcon, IonInput, IonButton, IonLabel, IonGrid, IonItem, IonRow, IonCol,
     IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-    NavbarComponent, IonSelect, IonSelectOption, FooterComponent
+    NavbarComponent, IonSelect, IonSelectOption
   ]
 })
 export class AgregarCargoPage implements OnInit {

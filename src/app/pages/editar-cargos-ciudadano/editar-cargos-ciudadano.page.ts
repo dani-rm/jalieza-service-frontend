@@ -6,7 +6,6 @@ import {
   IonRow, IonCol, IonLabel, IonIcon, IonItem, IonSelect, IonInput, IonSelectOption
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
-import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { Location } from '@angular/common';
 import { addIcons } from 'ionicons';
@@ -21,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
   imports: [
     IonInput, IonItem, IonIcon, IonLabel, IonCol, IonRow, IonGrid, IonButton,
     IonContent, IonHeader, IonTitle, IonToolbar, IonSelectOption, CommonModule,
-    FormsModule, NavbarComponent, IonSelect, ReactiveFormsModule, FooterComponent
+    FormsModule, NavbarComponent, IonSelect, ReactiveFormsModule
   ]
 })
 export class EditarCargosCiudadanoPage implements OnInit {

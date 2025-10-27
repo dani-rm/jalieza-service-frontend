@@ -5,7 +5,6 @@ import {
   IonContent, IonHeader, IonTitle, ToastController, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid,
   IonSelectOption, IonIcon, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle, IonItem, IonSearchbar, IonList } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
-import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
@@ -19,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   imports: [IonList, IonSearchbar, IonItem,
     IonCardTitle, IonCardHeader, IonInput, IonCardContent, IonCard, IonIcon, IonGrid, IonLabel,
     IonCol, IonRow, IonButton, IonContent, IonHeader, IonTitle, IonToolbar,
-    CommonModule, FormsModule, NavbarComponent, FooterComponent, IonSelect, IonSelectOption
+    CommonModule, FormsModule, NavbarComponent, IonSelect, IonSelectOption
   ]
 })
 export class EditarDatosGeneralesCiudadanoPage implements OnInit {

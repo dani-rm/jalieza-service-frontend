@@ -6,7 +6,6 @@ import {
   IonToolbar, IonRow,IonItem, IonCol, IonGrid, IonIcon, IonCardHeader, IonCardTitle, IonCardContent,
   IonCard, IonButtons, IonModal, IonList,ToastController, IonSearchbar } from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component'
-import { FooterComponent } from './../../components/footer/footer.component';
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
@@ -20,7 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   imports: [IonSearchbar, IonList, IonModal, IonButtons,
     IonCard, IonCardContent,IonItem, IonCardTitle, IonCardHeader, IonIcon, IonGrid, IonCol,
     IonRow, IonToolbar, IonTitle, IonHeader, IonInput, IonButton, IonLabel, IonContent,
-    CommonModule, FormsModule, NavbarComponent, FooterComponent, IonSelect, IonSelectOption
+    CommonModule, FormsModule, NavbarComponent, IonSelect, IonSelectOption
   ]
 })
 

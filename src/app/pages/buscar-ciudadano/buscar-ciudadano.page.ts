@@ -17,7 +17,6 @@ import {
   IonSelectOption
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component';
-import { FooterComponent } from './../../components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
@@ -44,8 +43,7 @@ import { CatalogoServiciosService } from 'src/app/services/catalogo-servicios.se
     IonContent,
     CommonModule,
     FormsModule,
-    NavbarComponent,
-    FooterComponent
+    NavbarComponent
   ]
 })
 export class BuscarCiudadanoPage implements OnInit {

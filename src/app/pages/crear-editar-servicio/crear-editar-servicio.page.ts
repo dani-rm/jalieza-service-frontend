@@ -8,7 +8,6 @@ import {
   IonText, IonCard, IonCardContent, IonIcon, ToastController, IonButtons
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
-import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { CatalogoServiciosCrudService } from 'src/app/services/catalogo-servicios-crud.service';
 import { ServicioCatalogo, CrearServicioRequest, ActualizarServicioRequest, Orden } from 'src/app/interfaces/catalogo-servicios.interface';
 import { addIcons } from 'ionicons';
@@ -23,7 +22,7 @@ import { saveOutline, arrowBackOutline, checkmarkCircleOutline } from 'ionicons/
     IonText, IonCardContent, IonCard, IonItem, IonIcon, IonButtons,
     IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader,
     IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule,
-    NavbarComponent, FooterComponent, IonInput, IonSelect, IonSelectOption
+    NavbarComponent, IonInput, IonSelect, IonSelectOption
   ]
 })
 export class CrearEditarServicioPage implements OnInit {

@@ -7,7 +7,6 @@ import {
   IonCardContent, IonList,ToastController, IonText,AlertController
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
-import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavController } from '@ionic/angular';
@@ -26,7 +25,7 @@ import { FinalizacionServicio } from 'src/app/interfaces/servicios.interface';
   imports: [
     IonText, IonList, IonCardContent, IonCard, IonItem, IonIcon, IonButtons,
     IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader,
-    IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, FooterComponent
+    IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent
   ]
 })
 export class CiudadanoPage implements OnInit {
