@@ -1,24 +1,28 @@
-<ion-header>
+<ion-header *ngIf="!esRutaLogin()">
   <ion-toolbar>
     <!-- Logo grande: visible en pantallas md y mayores -->
-    <ion-img
-      *ngIf="!isMobile" slot="start" src="./../../../assets/logoJaliezaNavbar.png"
-      alt="Logo grande" >
+    <ion-img *ngIf="!isMobile" slot="start" src="./../../../assets/logoJaliezaNavbar.png" alt="Logo grande">
     </ion-img>
     <!-- Logo chico: visible solo en pantallas xs y sm -->
-    <ion-img
-      *ngIf="isMobile" slot="start" src="./../../../assets/logoNavbar.png"
-      alt="Logo pequeño" >
+    <ion-img *ngIf="isMobile" slot="start" src="./../../../assets/logoNavbar.png" alt="Logo pequeño">
     </ion-img>
 
-    <ion-title class="tipografia" >{{ title }}</ion-title>
+    <ion-title class="tipografia">{{ title }}</ion-title>
+
+    <!-- Enlaces de navegación en desktop -->
+    <div slot="end" class="desktop-menu" *ngIf="!isMobile && !debeOcultarMenu() && authService.isAuthenticated()">
+      <ion-button fill="clear" routerLink="/buscar-ciudadano">Buscar Ciudadano</ion-button>
+      <ion-button fill="clear" routerLink="/registrar-ciudadano" *ngIf="authService.getUserRole() !== '4'">Registrar Ciudadano</ion-button>
+      <ion-button fill="clear" routerLink="/catalogo-servicios" *ngIf="authService.getUserRole() !== '4'">Servicios</ion-button>
+      <ion-button fill="clear" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
+    </div>
+
     <!-- Contenedor para mantener equilibrio -->
     <div slot="end" *ngIf="debeOcultarMenu()" style="width: 70px;"></div>
 
-    <ion-buttons slot="end" *ngIf="!debeOcultarMenu()">
-      <ion-menu-button></ion-menu-button> <!-- Botón de menú -->
+    <!-- Menú hamburguesa solo en móvil -->
+    <ion-buttons slot="end" *ngIf="isMobile && !debeOcultarMenu()">
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-

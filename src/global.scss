@@ -36,169 +36,397 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
-/*Para el tipo de letra sea igual*/
-body {
-  --ion-font-family: var(--fuente-principal);
-  font-weight: normal;
+/* ============================================================================
+ * 🎨 CONFIGURACIÓN BASE - Tipografía y estilos globales
+ * ============================================================================ */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/*Para el color de todas las paginas sea en blanco*/
+body {
+  --ion-font-family: var(--fuente-principal);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text);
+}
+
 ion-content {
-  --background: white;
+  --background: var(--color-background);
 }
 
 input,
 textarea {
-  caret-color: black !important;
-  /* Asegura que el cursor sea visible */
+  caret-color: var(--color-primary) !important;
+  font-family: var(--fuente-principal);
 }
 
-/* 
- * 🎨 ESTILOS GLOBALES REUTILIZABLES
- * ============================================================================
- * Estilos centralizados para evitar duplicación en componentes individuales
- */
-
-/* 📱 Layout Components - Contenedores principales */
+/* ============================================================================
+ * 📱 LAYOUT COMPONENTS - Contenedores principales
+ * ============================================================================ */
 .grid-wrapper {
   min-height: calc(100vh - 131px);
-  /* Altura disponible sin header */
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: var(--spacing-lg);
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-md);
+  }
 }
 
 .grid-center {
   width: 100%;
+  max-width: 1400px;
 }
 
-.contenedor-formulario {
+.contenedor-formulario,
+.contenedor-buscador,
+.contenedor-ciudadano {
   width: 100%;
-  height: 100%;
+  background: var(--color-surface);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease;
 }
 
-/* 🎯 Header Components - Cabeceras de formularios */
+/* ============================================================================
+ * 🎯 HEADER COMPONENTS - Cabeceras modernas
+ * ============================================================================ */
 .cabeza {
   --background: var(--color-header);
+  padding: var(--spacing-lg);
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+        var(--color-primary-light) 0%,
+        var(--color-secondary) 100%);
+  }
 }
 
-.titulo-formulario {
-  font-size: 2rem;
+.titulo-formulario,
+.titulo-contenedor {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-white);
+  letter-spacing: -0.5px;
+  margin: 0;
 }
 
-/* 🔄 Grid Components - Fondos de formularios */
-.grid-formulario {
-  background: var(--color-background);
-}
-
+/* ============================================================================
+ * 🔄 GRID COMPONENTS - Fondos y contenedores de datos
+ * ============================================================================ */
+.grid-formulario,
 .grid-datos {
-  background: var(--color-background);
+  background: var(--color-surface);
+  padding: var(--spacing-xl);
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-lg);
+  }
 }
 
-/* 🏷️ Text Components - Etiquetas y texto */
+/* ============================================================================
+ * 🏷️ TEXT COMPONENTS - Etiquetas y campos
+ * ============================================================================ */
 .etiqueta {
-  font-size: 1.2rem;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-xs);
+  display: block;
 }
 
-/* 📝 Form Components - Campos de entrada estándar */
+.campo {
+  margin-bottom: var(--spacing-lg);
+}
+
+.valor-dato {
+  background: var(--color-background);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  transition: var(--transition-fast);
+
+  &:hover {
+    border-color: var(--color-primary-light);
+  }
+}
+
+/* ============================================================================
+ * 📝 FORM COMPONENTS - Campos de entrada modernos
+ * ============================================================================ */
 ion-input.form-field,
-ion-select.form-field {
-  --border-radius: var(--border-radius-standard);
-  --background: var(--color-white);
-  color: var(--color-text);
-  font-size: 1rem;
-  transition: var(--transition-standard);
+ion-select.form-field,
+ion-input,
+ion-select {
+  --background: var(--color-background);
+  --border-radius: var(--border-radius-sm);
+  --border-width: 1px;
+  --border-color: var(--color-border);
+  --padding-start: var(--spacing-md);
+  --padding-end: var(--spacing-md);
+  --padding-top: var(--spacing-sm);
+  --padding-bottom: var(--spacing-sm);
+  --color: var(--color-text);
+  --placeholder-color: var(--color-text-light);
+  font-size: var(--text-base);
+  transition: var(--transition-base);
+  box-shadow: var(--shadow-xs);
+  margin-top: var(--spacing-xs);
+
+  &:hover {
+    --border-color: var(--color-primary-light);
+  }
+
+  &:focus-within {
+    --border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm), 0 0 0 3px rgba(134, 36, 113, 0.1);
+  }
 }
 
-/* 🎨 Animaciones globales */
+/* Eliminar bordes predeterminados de Ionic */
+ion-input::part(native),
+input.native-input {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* ============================================================================
+ * 🎨 ANIMACIONES GLOBALES
+ * ============================================================================ */
 @keyframes fadeIn {
   from {
-    transform: scale(0.96);
     opacity: 0;
   }
 
   to {
-    transform: scale(1);
     opacity: 1;
   }
 }
 
-/* 🔘 Button Components - Botones estándar del sistema */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ============================================================================
+ * 🔘 BUTTON COMPONENTS - Botones modernos y elegantes
+ * ============================================================================ */
 .boton-volver,
-.boton-registrar {
-  padding: 12px;
-  font-size: 1rem;
-  width: 200px;
-  text-align: center;
-  --border-radius: var(--border-radius-standard);
-  transition: var(--transition-standard);
-  cursor: pointer;
+.boton-registrar,
+.boton-editar,
+.boton-finalizar {
+  --border-radius: var(--border-radius-full);
+  --padding-start: var(--spacing-xl);
+  --padding-end: var(--spacing-xl);
+  --padding-top: var(--spacing-md);
+  --padding-bottom: var(--spacing-md);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  text-transform: none;
+  letter-spacing: 0.3px;
+  min-width: 160px;
+  transition: var(--transition-base);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  &:active::before {
+    width: 300px;
+    height: 300px;
+  }
 }
 
 .boton-volver {
   --background: var(--color-secondary);
   --color: var(--color-text);
+  --box-shadow: var(--shadow-secondary);
 
   &:hover {
-    --background: var(--color-secondary);
-    opacity: 0.9;
-    box-shadow: var(--shadow-hover);
+    --background: var(--color-secondary-dark);
+    transform: translateY(-2px);
+    --box-shadow: var(--shadow-lg);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
-.boton-registrar {
+.boton-registrar,
+.boton-editar,
+.boton-finalizar {
   --background: var(--color-primary);
   --color: var(--color-text-white);
+  --box-shadow: var(--shadow-primary);
 
   &:hover {
-    --background: var(--color-primary);
-    opacity: 0.9;
-    box-shadow: var(--shadow-hover);
+    --background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    --box-shadow: var(--shadow-xl);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 
   &[disabled] {
-    --background: #e0e0e0;
-    --color: #999;
+    --background: var(--color-border);
+    --color: var(--color-text-light);
+    --box-shadow: none;
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.5;
+    transform: none !important;
   }
 }
 
-/* 🎯 Contenedores de botones */
-.contenedor-botones {
+/* ============================================================================
+ * 🎯 CONTENEDORES DE BOTONES
+ * ============================================================================ */
+.contenedor-botones,
+.boton-contenedor {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
   width: 100%;
-  margin: auto;
-  padding: 10px;
-  border-radius: 0 0 var(--border-radius-standard) var(--border-radius-standard);
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  border-top: 1px solid var(--color-divider);
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+
+    .boton-volver,
+    .boton-registrar,
+    .boton-editar {
+      width: 100%;
+    }
+  }
 }
 
-/* 🎨 Overlays y modales */
+/* ============================================================================
+ * 🎨 OVERLAYS Y MODALES MODERNOS
+ * ============================================================================ */
 .overlay-pareja {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(45, 55, 72, 0.7);
+  backdrop-filter: blur(4px);
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fadeIn 0.3s ease;
+  padding: var(--spacing-md);
 }
 
 .formulario-emergente.tarjeta-flotante {
-  background: var(--color-background);
+  background: var(--color-surface);
   width: 95%;
   max-width: 720px;
-  animation: fadeIn 0.25s ease;
-  border-radius: var(--border-radius-card);
-  box-shadow: var(--shadow-hover);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: fadeInUp 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ============================================================================
+ * 📇 CARDS Y TARJETAS
+ * ============================================================================ */
+ion-card {
+  --background: var(--color-surface);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  margin: var(--spacing-md);
+  transition: var(--transition-base);
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+/* ============================================================================
+ * 🔍 SEARCHBAR MODERNO
+ * ============================================================================ */
+ion-searchbar {
+  --background: var(--color-surface);
+  --border-radius: var(--border-radius-full);
+  --box-shadow: var(--shadow-sm);
+  --color: var(--color-text);
+  --placeholder-color: var(--color-text-light);
+  --icon-color: var(--color-primary);
+  --clear-button-color: var(--color-primary);
+  padding: var(--spacing-sm);
+
+  &:focus-within {
+    --box-shadow: var(--shadow-md);
+  }
 }

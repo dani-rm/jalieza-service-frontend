@@ -1,79 +1,129 @@
+/* Login Page - Estilos Básicos */
+
 .grid-wrapper {
-  min-height: calc(100vh - 131px); /* Altura disponible sin header/footer */
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 .grid-center {
   width: 100%;
+  max-width: 2160px;
 }
 
 .login-box {
-  width: 100%;
-  height: 100%;
-  background: #D9D9D9;
-  padding: 20px;
-  border-radius: 10px;
+  background: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* Logo */
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-logo {
+  width: 100px;
+  height: auto;
+}
+
+/* Título */
+.login-title {
+  text-align: center;
+  margin-bottom: 30px;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+  }
+}
+
+/* Campos */
 .login-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra los elementos en la fila */
-  gap: 16px;         /* Espacio entre label e input */
-  margin-bottom: 24px; /* Espacio con la siguiente fila */
-  margin-top: 24px;
-  text-align: center; /* Centra el texto dentro de la fila */
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+    margin-top: 25px;
+  }
 }
 
 ion-label {
-  color: black;
-  font-size: 20px;
-  margin: auto;
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d3748;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
 }
 
 ion-input {
-  background-color: white;
-  color: black;
-  border-radius: 15px;
-  text-align: start;
-  width: 80%; /* Ancho del input */
+  --background: #f8f9fa;
+  --color: #2d3748;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  font-size: 15px;
+
+  &:hover {
+    border-color: #a34490;
+  }
+
+  &:focus-within {
+    border-color: #862471;
+    box-shadow: 0 0 0 3px rgba(134, 36, 113, 0.1);
+  }
 }
 
-ion-input {
-  --border-width: 0px !important; /* Elimina el borde */
-  border-bottom: none !important; /* Asegura que no haya línea */
-  --highlight-background: transparent !important; /* Evita el resaltado al escribir */
-  --highlight-color-focused: transparent !important; /* Elimina el color de enfoque */
-  --highlight-color: transparent !important;
-  --border-color: transparent !important;
-  box-shadow: none !important;
-}
-
-ion-input::part(native) {
-  border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
+ion-input::part(native),
 input.native-input {
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
-  background: transparent !important;
 }
 
-.login-button {
-  --background: #862471;
-  color: #FFFFFF;
-  --border-radius: 15px;
-  width: 80%; /* Ancho del botón */
-}
-
+/* Icono */
 .eye-icon {
   color: #862471;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
-  padding-right: 5px; /* Espacio entre el icono y el borde */
+  padding: 8px;
+}
+
+/* Botón */
+.login-button {
+  --background: #862471;
+  --color: white;
+  --border-radius: 9999px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  height: 48px;
+
+  &:hover {
+    --background: #6b1d5a;
+    transform: translateY(-2px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .login-box {
+    padding: 30px 20px;
+  }
+
+  .login-title h1 {
+    font-size: 22px;
+  }
 }

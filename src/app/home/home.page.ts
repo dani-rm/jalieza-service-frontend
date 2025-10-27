@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import {
   IonContent, IonGrid, IonRow, IonCol, IonLabel, IonInput, IonButton, IonIcon
 } from '@ionic/angular/standalone';
-import { NavbarComponent } from './../components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
@@ -19,7 +18,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['home.page.scss'],
   imports: [
     IonIcon, IonButton, IonInput, IonLabel, IonCol, IonRow, IonGrid,
-    CommonModule, IonContent, NavbarComponent, FormsModule
+    CommonModule, IonContent, FormsModule
   ],
 })
 export class HomePage {

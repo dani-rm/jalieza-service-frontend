@@ -1,25 +1,43 @@
-/* 
- * 🎨 ESTILOS ESPECÍFICOS - Página Ciudadano
- * ============================================================================
- * Solo estilos únicos de esta página. Los globales están en global.scss
- */
+/* ============================================================================
+ * 👤 PÁGINA CIUDADANO - Diseño minimalista y elegante
+ * ============================================================================ */
 
-/* 👤 Contenedor específico del ciudadano */
+/* Contenedor principal */
 .contenedor-ciudadano {
   width: 100%;
-  height: 100%;
+  background: var(--color-surface);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease;
 }
 
-/* 🎯 Título específico del contenedor */
+/* ============================================================================
+ * 🎯 TÍTULO Y HEADER
+ * ============================================================================ */
 .titulo-contenedor {
-  font-size: 2rem;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-white);
+  letter-spacing: -0.5px;
 }
 
-/* 🎛️ Menú específico - Estilos únicos de esta página */
+/* ============================================================================
+ * 🎛️ MENÚ FLOTANTE
+ * ============================================================================ */
 .menu-icono {
-  font-size: 3rem;
+  font-size: var(--text-4xl);
   color: var(--color-text-white);
+  cursor: pointer;
+  transition: var(--transition-base);
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .fondo-menu {
@@ -29,123 +47,248 @@
   width: 100%;
   height: 100%;
   z-index: 50;
-  background: transparent;
+  background: rgba(45, 55, 72, 0.4);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease;
 }
 
 .menu-flotante {
   position: absolute;
-  top: 56px;
-  left: 10px;
-  background: var(--color-white);
-  border: 1px solid #ccc;
+  top: 70px;
+  left: var(--spacing-md);
+  background: var(--color-surface);
   z-index: 100;
-  border-radius: var(--border-radius-small);
-  box-shadow: var(--shadow-hover);
-  width: 200px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-xl);
+  min-width: 220px;
+  animation: slideInRight 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  overflow: hidden;
 
   ion-list {
-    background: #FFF8F8;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    background: var(--color-surface);
+    padding: var(--spacing-sm) 0;
   }
 
   ion-item {
-    font-size: 1.2rem;
-    --background: var(--color-background);
-    width: 70%;
-    margin: 25px auto;
-    text-align: center;
-    --color: var(--color-text);
+    --background: transparent;
+    --padding-start: var(--spacing-lg);
+    --padding-end: var(--spacing-lg);
+    --min-height: 48px;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    transition: var(--transition-fast);
+    cursor: pointer;
+    margin: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+
+    &:hover {
+      --background: var(--color-background);
+    }
+
+    &[color="success"] {
+      --color: var(--color-success);
+
+      &:hover {
+        --background: rgba(72, 187, 120, 0.1);
+      }
+    }
+
+    &[color="danger"] {
+      --color: var(--color-danger);
+
+      &:hover {
+        --background: rgba(245, 101, 101, 0.1);
+      }
+    }
   }
 }
 
-/* 📝 Campos de entrada específicos para esta página */
-ion-input,
-ion-select {
-  --border-width: 0px !important;
-  border-bottom: none !important;
-  --highlight-background: transparent !important;
-  --highlight-color-focused: transparent !important;
-  --highlight-color: transparent !important;
-  --border-color: transparent !important;
-  box-shadow: none !important;
-}
-
-ion-input::part(native) {
-  border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-input.native-input {
-  border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-  background: transparent !important;
-}
-
-/* 📅 Icono de calendario específico */
-.calendar-icon {
-  color: var(--color-primary);
-  font-size: 22px;
-  cursor: pointer;
-  padding-right: 5px;
-}
-
-/* 🎯 Contenedor de botones específico */
-.boton-contenedor {
-  display: flex;
-  background: var(--color-background);
-  justify-content: space-between;
-  width: 100%;
-  margin: auto;
-  padding: 10px;
-  border-radius: 0 0 var(--border-radius-standard) var(--border-radius-standard);
-}
-
-/* 🔘 Botones específicos */
-.boton-editar {
-  padding: 12px;
-  font-size: 1rem;
-  width: 200px;
-  text-align: center;
-  --border-radius: var(--border-radius-standard);
-  --background: var(--color-primary);
-  --color: var(--color-text-white);
-}
-
-.boton-finalizar {
-  --background: var(--color-secondary);
-  --color: var(--color-text);
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  --border-radius: var(--border-radius-small);
-}
-
-/* 📊 Campo de valor de dato específico */
+/* ============================================================================
+ * 📝 CAMPOS Y VALORES
+ * ============================================================================ */
 .campo {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-lg);
+  animation: fadeInUp 0.4s ease backwards;
 }
 
 .valor-dato {
-  background: var(--color-white);
+  background: var(--color-background);
   color: var(--color-text);
-  border-radius: var(--border-radius-standard);
-  padding: 10px;
-  font-size: 1rem;
-  min-height: 40px;
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  font-size: var(--text-base);
+  min-height: 48px;
   display: flex;
   align-items: center;
-  box-shadow: inset 0 0 0 1px #ccc;
+  border: 2px solid var(--color-border);
+  transition: var(--transition-base);
+
+  &:hover {
+    border-color: var(--color-primary-light);
+    background: var(--color-surface);
+  }
 }
 
-/* 🎴 Tarjetas específicas */
+/* ============================================================================
+ * 📅 ICONO DE CALENDARIO
+ * ============================================================================ */
+.calendar-icon {
+  color: var(--color-primary);
+  font-size: var(--text-xl);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  padding: var(--spacing-sm);
+
+  &:hover {
+    color: var(--color-primary-dark);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ============================================================================
+ * 🔘 BOTONES ESPECÍFICOS
+ * ============================================================================ */
+.boton-editar {
+  --background: var(--color-primary);
+  --color: var(--color-text-white);
+  --border-radius: var(--border-radius-full);
+  --padding-start: var(--spacing-xl);
+  --padding-end: var(--spacing-xl);
+  --box-shadow: var(--shadow-primary);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  min-width: 160px;
+  transition: var(--transition-base);
+
+  &:hover {
+    --background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    --box-shadow: var(--shadow-xl);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.boton-finalizar {
+  --background: var(--color-success);
+  --color: var(--color-text-white);
+  --border-radius: var(--border-radius-md);
+  --padding-start: var(--spacing-lg);
+  --padding-end: var(--spacing-lg);
+  --box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  transition: var(--transition-base);
+
+  &:hover {
+    --background: #38a169;
+    transform: translateY(-2px);
+    --box-shadow: 0 6px 16px rgba(72, 187, 120, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+ * 🎴 TARJETAS DE CARGOS
+ * ============================================================================ */
 ion-card {
   --background: var(--color-primary);
-  border-radius: var(--border-radius-standard);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  margin: var(--spacing-md) 0;
+  transition: var(--transition-base);
+  overflow: hidden;
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-primary-light);
+  }
+
+  ion-card-content {
+    padding: var(--spacing-lg);
+
+    .campo {
+      margin-bottom: var(--spacing-md);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .etiqueta {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: var(--text-xs);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .valor-dato {
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--color-text-white);
+      border-color: rgba(255, 255, 255, 0.2);
+      font-weight: var(--font-weight-medium);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
+}
+
+/* ============================================================================
+ * 🎬 ANIMACIONES
+ * ============================================================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animación escalonada para campos */
+.campo {
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
 }

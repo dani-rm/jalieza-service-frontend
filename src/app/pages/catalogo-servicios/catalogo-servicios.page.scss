@@ -1,76 +1,135 @@
+/* ============================================================================
+ * 📚 CATÁLOGO DE SERVICIOS - Diseño minimalista y elegante
+ * ============================================================================ */
+
 .container {
-    padding: 16px;
-    max-width: 1200px;
+    padding: var(--spacing-xl);
+    max-width: 1400px;
     margin: 0 auto;
+
+    @media (max-width: 768px) {
+        padding: var(--spacing-md);
+    }
 }
 
-.titulo-pagina {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
+.catalogo-servicios-page {
+    animation: fadeInUp 0.4s ease;
 }
 
+/* ============================================================================
+ * 📦 CONTENEDOR DE ORDEN
+ * ============================================================================ */
 .orden-container {
-    margin-bottom: 32px;
+    margin-bottom: var(--spacing-2xl);
+    animation: fadeInUp 0.5s ease backwards;
+
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.1}s;
+        }
+    }
 }
 
+/* ============================================================================
+ * 🎯 HEADER DE ORDEN
+ * ============================================================================ */
 .orden-header {
-    margin-bottom: 16px;
-    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --color: white;
+    margin-bottom: var(--spacing-md);
+    --background: var(--color-primary);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-primary);
+    overflow: hidden;
+    position: relative;
+    transition: var(--transition-base);
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg,
+                var(--color-primary) 0%,
+                var(--color-primary-dark) 100%);
+        opacity: 1;
+        transition: var(--transition-base);
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    ion-card-content {
+        position: relative;
+        z-index: 1;
+        padding: var(--spacing-lg);
+    }
 
     h2 {
         margin: 0;
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: white !important;
+        font-size: var(--text-2xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-white) !important;
+        letter-spacing: -0.5px;
     }
 
     p {
-        margin: 4px 0 0 0;
-        opacity: 0.9;
-        color: white !important;
+        margin: var(--spacing-xs) 0 0 0;
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: var(--text-sm);
+        font-weight: var(--font-weight-medium);
     }
 }
 
-// Estilos para tabla de servicios
+/* ============================================================================
+ * 📊 TABLA DE SERVICIOS
+ * ============================================================================ */
 .tabla-servicios {
-    margin-top: 16px;
-    --background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+    --background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    border-radius: var(--border-radius-lg);
     overflow: hidden;
+    border: 1px solid var(--color-border);
+    transition: var(--transition-base);
+
+    &:hover {
+        box-shadow: var(--shadow-lg);
+    }
 }
 
 .tabla-header {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-bottom: 2px solid #dee2e6;
-    padding: 16px 0;
+    background: var(--color-background);
+    border-bottom: 2px solid var(--color-divider);
+    padding: var(--spacing-lg) 0;
     margin: 0;
 
     h4 {
         margin: 0;
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #495057 !important;
+        font-size: var(--text-base);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text) !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 }
 
 .tabla-fila {
-    border-bottom: 1px solid #e9ecef;
-    padding: 12px 0;
+    border-bottom: 1px solid var(--color-divider);
+    padding: var(--spacing-md) 0;
     margin: 0;
-    transition: background-color 0.2s ease;
+    transition: var(--transition-fast);
 
     &:hover {
-        background-color: #f8f9fa;
+        background: var(--color-background);
     }
 
     &.fila-par {
-        background-color: #f8f9fa;
+        background: rgba(248, 249, 250, 0.5);
 
         &:hover {
-            background-color: #e9ecef;
+            background: var(--color-background);
         }
     }
 
@@ -81,310 +140,202 @@
 
 .nombre-servicio {
     margin: 0;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #333 !important;
-    line-height: 1.4;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text) !important;
+    line-height: 1.6;
 }
 
+/* ============================================================================
+ * 🎛️ ACCIONES
+ * ============================================================================ */
 .acciones-tabla {
     display: flex;
-    gap: 8px;
+    gap: var(--spacing-sm);
     justify-content: center;
     flex-wrap: wrap;
+
+    ion-button {
+        --border-radius: var(--border-radius-md);
+        --padding-start: var(--spacing-md);
+        --padding-end: var(--spacing-md);
+        font-size: var(--text-sm);
+        font-weight: var(--font-weight-semibold);
+        text-transform: none;
+        transition: var(--transition-base);
+
+        &[color="primary"] {
+            --background: transparent;
+            --color: var(--color-primary);
+            --border-color: var(--color-primary);
+            --border-width: 2px;
+
+            &:hover {
+                --background: var(--color-primary);
+                --color: var(--color-text-white);
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-primary);
+            }
+        }
+
+        &[color="danger"] {
+            --background: transparent;
+            --color: var(--color-danger);
+            --border-color: var(--color-danger);
+            --border-width: 2px;
+
+            &:hover {
+                --background: var(--color-danger);
+                --color: var(--color-text-white);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+            }
+        }
+    }
 }
 
 .sin-servicios {
-    margin: 24px 0;
-    color: #6c757d !important;
+    margin: var(--spacing-xl) 0;
+    color: var(--color-text-light) !important;
     font-style: italic;
+    font-size: var(--text-base);
+    text-align: center;
 }
 
-.acciones-container {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 12px;
+/* ============================================================================
+ * 🔍 FILTROS Y BÚSQUEDA
+ * ============================================================================ */
+.filtros-row {
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
 }
 
-.acciones-container ion-button {
-    flex: 1;
-    min-width: 80px;
+/* Searchbar con diseño moderno */
+ion-searchbar.searchbar-filtros {
+    --background: var(--color-surface);
+    --border-radius: var(--border-radius-full);
+    --box-shadow: var(--shadow-md);
+    --color: var(--color-text);
+    --placeholder-color: var(--color-text-light);
+    --icon-color: var(--color-primary);
+    --clear-button-color: var(--color-primary);
+    padding: 0;
+
+    &:focus-within {
+        --box-shadow: var(--shadow-lg);
+    }
 }
 
-// Responsive design
-@media (max-width: 768px) {
-    .container {
-        padding: 8px;
+/* Select con diseño moderno */
+ion-select.select-filtros {
+    --background: var(--color-surface);
+    --border-radius: var(--border-radius-md);
+    --padding-start: var(--spacing-md);
+    --padding-end: var(--spacing-md);
+    --padding-top: var(--spacing-sm);
+    --padding-bottom: var(--spacing-sm);
+    min-height: 48px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-base);
+    border: 2px solid var(--color-border);
+
+    &:hover {
+        border-color: var(--color-primary-light);
+        box-shadow: var(--shadow-lg);
     }
 
-    .titulo-pagina {
-        font-size: 1.5rem;
+    &:focus-within {
+        border-color: var(--color-primary);
+        box-shadow: var(--shadow-lg), 0 0 0 4px rgba(134, 36, 113, 0.1);
+    }
+}
+
+/* ============================================================================
+ * 🎨 CHIPS Y BADGES
+ * ============================================================================ */
+ion-chip {
+    --background: rgba(255, 255, 255, 0.25);
+    border-radius: var(--border-radius-full);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-xs) var(--spacing-md);
+    box-shadow: var(--shadow-sm);
+
+    &[color="light"] {
+        ion-label {
+            color: var(--color-text-white) !important;
+            font-size: var(--text-sm);
+        }
+    }
+}
+
+/* ============================================================================
+ * 📇 CARDS GENERALES
+ * ============================================================================ */
+ion-card {
+    --background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    border-radius: var(--border-radius-lg);
+    margin: var(--spacing-md) 0;
+    border: 1px solid var(--color-border);
+    transition: var(--transition-base);
+
+    &:hover {
+        box-shadow: var(--shadow-lg);
+    }
+
+    ion-card-content {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* ============================================================================
+ * 🎬 ANIMACIONES
+ * ============================================================================ */
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================================================
+ * 📱 RESPONSIVE DESIGN
+ * ============================================================================ */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-md);
     }
 
     .orden-header h2 {
-        font-size: 1.3rem;
+        font-size: var(--text-xl);
     }
 
-    .acciones-container {
-        flex-direction: column;
-    }
-
-    .acciones-container ion-button {
-        width: 100%;
-    }
-
-    // Estilos responsive para tabla
-    .tabla-header {
-        padding: 12px 0;
-
-        h4 {
-            font-size: 1rem;
-        }
-    }
-
-    .tabla-fila {
-        padding: 8px 0;
+    .tabla-header h4 {
+        font-size: var(--text-sm);
     }
 
     .acciones-tabla {
         flex-direction: column;
-        gap: 4px;
-    }
+        gap: var(--spacing-xs);
 
-    .acciones-tabla ion-button {
-        width: 100%;
-        font-size: 0.9rem;
+        ion-button {
+            width: 100%;
+            font-size: var(--text-xs);
+        }
     }
 
     .nombre-servicio {
-        font-size: 0.9rem;
-    }
-}
-
-// Estilos para la fila de filtros
-.filtros-row {
-    align-items: center;
-    display: flex;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 12px;
-    }
-}
-
-// Estilos para el searchbar
-ion-searchbar {
-    --color: #000000 !important;
-    --placeholder-color: #666666 !important;
-    --icon-color: #000000 !important;
-    --clear-button-color: #000000 !important;
-
-    .searchbar-input {
-        color: #000000 !important;
-    }
-}
-
-// Estilos específicos para el searchbar de filtros
-ion-searchbar.searchbar-filtros {
-    --background: transparent !important;
-    --box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-    height: 48px !important;
-    display: block !important;
-
-    .searchbar-input-container {
-        border: 1px solid #ddd !important;
-        border-radius: 8px !important;
-        background: white !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-        transition: box-shadow 0.3s ease !important;
-        min-height: 48px !important;
-        height: 48px !important;
-        width: 100% !important;
-        position: relative !important;
-        display: flex !important;
-        align-items: center !important;
-    }
-
-    .searchbar-input-container:focus-within {
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
-        border-color: #1976d2 !important;
-    }
-
-    .searchbar-input {
-        color: #000000 !important;
-        padding: 12px 16px !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        height: 100% !important;
-        flex: 1 !important;
-    }
-
-    .searchbar-search-icon {
-        color: #000000 !important;
-    }
-
-    .searchbar-clear-button {
-        color: #000000 !important;
-    }
-}
-
-// Estilos adicionales para forzar el sombreado
-.filtros-row ion-searchbar.searchbar-filtros {
-    .searchbar-input-container {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-    }
-
-    .searchbar-input-container:focus-within {
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
-    }
-}
-
-// Estilos globales para forzar el sombreado en searchbar
-ion-searchbar.searchbar-filtros .searchbar-input-container {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-}
-
-ion-searchbar.searchbar-filtros .searchbar-input-container:focus-within {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
-}
-
-// Estilos con ::ng-deep para penetrar en los estilos de Ionic
-::ng-deep ion-searchbar.searchbar-filtros .searchbar-input-container {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-    border: 1px solid #ddd !important;
-    border-radius: 8px !important;
-    background: white !important;
-    min-height: 48px !important;
-    height: 48px !important;
-}
-
-::ng-deep ion-searchbar.searchbar-filtros .searchbar-input-container:focus-within {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
-    border-color: #1976d2 !important;
-}
-
-// Estilos adicionales con mayor especificidad
-.catalogo-servicios-page ion-searchbar.searchbar-filtros .searchbar-input-container {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-}
-
-.catalogo-servicios-page ion-searchbar.searchbar-filtros .searchbar-input-container:focus-within {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
-}
-
-// Estilos para el select
-ion-select {
-    &.select-filtros {
-        --background: white;
-        --border-radius: 8px;
-        --border-width: 1px;
-        --border-color: #ddd;
-        --padding-start: 16px;
-        --padding-end: 16px;
-        --padding-top: 12px;
-        --padding-bottom: 12px;
-        min-height: 48px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        transition: box-shadow 0.3s ease;
-
-        .select-text {
-            color: #000000 !important;
-        }
-
-        .select-placeholder {
-            color: #666666 !important;
-        }
-
-        &:focus-within {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-            --border-color: #1976d2;
-        }
-    }
-}
-
-// Estilos para chips y badges
-ion-chip {
-    --background: #e3f2fd;
-    --color: #1976d2;
-
-    // Chip de puntos en header de orden
-    &[color="light"] {
-        --background: rgba(255, 255, 255, 0.2);
-        --color: white;
-
-        ion-label {
-            color: white !important;
-        }
-    }
-}
-
-ion-badge {
-    font-size: 0.8rem;
-    padding: 4px 8px;
-}
-
-// Estilos para cards
-ion-card {
-    --background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-}
-
-// Estilos para searchbar
-ion-searchbar {
-    --background: #f8f9fa;
-    --border-radius: 8px;
-    --box-shadow: none;
-}
-
-// Estilos para select
-ion-select {
-    --background: #f8f9fa;
-    --border-radius: 8px;
-    --padding-start: 12px;
-    --padding-end: 12px;
-}
-
-
-// Asegurar contraste en todos los textos
-ion-text {
-    color: #333 !important;
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        color: #333 !important;
-    }
-
-    p {
-        color: #333 !important;
-    }
-}
-
-// Estilos específicos para cards
-ion-card {
-    ion-text {
-        color: #333 !important;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        color: #333 !important;
-    }
-
-    p {
-        color: #333 !important;
+        font-size: var(--text-sm);
     }
 }

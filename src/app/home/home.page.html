@@ -1,36 +1,46 @@
-<app-navbar title="Iniciar Sesión"></app-navbar>
-<ion-content id="main-content" >
-  <div class="grid-wrapper"> <!-- NUEVO contenedor con flex -->
+<ion-content id="main-content" [fullscreen]="true">
+  <div class="grid-wrapper">
     <ion-grid class="grid-center">
       <ion-row class="ion-justify-content-center">
-        <ion-col size="12" size-md="8" size-lg="6">
+        <ion-col size="12" size-md="8" size-lg="5">
           <div class="login-box">
+
+            <!-- Logo centrado -->
+            <div class="logo-container">
+              <img src="./../../assets/logoJaliezaNavbar.png" alt="Logo Jalieza" class="login-logo">
+            </div>
+
+            <!-- Título -->
+            <div class="login-title">
+              <h1>Iniciar Sesión</h1>
+            </div>
+
+            <!-- Correo electrónico -->
             <div class="login-row">
               <ion-label>Correo electrónico</ion-label>
-              <ion-input type="email" [(ngModel)]="email" placeholder="Ingrese su correo"></ion-input>
+              <ion-input type="email" [(ngModel)]="email" placeholder="usuario@ejemplo.com" autocomplete="email">
+              </ion-input>
             </div>
 
-        <div class="login-row">
-  <ion-label>Contraseña</ion-label>
-  <ion-input
-    [type]="showPassword ? 'text' : 'password'"
-    placeholder="Ingrese su contraseña"
-    [(ngModel)]="password"
-  >
-    <ion-icon
-      *ngIf="password && password.length > 0"
-      [name]="showPassword ? 'eye' : 'eye-off'"
-      slot="end"
-      class="eye-icon"
-      (click)="togglePassword()"
-    ></ion-icon>
-  </ion-input>
-</div>
-
-
+            <!-- Contraseña -->
             <div class="login-row">
-              <ion-button expand="block" class="login-button" (click)="login()">Iniciar sesión</ion-button>
+              <ion-label>Contraseña</ion-label>
+              <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="••••••••" [(ngModel)]="password"
+                autocomplete="current-password">
+                <ion-icon *ngIf="password && password.length > 0"
+                  [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" class="eye-icon"
+                  (click)="togglePassword()">
+                </ion-icon>
+              </ion-input>
             </div>
+
+            <!-- Botón de inicio de sesión -->
+            <div class="login-row">
+              <ion-button expand="block" class="login-button" (click)="login()">
+                Iniciar sesión
+              </ion-button>
+            </div>
+
           </div>
         </ion-col>
       </ion-row>

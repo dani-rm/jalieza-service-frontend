@@ -1,40 +1,78 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
-@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* 🎨 Fuentes */
-  --fuente-principal: 'Itim', sans-serif;
+  /* 🎨 Fuentes - Tipografía moderna */
+  --fuente-principal: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 
   /* 🎨 Colores principales del sistema */
   --color-primary: #862471;
-  /* Morado principal - botones primarios */
-  --color-secondary: #F0DAC3;
-  /* Beige - botones secundarios */
-  --color-background: #D9D9D9;
-  /* Gris claro - fondos de formularios */
-  --color-header: #000000;
-  /* Negro - headers de formularios */
-  --color-white: #ffffff;
-  /* Blanco - campos de entrada */
-  --color-text: #000000;
-  /* Negro - texto principal */
+  --color-primary-light: #a34490;
+  --color-primary-dark: #6b1d5a;
+  --color-secondary: #ececec;
+  --color-secondary-light: #ffffff;
+  --color-secondary-dark: #ffffff;
+  --color-background: #f8f9fa;
+  --color-background-alt: #ffffff;
+  --color-surface: #ffffff;
+  --color-header: #862471;
+  --color-text: #2d3748;
+  --color-text-light: #718096;
   --color-text-white: #FFFFFF;
-  /* Blanco - texto en headers */
+  --color-border: #e2e8f0;
+  --color-divider: #edf2f7;
 
-  /* 🎨 Bordes y espaciado */
-  --border-radius-standard: 20px;
-  /* Radio estándar para botones y campos */
-  --border-radius-small: 15px;
-  /* Radio pequeño */
-  --border-radius-card: 10px;
-  /* Radio para tarjetas */
+  /* 🎨 Estados */
+  --color-success: #48bb78;
+  --color-warning: #ed8936;
+  --color-danger: #f56565;
+  --color-info: #4299e1;
 
-  /* 🎨 Sombras */
-  --shadow-standard: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  /* 🎨 Bordes y espaciado - Diseño minimalista */
+  --border-radius-xs: 6px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
+  --border-radius-full: 9999px;
 
-  /* 🎨 Transiciones */
-  --transition-standard: all 0.2s ease;
-  --transition-fast: all 0.15s ease;
+  /* 🎨 Espaciado consistente */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* 🎨 Sombras - Elevación sutil y moderna */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  --shadow-primary: 0 10px 25px -5px rgba(134, 36, 113, 0.15);
+  --shadow-secondary: 0 10px 25px -5px rgba(240, 218, 195, 0.25);
+
+  /* 🎨 Transiciones suaves */
+  --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* 🎨 Tamaños de texto */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
 }

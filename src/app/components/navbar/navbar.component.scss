@@ -1,69 +1,141 @@
+/* ============================================================================
+ * 🧭 NAVBAR - Barra de navegación minimalista
+ * ============================================================================ */
 ion-toolbar {
+  --background: var(--color-secondary);
+  --min-height: 80px;
+  --padding-start: var(--spacing-lg);
+  --padding-end: var(--spacing-lg);
   display: flex;
   align-items: center;
-  --background: #F0DAC3;
   justify-content: space-between;
-  width: 100%;
-  height: 120%;
-  padding: 0 16px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+        var(--color-primary) 0%,
+        var(--color-secondary-dark) 100%);
+  }
 }
 
-.tipografia {
-  /*Es la tipografia general*/
-  color: black;
-  /*Color de las letras*/
-}
-
-ion-img {
-  /*Define el tamaño y como se pone el cursor en la imagen*/
-  width: 75px;
-  /*Tamaño*/
-  height: 75px;
-  /*Tamaño*/
-  cursor: pointer;
-  /*Cursor*/
-}
-
+/* Tipografía del título */
 ion-title {
-  /*Define las propiedades del titulo de la ventana*/
-  color: black;
+  color: var(--color-text);
   text-align: center;
   flex-grow: 1;
-  font-size: 2rem;
-  /*Tamaño de la letra*/
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.5px;
+
+  @media (max-width: 768px) {
+    font-size: var(--text-xl);
+  }
 }
 
+/* Logo */
+ion-img {
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: var(--transition-base);
+  filter: drop-shadow(var(--shadow-sm));
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Botón del menú */
 ion-menu-button {
-  /*Es el boton que despliega el menu*/
-  --color: #862471;
-  width: 75px;
-  height: 75px;
-  font-size: 10rem;
-  /*Tamaño del boton*/
+  --color: var(--color-primary);
+  font-size: 2.5rem;
+  transition: var(--transition-base);
+
+  &:hover {
+    transform: rotate(90deg);
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.9);
+  }
 }
 
-ion-item {
-  /*Define las propiedades de los items del menu*/
-  font-size: 2rem;
-  --background: #F0DAC3;
-  width: 70%;
-  margin: 25px auto;
-  /* Centra el ion-item horizontalmente */
-  text-align: center;
-  /* Centra el texto dentro del ion-item */
+/* ============================================================================
+ * 🖥️ MENÚ DESKTOP - Enlaces directos
+ * ============================================================================ */
+.desktop-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  ion-button {
+    --color: var(--color-text);
+    font-size: 15px;
+    font-weight: var(--font-weight-medium);
+    text-transform: none;
+    letter-spacing: 0;
+    
+    &:hover {
+      --color: var(--color-primary);
+    }
+  }
 }
 
+/* ============================================================================
+ * 📋 MENÚ LATERAL - Diseño moderno
+ * ============================================================================ */
 ion-list {
-  /*Define las propiedades de la lista del menu*/
-  background: #FFF8F8;
-  /* Fondo del contenido */
-  padding: 0;
-  /* Elimina el padding para que ocupe todo el espacio */
+  background: linear-gradient(180deg,
+      var(--color-background) 0%,
+      var(--color-background-alt) 100%);
+  padding: var(--spacing-xl) 0;
   height: 100vh;
   display: flex;
   justify-content: center;
-  /* Centrado vertical */
   align-items: center;
   flex-direction: column;
-  /* Alinea los items en columna */
+  gap: var(--spacing-md);
+}
+
+ion-item {
+  --background: var(--color-secondary);
+  --border-radius: var(--border-radius-full);
+  --padding-start: var(--spacing-xl);
+  --padding-end: var(--spacing-xl);
+  --min-height: 56px;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-medium);
+  width: 80%;
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-base);
+  cursor: pointer;
+
+  &:hover {
+    --background: var(--color-secondary-dark);
+    transform: translateX(8px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active {
+    transform: translateX(8px) scale(0.98);
+  }
+
+  ion-label {
+    text-align: center;
+    color: var(--color-text);
+  }
 }
