@@ -3,7 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, ToastController, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid,
-  IonSelectOption, IonIcon, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle, IonItem, IonSearchbar, IonList } from '@ionic/angular/standalone';
+  IonSelectOption, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle, IonItem, IonSearchbar, IonList } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { addIcons } from 'ionicons';
@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./editar-datos-generales-ciudadano.page.scss'],
   standalone: true,
   imports: [IonList, IonSearchbar, IonItem,
-    IonCardTitle, IonCardHeader, IonInput, IonCardContent, IonCard, IonIcon, IonGrid, IonLabel,
+    IonCardTitle, IonCardHeader, IonInput, IonCardContent, IonCard, IonGrid, IonLabel,
     IonCol, IonRow, IonButton, IonContent, IonHeader, IonTitle, IonToolbar,
     CommonModule, FormsModule, NavbarComponent, IonSelect, IonSelectOption
   ]

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonLabel, IonButton, IonInput, IonSelect, IonSelectOption, IonHeader, IonTitle,
   IonToolbar, IonRow,IonItem, IonCol, IonGrid, IonIcon, IonCardHeader, IonCardTitle, IonCardContent,
-  IonCard, IonButtons, IonModal, IonList,ToastController, IonSearchbar } from '@ionic/angular/standalone';
+  IonCard, IonList,ToastController, IonSearchbar } from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component'
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './registrar-ciudadano.page.html',
   styleUrls: ['./registrar-ciudadano.page.scss'],
   standalone: true,
-  imports: [IonSearchbar, IonList, IonModal, IonButtons,
+  imports: [IonSearchbar, IonList,
     IonCard, IonCardContent,IonItem, IonCardTitle, IonCardHeader, IonIcon, IonGrid, IonCol,
     IonRow, IonToolbar, IonTitle, IonHeader, IonInput, IonButton, IonLabel, IonContent,
     CommonModule, FormsModule, NavbarComponent, IonSelect, IonSelectOption

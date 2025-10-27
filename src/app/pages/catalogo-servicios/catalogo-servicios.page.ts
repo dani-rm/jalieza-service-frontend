@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel,
+  IonContent, IonHeader, IonToolbar, IonButton, IonLabel,
   IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonCard,
   IonCardContent, IonText, IonSearchbar, IonChip, 
   IonSelect, IonSelectOption, ToastController, AlertController
@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
   imports: [
     IonText, IonCardContent, IonCard, IonIcon, IonButtons,
     IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader,
-    IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, 
+    IonToolbar, CommonModule, FormsModule, NavbarComponent, 
     IonSearchbar, IonChip, IonSelect, 
     IonSelectOption
   ]

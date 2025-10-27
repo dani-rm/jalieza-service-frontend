@@ -3,7 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel,
+  IonContent, IonHeader, IonToolbar, IonButton, IonLabel,
   IonCol, IonGrid, IonRow, IonItem, IonInput, IonSelect, IonSelectOption,
   IonText, IonCard, IonCardContent, IonIcon, ToastController, IonButtons
 } from '@ionic/angular/standalone';
@@ -21,7 +21,7 @@ import { saveOutline, arrowBackOutline, checkmarkCircleOutline } from 'ionicons/
   imports: [
     IonText, IonCardContent, IonCard, IonItem, IonIcon, IonButtons,
     IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader,
-    IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule,
+    IonToolbar, CommonModule, FormsModule, ReactiveFormsModule,
     NavbarComponent, IonInput, IonSelect, IonSelectOption
   ]
 })
