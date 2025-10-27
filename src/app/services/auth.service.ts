@@ -95,18 +95,20 @@ getUsuario(): any | null {
 logout(): void {
   const url = `${environment.apiUrl}/auth/logout`;
 
-  this.http.post(url, {}, {
-    withCredentials: true, // importante para cookies
-  }).subscribe({
+  // 1) Cerrar sesión localmente de inmediato para evitar flicker/redirecciones
+  localStorage.removeItem(this.TOKEN_KEY);
+  localStorage.removeItem(this.ROLE_KEY);
+  this.authStatus.next(false);
+  // Reemplaza la URL para evitar volver atrás a páginas privadas
+  this.router.navigate(['/home'], { replaceUrl: true });
+
+  // 2) Notificar al backend en segundo plano (cookies httpOnly, etc.)
+  this.http.post(url, {}, { withCredentials: true }).subscribe({
     next: () => {
-      localStorage.removeItem(this.TOKEN_KEY);
-      localStorage.removeItem(this.ROLE_KEY);
-      this.authStatus.next(false); // Avisar que cerró sesión
-      this.router.navigate(['/home']);
-      console.log('🚪 Sesión cerrada');
+      console.log('🚪 Sesión cerrada en servidor');
     },
     error: err => {
-      console.error('❌ Error al cerrar sesión:', err);
+      console.warn('⚠️ No se pudo cerrar sesión en servidor:', err?.message || err);
     }
   });
 }

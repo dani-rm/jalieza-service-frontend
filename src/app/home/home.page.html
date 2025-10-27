@@ -15,31 +15,34 @@
               <h1>Iniciar Sesión</h1>
             </div>
 
-            <!-- Correo electrónico -->
-            <div class="login-row">
-              <ion-label>Correo electrónico</ion-label>
-              <ion-input type="email" [(ngModel)]="email" placeholder="usuario@ejemplo.com" autocomplete="email">
-              </ion-input>
-            </div>
+            <form (ngSubmit)="login()" autocomplete="off">
+              <!-- Correo electrónico -->
+              <div class="login-row">
+                <ion-label>Usuario o correo electrónico</ion-label>
+                <ion-input type="email" [(ngModel)]="email" name="email" placeholder="Ingrese su usuario"
+                  autocomplete="email">
+                </ion-input>
+              </div>
 
-            <!-- Contraseña -->
-            <div class="login-row">
-              <ion-label>Contraseña</ion-label>
-              <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="••••••••" [(ngModel)]="password"
-                autocomplete="current-password">
-                <ion-icon *ngIf="password && password.length > 0"
-                  [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" class="eye-icon"
-                  (click)="togglePassword()">
-                </ion-icon>
-              </ion-input>
-            </div>
+              <!-- Contraseña -->
+              <div class="login-row">
+                <ion-label>Contraseña</ion-label>
+                <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Ingrese su contraseña"
+                  [(ngModel)]="password" name="password" autocomplete="current-password">
+                  <ion-icon *ngIf="password && password.length > 0"
+                    [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" class="eye-icon"
+                    (click)="togglePassword()">
+                  </ion-icon>
+                </ion-input>
+              </div>
 
-            <!-- Botón de inicio de sesión -->
-            <div class="login-row">
-              <ion-button expand="block" class="login-button" (click)="login()">
-                Iniciar sesión
-              </ion-button>
-            </div>
+              <!-- Botón de inicio de sesión -->
+              <div class="login-row">
+                <ion-button type="submit" expand="block" class="login-button">
+                  Iniciar sesión
+                </ion-button>
+              </div>
+            </form>
 
           </div>
         </ion-col>

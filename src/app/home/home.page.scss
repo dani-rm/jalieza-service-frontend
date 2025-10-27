@@ -71,9 +71,15 @@ ion-input {
   --padding-end: 16px;
   --padding-top: 14px;
   --padding-bottom: 14px;
+  /* Desactiva la línea de resaltado (verde) de Ionic por enfoque/estado */
+  --highlight-color-focused: transparent;
+  --highlight-color: transparent;
+  --highlight-background: transparent;
+  --highlight-height: 0;
   border-radius: 12px;
   border: 2px solid #e2e8f0;
   font-size: 15px;
+  min-height: 52px;
 
   &:hover {
     border-color: #a34490;

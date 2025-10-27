@@ -21,7 +21,6 @@ export class AppComponent {
 
   cerrarSesion() {
     this.authService.logout();
-    this.router.navigate(['/home']);
   }
 
 }

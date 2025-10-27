@@ -42,7 +42,6 @@ export class NavbarComponent  implements OnInit {
   // Cerrar sesión
   cerrarSesion() {
     this.authService.logout();
-    this.router.navigate(['/home']);
   }
 
 

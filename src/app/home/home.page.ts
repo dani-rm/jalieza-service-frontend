@@ -6,7 +6,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
-import { eye, eyeOff } from 'ionicons/icons';
+import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { HttpClient } from '@angular/common/http';
 import { MenuController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
@@ -33,11 +33,25 @@ export class HomePage {
     private menuCtrl: MenuController,
       private authService: AuthService
   ) {
-    addIcons({ eye, eyeOff });
+    addIcons({ eyeOutline, eyeOffOutline });
   }
 
   ionViewWillEnter() {
-    this.menuCtrl.enable(false); // Desactiva el menú en pantalla de login
+    // Desactiva el menú en pantalla de login
+    this.menuCtrl.enable(false);
+
+    // Si ya está autenticado, evita volver a ver el login usando el botón atrás
+    if (this.authService.isAuthenticated && typeof this.authService.isAuthenticated === 'function') {
+      if (this.authService.isAuthenticated()) {
+        this.router.navigate(['/buscar-ciudadano'], { replaceUrl: true });
+        return;
+      }
+    }
+
+    // Limpia los campos cada vez que se entra al login (evita valores previos)
+    this.email = '';
+    this.password = '';
+    this.showPassword = false;
   }
 
   togglePassword() {
@@ -55,7 +69,7 @@ export class HomePage {
       console.log('Token recibido:', response.token);
       console.log('✅ Login exitoso', this.email);
       this.authService.guardarSesion(response.token);
-      this.router.navigate(['/buscar-ciudadano']);
+  this.router.navigate(['/buscar-ciudadano'], { replaceUrl: true });
     },
     error: async (err) => {
       console.error('❌ Error en login', err);
