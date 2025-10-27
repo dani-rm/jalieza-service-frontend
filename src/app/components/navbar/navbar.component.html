@@ -12,8 +12,10 @@
     <!-- Enlaces de navegación en desktop -->
     <div slot="end" class="desktop-menu" *ngIf="!isMobile && !debeOcultarMenu() && authService.isAuthenticated()">
       <ion-button fill="clear" routerLink="/buscar-ciudadano">Buscar Ciudadano</ion-button>
-      <ion-button fill="clear" routerLink="/registrar-ciudadano" *ngIf="authService.getUserRole() !== '4'">Registrar Ciudadano</ion-button>
-      <ion-button fill="clear" routerLink="/catalogo-servicios" *ngIf="authService.getUserRole() !== '4'">Servicios</ion-button>
+      <ion-button fill="clear" routerLink="/registrar-ciudadano" *ngIf="authService.getUserRole() !== '4'">Registrar
+        Ciudadano</ion-button>
+      <ion-button fill="clear" routerLink="/catalogo-servicios"
+        *ngIf="authService.getUserRole() !== '4'">Servicios</ion-button>
       <ion-button fill="clear" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
     </div>
 

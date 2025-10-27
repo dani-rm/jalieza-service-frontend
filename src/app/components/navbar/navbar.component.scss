@@ -78,14 +78,14 @@ ion-menu-button {
   display: flex;
   align-items: center;
   gap: 8px;
-  
+
   ion-button {
     --color: var(--color-text);
     font-size: 15px;
     font-weight: var(--font-weight-medium);
     text-transform: none;
     letter-spacing: 0;
-    
+
     &:hover {
       --color: var(--color-primary);
     }
