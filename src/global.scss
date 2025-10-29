@@ -430,3 +430,35 @@ ion-searchbar {
     --box-shadow: var(--shadow-md);
   }
 }
+
+/* ==========================================================================
+ * 🔘 BOTÓN ESTÁNDAR DEL SISTEMA (igual al de login)
+ * Usar en todos los botones primarios para consistencia visual
+ * ========================================================================== */
+.app-btn-primary {
+  --background: #862471;
+  /* color primario */
+  --color: #ffffff;
+  --border-radius: 12px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  height: 48px;
+  transition: transform 0.15s ease;
+
+  &:hover {
+    --background: #6b1d5a;
+    /* primario darker */
+    transform: translateY(-2px);
+  }
+
+  &[disabled] {
+    --background: var(--color-border);
+    --color: var(--color-text-light);
+    transform: none;
+    opacity: 0.6;
+  }
+}
