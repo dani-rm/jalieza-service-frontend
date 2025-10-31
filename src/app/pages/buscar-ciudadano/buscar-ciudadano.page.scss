@@ -1,41 +1,9 @@
 /* ============================================================================
- * 🔍 BUSCAR CIUDADANO - Diseño minimalista y elegante
+ * 🔍 BUSCAR CIUDADANO - Estilos específicos únicos
  * ============================================================================ */
-.grid-wrapper {
-  min-height: calc(100vh - 131px);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: var(--spacing-xl);
-
-  @media (max-width: 768px) {
-    padding: var(--spacing-md);
-  }
-}
-
-.grid-center {
-  width: 100%;
-  max-width: 1400px;
-}
 
 /* ============================================================================
- * 📦 CONTENEDOR PRINCIPAL
- * ============================================================================ */
-.contenedor-buscador {
-  width: 100%;
-  background: var(--color-surface);
-  border-radius: var(--border-radius-xl);
-  box-shadow: var(--shadow-lg);
-  padding: var(--spacing-xl);
-  animation: fadeInUp 0.4s ease;
-
-  @media (max-width: 768px) {
-    padding: var(--spacing-lg);
-  }
-}
-
-/* ============================================================================
- * 📝 TÍTULO
+ * 📝 TÍTULO (específico de búsqueda)
  * ============================================================================ */
 .titulo {
   font-size: var(--text-3xl);
@@ -54,23 +22,13 @@
  * 🔍 BARRA DE BÚSQUEDA
  * ============================================================================ */
 .search-bar {
-  width: 100%;
-  margin-bottom: var(--spacing-lg);
-}
+  width: calc(100% - var(--spacing-xl) * 2);
+  /* Añade separación arriba, abajo y a los lados */
+  margin: var(--spacing-lg) var(--spacing-xl);
 
-ion-searchbar {
-  --background: var(--color-background);
-  --border-radius: var(--border-radius-full);
-  --box-shadow: var(--shadow-md);
-  --color: var(--color-text);
-  --placeholder-color: var(--color-text-light);
-  --icon-color: var(--color-primary);
-  --clear-button-color: var(--color-primary);
-  padding: 0;
-  transition: var(--transition-base);
-
-  &:focus-within {
-    --box-shadow: var(--shadow-lg);
+  @media (max-width: 768px) {
+    width: calc(100% - var(--spacing-md) * 2);
+    margin: var(--spacing-lg) var(--spacing-md);
   }
 }
 
@@ -80,129 +38,146 @@ ion-searchbar {
 .filter-container {
   display: flex;
   gap: var(--spacing-md);
-  margin-bottom: var(--spacing-xl);
+  margin: 0 var(--spacing-xl) var(--spacing-lg);
   flex-wrap: wrap;
 
   @media (max-width: 768px) {
     flex-direction: column;
+    margin: 0 var(--spacing-md) var(--spacing-lg);
   }
 }
 
 .filter-item {
   flex: 1;
   min-width: 250px;
-  --background: var(--color-background);
-  --border-radius: var(--border-radius-md);
-  --padding-start: var(--spacing-md);
-  --padding-end: var(--spacing-md);
-  --min-height: 56px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-base);
-  border: 1px solid var(--color-border);
+  /* Estilos para el contenedor ion-item - sin cambios de color ni interacción */
+  --background: transparent !important;
+  --border-width: 0 !important;
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: auto;
+  border: none !important;
+  box-shadow: none !important;
+  pointer-events: none; // Deshabilita clicks en el contenedor
+  cursor: default;
 
-  &:hover {
-    --background: var(--color-surface);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-primary-light);
+  &:hover,
+  &.item-has-focus {
+    --background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   ion-label {
     font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+    margin-left: 20px;
   }
 
   ion-select {
-    --placeholder-color: var(--color-text-light);
-    color: var(--color-text);
+    width: 100%;
+    pointer-events: auto; // Re-habilita clicks solo en el select
+    cursor: pointer;
   }
 }
 
 /* ============================================================================
- * 🎴 TARJETAS DE CIUDADANOS
+ * 📊 TABLA DE CIUDADANOS
  * ============================================================================ */
-ion-card {
-  background: var(--color-surface);
+.tabla-container {
+  width: calc(100% - var(--spacing-xl) * 2);
+  margin: 0 var(--spacing-xl);
+  overflow-x: auto;
+
+  @media (max-width: 768px) {
+    width: calc(100% - var(--spacing-md) * 2);
+    margin: 0 var(--spacing-md);
+  }
+}
+
+.tabla-ciudadanos {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-secondary-light);
+  border: 1px solid var(--color-secondary);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-base);
-  cursor: pointer;
   overflow: hidden;
-  border: 2px solid transparent;
-
-  &:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--color-primary-light);
-  }
-
-  &:active {
-    transform: translateY(-2px);
-  }
-
-  ion-card-content {
-    padding: var(--spacing-lg);
-    text-align: center;
-  }
-
-  ion-avatar {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto var(--spacing-md);
-    border: 3px solid var(--color-primary);
-    box-shadow: var(--shadow-md);
-
-    img {
-      object-fit: cover;
-    }
-  }
-
-  ion-label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text);
-    display: block;
-    margin-top: var(--spacing-sm);
-    line-height: 1.5;
-  }
-
-  // Mensaje de advertencia
-  ion-item[color="warning"] {
-    margin-top: var(--spacing-md);
-    --background: rgba(237, 137, 54, 0.1);
-    border-left: 4px solid var(--color-warning);
-    --border-radius: var(--border-radius-sm);
-
-    ion-label {
-      font-size: var(--text-sm);
-      color: var(--color-warning);
-      font-weight: var(--font-weight-medium);
-    }
-  }
+  table-layout: fixed; // Permite controlar el ancho de columnas
 }
 
-/* ============================================================================
- * 🎬 ANIMACIONES
- * ============================================================================ */
-@keyframes fadeInUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.tabla-ciudadanos thead th {
+  background: var(--color-background);
+  color: var(--color-text);
+  text-align: left;
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-secondary);
+  height: 44px; // Altura del header 
 }
 
-/* Animación escalonada para las cards */
-ion-card {
-  animation: fadeInUp 0.4s ease backwards;
+// Control de ancho por columna
+.tabla-ciudadanos thead th:nth-child(1) {
+  width: 70%; // Columna "Nombre"
+}
 
-  @for $i from 1 through 20 {
-    &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.05}s;
-    }
-  }
+.tabla-ciudadanos thead th:nth-child(2) {
+  width: 30%; // Columna "Datos generales"
+  text-align: center;
+}
+
+.tabla-ciudadanos tbody td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-secondary);
+  height: 56px; // Altura de las filas 
+}
+
+// Centrar botón en la segunda columna
+.tabla-ciudadanos tbody td:nth-child(2) {
+  text-align: center;
+}
+
+.tabla-ciudadanos tbody tr {
+  transition: var(--transition-fast);
+  cursor: default;
+}
+
+.tabla-ciudadanos tbody tr:hover {
+  background: var(--color-background);
+}
+
+.nombre {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.badge-aviso {
+  background: rgba(237, 137, 54, 0.15);
+  color: var(--color-warning);
+  padding: 2px 8px;
+  border-radius: var(--border-radius-full);
+  font-size: 12px;
+}
+
+.estado-activo {
+  color: var(--color-success);
+  font-weight: var(--font-weight-semibold);
+}
+
+.estado-inactivo {
+  color: var(--color-danger);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Animación suave al cargar filas de la tabla */
+.tabla-ciudadanos tbody tr {
+  animation: fadeInUp 0.3s ease;
 }

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  IonContent, IonHeader, IonTitle, ToastController, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid,
-  IonSelectOption, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle, IonItem, IonSearchbar, IonList } from '@ionic/angular/standalone';
+import { IonContent, IonTitle, ToastController, IonToolbar, IonButton, IonRow, IonCol, IonLabel, IonGrid, IonSelectOption, IonSelect, IonCard, IonCardContent, IonInput, IonCardHeader, IonCardTitle, IonItem, IonSearchbar, IonList, IonIcon } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { addIcons } from 'ionicons';
@@ -17,9 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [IonList, IonSearchbar, IonItem,
     IonCardTitle, IonCardHeader, IonInput, IonCardContent, IonCard, IonGrid, IonLabel,
-    IonCol, IonRow, IonButton, IonContent, IonHeader, IonTitle, IonToolbar,
-    CommonModule, FormsModule, NavbarComponent, IonSelect, IonSelectOption
-  ]
+    IonCol, IonRow, IonButton, IonContent, IonTitle, IonToolbar,
+    CommonModule, FormsModule, NavbarComponent, IonSelect, IonSelectOption, IonIcon]
 })
 export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     // Variables de pareja
@@ -248,9 +245,10 @@ onSearchChange(event: any) {
 }
 seleccionarPareja(persona: any) {
   if (persona === 'registrar') {
-    this.estadoCivilPareja = this.estadoCivil;         // Prellenar
-    this.estadoCivilParejaFijo = true;                 // Bloquear cambios
-    this.mostrarFormularioPareja = true;               // Mostrar form
+    // Estado civil fijo como Casado para el formulario de pareja
+    this.estadoCivilPareja = 2;
+    this.estadoCivilParejaFijo = true;
+    this.mostrarFormularioPareja = true;
     this.cerrarBuscador();
   } else {
     this.parejaSeleccionada = persona;
@@ -264,6 +262,51 @@ cerrarBuscador() {
 cargarCiudadano() {
   this.ciudadanoService.getCiudadanoPorId(this.ciudadano.id).subscribe((data) => {
     this.ciudadano = data;
+  });
+}
+
+// ✅ Habilitar el botón Registrar solo cuando haya nombre y al menos un apellido
+puedeRegistrarPareja(): boolean {
+  const nombreValido = (this.nombresPareja || '').trim().length > 0;
+  const tieneApellido = (this.apellidoPaternoPareja || '').trim().length > 0 || (this.apellidoMaternoPareja || '').trim().length > 0;
+  return nombreValido && tieneApellido;
+}
+
+// ✅ Registrar pareja: crea ciudadano con estado civil Casado y asociando como partner al actual
+registrarPareja() {
+  if (!this.puedeRegistrarPareja()) {
+    this.mostrarToasAdvertencia('Completa nombre y al menos un apellido');
+    return;
+  }
+
+  const dto = {
+    name: (this.nombresPareja || '').trim(),
+    last_name_father: (this.apellidoPaternoPareja || '').trim(),
+    last_name_mother: (this.apellidoMaternoPareja || '').trim(),
+    birth_date: (this.fechaNacimientoPareja || ''),
+    phone: (this.telefonoPareja || '').replace(/\D/g, '').slice(0, 10),
+    marital_status: 2,
+    partner: this.ciudadano?.id || null,
+  };
+
+  this.ciudadanoService.crearCiudadano(dto).subscribe({
+    next: async (nuevo) => {
+      await this.mostrarToast('Pareja registrada correctamente');
+      this.parejaSeleccionada = nuevo;
+      this.mostrarFormularioPareja = false;
+      // Asegurar que el ciudadano actual quede como Casado al guardar
+      this.estadoCivil = 2;
+      // Limpiar formulario modal
+      this.nombresPareja = '';
+      this.apellidoPaternoPareja = '';
+      this.apellidoMaternoPareja = '';
+      this.telefonoPareja = '';
+      this.fechaNacimientoPareja = '';
+    },
+    error: async (err) => {
+      console.error('Error al registrar pareja', err);
+      await this.mostrarToastError('No se pudo registrar la pareja');
+    }
   });
 }
 

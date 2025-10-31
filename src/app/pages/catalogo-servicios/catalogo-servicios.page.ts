@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonContent, IonHeader, IonToolbar, IonButton, IonLabel,
+  IonContent, IonHeader, IonToolbar, IonButton,
   IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonCard,
-  IonCardContent, IonText, IonSearchbar, IonChip, 
-  IonSelect, IonSelectOption, ToastController, AlertController
+  IonCardContent, IonText, IonSearchbar, 
+  IonSelect, IonSelectOption, IonTitle, ToastController, AlertController
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { CatalogoServiciosCrudService } from 'src/app/services/catalogo-servicios-crud.service';
@@ -21,9 +21,9 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     IonText, IonCardContent, IonCard, IonIcon, IonButtons,
-    IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader,
-    IonToolbar, CommonModule, FormsModule, NavbarComponent, 
-    IonSearchbar, IonChip, IonSelect, 
+    IonRow, IonGrid, IonCol, IonButton, IonContent, IonHeader,
+    IonToolbar, IonTitle, CommonModule, FormsModule, NavbarComponent, 
+    IonSearchbar, IonSelect, 
     IonSelectOption
   ]
 })

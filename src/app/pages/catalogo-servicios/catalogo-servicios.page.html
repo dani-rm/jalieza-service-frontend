@@ -1,39 +1,32 @@
-<ion-content>
-    <div class="container catalogo-servicios-page">
-        <ion-grid>
-            <ion-row>
-                <ion-col size="12">
-                    <app-navbar title="Catálogo de Servicios"></app-navbar>
-                </ion-col>
-            </ion-row>
+<app-navbar title="Catálogo de Servicios"></app-navbar>
 
-            <!-- Header con título y acciones -->
-            <ion-row>
-                <ion-col size="12">
-                    <ion-header>
-                        <ion-toolbar>
-                            <ion-buttons slot="end">
-                                <ion-button (click)="navegarACrearServicio()" color="primary">
-                                    <ion-icon name="add-outline" slot="start"></ion-icon>
-                                    Nuevo Servicio
-                                </ion-button>
-                                <ion-button (click)="cargarDatos()" fill="outline">
-                                    <ion-icon name="refresh-outline" slot="start"></ion-icon>
-                                    Actualizar
-                                </ion-button>
-                            </ion-buttons>
-                        </ion-toolbar>
-                    </ion-header>
-                </ion-col>
-            </ion-row>
+<ion-content id="main-content">
+    <div class="grid-wrapper">
+        <ion-grid class="grid-center">
+            <ion-row class="ion-justify-content-center">
+                <ion-col size="12" size-md="11" size-lg="11" size-xl="10">
+                    <div class="contenedor-servicios">
 
-            <!-- Filtros y búsqueda -->
-            <ion-row>
-                <ion-col size="12">
-                    <ion-card>
-                        <ion-card-content>
+                        <!-- Encabezado con título y acciones -->
+                        <ion-header>
+                            <ion-toolbar class="cabeza">
+                                <ion-title class="titulo-contenedor">Catálogo de Servicios</ion-title>
+                                <ion-buttons slot="end">
+                                    <ion-button (click)="navegarACrearServicio()" class="boton-accion">
+                                        <ion-icon name="add-outline" slot="start"></ion-icon>
+                                        Nuevo Servicio
+                                    </ion-button>
+                                    <ion-button (click)="cargarDatos()" class="boton-accion-secundario">
+                                        <ion-icon name="refresh-outline" slot="start"></ion-icon>
+                                        Actualizar
+                                    </ion-button>
+                                </ion-buttons>
+                            </ion-toolbar>
+                        </ion-header>
+
+                        <!-- Filtros y búsqueda -->
+                        <div class="filtros-contenedor">
                             <ion-grid>
-                                <!-- Barra de búsqueda y filtros -->
                                 <ion-row class="filtros-row">
                                     <ion-col size="12" size-md="7">
                                         <ion-searchbar [(ngModel)]="terminoBusqueda" (ionInput)="onBuscar($event)"
@@ -55,124 +48,118 @@
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
-                        </ion-card-content>
-                    </ion-card>
-                </ion-col>
-            </ion-row>
+                        </div>
 
-            <!-- Estado de carga -->
-            <ion-row *ngIf="cargando">
-                <ion-col size="12">
-                    <ion-text class="ion-text-center">
-                        <p>Cargando servicios...</p>
-                    </ion-text>
-                </ion-col>
-            </ion-row>
-
-            <!-- Error -->
-            <ion-row *ngIf="error && !cargando">
-                <ion-col size="12">
-                    <ion-card color="danger">
-                        <ion-card-content>
-                            <ion-text color="light">
-                                <p>{{ error }}</p>
-                            </ion-text>
-                        </ion-card-content>
-                    </ion-card>
-                </ion-col>
-            </ion-row>
-
-            <!-- Lista de servicios agrupados por orden -->
-            <ion-row *ngIf="!cargando && !error">
-                <ion-col size="12">
-                    <div *ngFor="let ordenNombre of obtenerNombresOrdenesAgrupadas()" class="orden-container">
-                        <!-- Header de la orden -->
-                        <ion-card class="orden-header">
-                            <ion-card-content>
-                                <ion-grid>
-                                    <ion-row>
-                                        <ion-col size="12" size-md="8">
-                                            <ion-text>
-                                                <h2>{{ ordenNombre }}</h2>
-                                                <p>{{ obtenerServiciosDeOrden(ordenNombre).length }} servicios</p>
-                                            </ion-text>
-                                        </ion-col>
-                                        <ion-col size="12" size-md="4" class="ion-text-end">
-                                            <ion-chip color="light">
-                                                <ion-label style="color: white !important;">{{
-                                                    obtenerServiciosDeOrden(ordenNombre)[0].order.required_points || 0
-                                                    }}
-                                                    puntos</ion-label>
-                                            </ion-chip>
-                                        </ion-col>
-                                    </ion-row>
-                                </ion-grid>
-                            </ion-card-content>
-                        </ion-card>
-
-                        <!-- Servicios de la orden en formato tabla -->
-                        <ion-card class="tabla-servicios">
-                            <ion-card-content>
-                                <ion-grid>
-                                    <ion-row class="tabla-header">
-                                        <ion-col size="6" size-md="8">
-                                            <ion-text>
-                                                <h4>Nombre del Servicio</h4>
-                                            </ion-text>
-                                        </ion-col>
-                                        <ion-col size="6" size-md="4" class="ion-text-center">
-                                            <ion-text>
-                                                <h4>Acciones</h4>
-                                            </ion-text>
-                                        </ion-col>
-                                    </ion-row>
-
-                                    <ion-row
-                                        *ngFor="let servicio of obtenerServiciosDeOrden(ordenNombre); let i = index"
-                                        class="tabla-fila" [class.fila-par]="i % 2 === 0">
-                                        <ion-col size="6" size-md="8">
-                                            <ion-text>
-                                                <p class="nombre-servicio">{{ servicio.service_name }}</p>
-                                            </ion-text>
-                                        </ion-col>
-                                        <ion-col size="6" size-md="4" class="ion-text-center">
-                                            <div class="acciones-tabla">
-                                                <ion-button (click)="navegarAEditarServicio(servicio.id)" fill="outline"
-                                                    size="small" color="primary">
-                                                    <ion-icon name="create-outline" slot="start"></ion-icon>
-                                                    Editar
-                                                </ion-button>
-
-                                                <ion-button (click)="confirmarEliminacion(servicio)" fill="outline"
-                                                    size="small" color="danger">
-                                                    <ion-icon name="trash-outline" slot="start"></ion-icon>
-                                                    Eliminar
-                                                </ion-button>
-                                            </div>
-                                        </ion-col>
-                                    </ion-row>
-
-                                    <!-- Mensaje cuando no hay servicios en esta orden -->
-                                    <ion-row *ngIf="obtenerServiciosDeOrden(ordenNombre).length === 0">
-                                        <ion-col size="12">
-                                            <ion-text class="ion-text-center">
-                                                <p class="sin-servicios">No hay servicios en esta orden</p>
-                                            </ion-text>
-                                        </ion-col>
-                                    </ion-row>
-                                </ion-grid>
-                            </ion-card-content>
-                        </ion-card>
-                    </div>
-
-                    <!-- Mensaje cuando no hay servicios -->
-                    <ion-card *ngIf="obtenerNombresOrdenesAgrupadas().length === 0">
-                        <ion-card-content>
+                        <!-- Estado de carga -->
+                        <div *ngIf="cargando" class="estado-carga">
                             <ion-text class="ion-text-center">
-                                <p>No se encontraron servicios</p>
+                                <p>Cargando servicios...</p>
                             </ion-text>
-                        </ion-card-content>
-                    </ion-card>
+                        </div>
+
+                        <!-- Error -->
+                        <div *ngIf="error && !cargando" class="estado-error">
+                            <ion-card color="danger">
+                                <ion-card-content>
+                                    <ion-text color="light">
+                                        <p>{{ error }}</p>
+                                    </ion-text>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+
+                        <!-- Lista de servicios agrupados por orden -->
+                        <div *ngIf="!cargando && !error" class="lista-servicios">
+                            <div *ngFor="let ordenNombre of obtenerNombresOrdenesAgrupadas()" class="orden-container">
+                                <!-- Header de la orden -->
+                                <ion-card class="orden-header">
+                                    <ion-card-content>
+                                        <ion-grid>
+                                            <ion-row>
+                                                <ion-col size="8" size-md="9">
+                                                    <ion-text>
+                                                        <h2>{{ ordenNombre }}</h2>
+                                                    </ion-text>
+                                                </ion-col>
+                                                <!-- <ion-col size="4" size-md="3" class="ion-text-end">
+                                                    <ion-chip color="light">
+                                                        <ion-label>{{
+                                                            obtenerServiciosDeOrden(ordenNombre)[0].order.required_points
+                                                            || 0
+                                                            }} pts</ion-label>
+                                                    </ion-chip>
+                                                </ion-col> -->
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-card-content>
+                                </ion-card>
+
+                                <!-- Servicios de la orden en formato tabla -->
+                                <ion-card class="tabla-servicios">
+                                    <ion-card-content>
+                                        <ion-grid>
+                                            <ion-row class="tabla-header">
+                                                <ion-col size="6" size-md="8">
+                                                    <ion-text>
+                                                        <h4>Nombre del Servicio</h4>
+                                                    </ion-text>
+                                                </ion-col>
+                                                <ion-col size="6" size-md="4" class="ion-text-center">
+                                                    <ion-text>
+                                                        <h4>Acciones</h4>
+                                                    </ion-text>
+                                                </ion-col>
+                                            </ion-row>
+
+                                            <ion-row
+                                                *ngFor="let servicio of obtenerServiciosDeOrden(ordenNombre); let i = index"
+                                                class="tabla-fila" [class.fila-par]="i % 2 === 0">
+                                                <ion-col size="6" size-md="8">
+                                                    <ion-text>
+                                                        <p class="nombre-servicio">{{ servicio.service_name }}</p>
+                                                    </ion-text>
+                                                </ion-col>
+                                                <ion-col size="6" size-md="4" class="ion-text-center">
+                                                    <div class="acciones-tabla">
+                                                        <ion-button (click)="navegarAEditarServicio(servicio.id)"
+                                                            class="boton-editar-servicio">
+                                                            <ion-icon name="create-outline" slot="start"></ion-icon>
+                                                            Editar
+                                                        </ion-button>
+
+                                                        <ion-button (click)="confirmarEliminacion(servicio)"
+                                                            class="boton-eliminar-servicio">
+                                                            <ion-icon name="trash-outline" slot="start"></ion-icon>
+                                                            Eliminar
+                                                        </ion-button>
+                                                    </div>
+                                                </ion-col>
+                                            </ion-row>
+
+                                            <!-- Mensaje cuando no hay servicios en esta orden -->
+                                            <ion-row *ngIf="obtenerServiciosDeOrden(ordenNombre).length === 0">
+                                                <ion-col size="12">
+                                                    <ion-text class="ion-text-center">
+                                                        <p class="sin-servicios">No hay servicios en esta orden</p>
+                                                    </ion-text>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-card-content>
+                                </ion-card>
+                            </div>
+
+                            <!-- Mensaje cuando no hay servicios -->
+                            <ion-card *ngIf="obtenerNombresOrdenesAgrupadas().length === 0">
+                                <ion-card-content>
+                                    <ion-text class="ion-text-center">
+                                        <p>No se encontraron servicios</p>
+                                    </ion-text>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+
+                    </div>
                 </ion-col>
             </ion-row>
         </ion-grid>

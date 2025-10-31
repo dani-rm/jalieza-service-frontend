@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { IonHeader, IonTitle, IonMenuButton, IonToolbar, IonButtons, IonImg, IonButton } from "@ionic/angular/standalone";
+import { IonHeader, IonMenuButton, IonToolbar, IonButtons, IonImg, IonButton } from "@ionic/angular/standalone";
 import { AuthService } from '../../services/auth.service';
 
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  imports: [IonButton, IonImg, IonButtons, IonToolbar, IonMenuButton, IonTitle, IonHeader, CommonModule, RouterLink],
+  imports: [IonButton, IonImg, IonButtons, IonToolbar, IonMenuButton,IonHeader, CommonModule, RouterLink],
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent  implements OnInit {

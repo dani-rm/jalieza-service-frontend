@@ -2,7 +2,7 @@
  * 🧭 NAVBAR - Barra de navegación minimalista
  * ============================================================================ */
 ion-toolbar {
-  --background: var(--color-secondary);
+  --background: var(--color-background);
   --min-height: 80px;
   --padding-start: var(--spacing-lg);
   --padding-end: var(--spacing-lg);
@@ -21,7 +21,7 @@ ion-toolbar {
     height: 3px;
     background: linear-gradient(90deg,
         var(--color-primary) 0%,
-        var(--color-secondary-dark) 100%);
+        var(--color-secondary-light) 100%);
   }
 }
 
@@ -98,7 +98,7 @@ ion-menu-button {
 ion-list {
   background: linear-gradient(180deg,
       var(--color-background) 0%,
-      var(--color-background-alt) 100%);
+      var(--color-secondary-light) 100%);
   padding: var(--spacing-xl) 0;
   height: 100vh;
   display: flex;

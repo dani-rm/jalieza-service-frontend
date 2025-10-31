@@ -34,7 +34,7 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* @import '@ionic/angular/css/palettes/dark.system.css'; */
 
 /* ============================================================================
  * 🎨 CONFIGURACIÓN BASE - Tipografía y estilos globales
@@ -77,14 +77,14 @@ textarea {
 
 .grid-center {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1600px;
 }
 
 .contenedor-formulario,
 .contenedor-buscador,
 .contenedor-ciudadano {
   width: 100%;
-  background: var(--color-surface);
+  background: var(--color-secondary-light);
   border-radius: var(--border-radius-xl);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
@@ -95,13 +95,14 @@ textarea {
  * 🎯 HEADER COMPONENTS - Cabeceras modernas
  * ============================================================================ */
 .cabeza {
-  --background: var(--color-header);
+  --background: var(--color-primary);
   padding: var(--spacing-lg);
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  min-height: 70px;
 
   &::after {
     content: '';
@@ -114,13 +115,17 @@ textarea {
         var(--color-primary-light) 0%,
         var(--color-secondary) 100%);
   }
+
+  @media (max-width: 768px) {
+    min-height: 60px;
+  }
 }
 
 .titulo-formulario,
 .titulo-contenedor {
   font-size: var(--text-3xl);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-white);
+  color: var(--color-secondary-light);
   letter-spacing: -0.5px;
   margin: 0;
 }
@@ -130,29 +135,48 @@ textarea {
  * ============================================================================ */
 .grid-formulario,
 .grid-datos {
-  background: var(--color-surface);
-  padding: var(--spacing-xl);
+  width: calc(100% - var(--spacing-xl) * 2);
+  margin: 0 var(--spacing-xl);
+  padding: var(--spacing-xl) 0;
 
   @media (max-width: 768px) {
-    padding: var(--spacing-lg);
+    width: calc(100% - var(--spacing-md) * 2);
+    margin: 0 var(--spacing-md);
+    padding: var(--spacing-lg) 0;
   }
 }
 
 /* ============================================================================
  * 🏷️ TEXT COMPONENTS - Etiquetas y campos
  * ============================================================================ */
+.campo {
+  margin-bottom: var(--spacing-md);
+  animation: fadeInUp 0.4s ease backwards;
+
+  /* Animación escalonada para campos */
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
+}
+
 .etiqueta {
+  display: block;
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   margin-bottom: var(--spacing-xs);
-  display: block;
+  margin-left: 5px;
 }
 
-.campo {
-  margin-bottom: var(--spacing-lg);
+/* Inputs y selects dentro de campos con tamaño estándar */
+.campo ion-input,
+.campo ion-select {
+  min-height: 52px;
+  height: 52px;
+  --padding-start: var(--spacing-md);
+  --padding-end: var(--spacing-md);
 }
 
 .valor-dato {
@@ -161,7 +185,7 @@ textarea {
   border-radius: var(--border-radius-sm);
   font-size: var(--text-base);
   color: var(--color-text);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-secondary);
   transition: var(--transition-fast);
 
   &:hover {
@@ -170,34 +194,43 @@ textarea {
 }
 
 /* ============================================================================
- * 📝 FORM COMPONENTS - Campos de entrada modernos
+ * 📝 FORM COMPONENTS - Campos de entrada modernos (estilo login consistente)
  * ============================================================================ */
 ion-input.form-field,
 ion-select.form-field,
 ion-input,
-ion-select {
-  --background: var(--color-background);
-  --border-radius: var(--border-radius-sm);
-  --border-width: 1px;
-  --border-color: var(--color-border);
-  --padding-start: var(--spacing-md);
-  --padding-end: var(--spacing-md);
-  --padding-top: var(--spacing-sm);
-  --padding-bottom: var(--spacing-sm);
-  --color: var(--color-text);
-  --placeholder-color: var(--color-text-light);
-  font-size: var(--text-base);
-  transition: var(--transition-base);
-  box-shadow: var(--shadow-xs);
+ion-select,
+ion-item {
+  --background: #f8f9fa !important;
+  --color: #2d3748 !important;
+  --placeholder-color: #718096 !important;
+  --border-radius: 12px !important;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  /* Desactiva la línea de resaltado de Ionic */
+  --highlight-color-focused: transparent !important;
+  --highlight-color: transparent !important;
+  --highlight-background: transparent !important;
+  --highlight-height: 0 !important;
+  --border-width: 0 !important;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 15px;
+  min-height: 52px;
+  transition: all 0.2s ease;
+  box-shadow: none;
   margin-top: var(--spacing-xs);
 
   &:hover {
-    --border-color: var(--color-primary-light);
+    border-color: #a34490;
   }
 
-  &:focus-within {
-    --border-color: var(--color-primary);
-    box-shadow: var(--shadow-sm), 0 0 0 3px rgba(134, 36, 113, 0.1);
+  &:focus-within,
+  &.item-has-focus {
+    border-color: #862471;
+    box-shadow: 0 0 0 3px rgba(134, 36, 113, 0.1);
   }
 }
 
@@ -318,7 +351,7 @@ input.native-input {
 .boton-editar,
 .boton-finalizar {
   --background: var(--color-primary);
-  --color: var(--color-text-white);
+  --color: var(--color-secondary-light);
   --box-shadow: var(--shadow-primary);
 
   &:hover {
@@ -332,8 +365,8 @@ input.native-input {
   }
 
   &[disabled] {
-    --background: var(--color-border);
-    --color: var(--color-text-light);
+    --background: var(--color-secondary);
+    --color: var(--color-secondary-dark);
     --box-shadow: none;
     cursor: not-allowed;
     opacity: 0.5;
@@ -353,7 +386,7 @@ input.native-input {
   width: 100%;
   margin-top: var(--spacing-xl);
   padding: var(--spacing-lg);
-  border-top: 1px solid var(--color-divider);
+  border-top: 1px solid var(--color-secondary);
 
   @media (max-width: 576px) {
     flex-direction: column;
@@ -386,7 +419,7 @@ input.native-input {
 }
 
 .formulario-emergente.tarjeta-flotante {
-  background: var(--color-surface);
+  background: var(--color-secondary-light);
   width: 95%;
   max-width: 720px;
   max-height: 90vh;
@@ -396,11 +429,80 @@ input.native-input {
   box-shadow: var(--shadow-xl);
 }
 
+/* Encabezado de modales */
+.modal-cabeza {
+  background: var(--color-primary);
+  padding: var(--spacing-md) var(--spacing-lg);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+        var(--color-primary-light) 0%,
+        var(--color-secondary) 100%);
+  }
+}
+
+.modal-titulo {
+  color: var(--color-secondary-light);
+  text-align: center;
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+}
+
+/* ============================================================================
+ * 👥 COMPONENTES DE PAREJA
+ * ============================================================================ */
+.boton-seleccionar-pareja,
+.boton-registrar-pareja {
+  --background: var(--color-primary);
+  --color: var(--color-secondary-light);
+  --border-radius: var(--border-radius-md);
+  --padding-start: var(--spacing-md);
+  --padding-end: var(--spacing-md);
+  font-weight: var(--font-weight-semibold);
+  text-transform: none;
+  margin: var(--spacing-md) 0;
+
+  &:hover {
+    --background: var(--color-primary-dark);
+  }
+}
+
+.buscador-contenedor {
+  margin-top: var(--spacing-md);
+}
+
+/* ============================================================================
+ * 📅 ICONOS Y ELEMENTOS INTERACTIVOS
+ * ============================================================================ */
+.calendar-icon {
+  color: var(--color-primary);
+  font-size: 22px;
+  cursor: pointer;
+  padding-right: 5px;
+  transition: var(--transition-fast);
+
+  &:hover {
+    color: var(--color-primary-dark);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
 /* ============================================================================
  * 📇 CARDS Y TARJETAS
  * ============================================================================ */
 ion-card {
-  --background: var(--color-surface);
+  --background: var(--color-secondary-light);
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-md);
   margin: var(--spacing-md);
@@ -414,20 +516,34 @@ ion-card {
 }
 
 /* ============================================================================
- * 🔍 SEARCHBAR MODERNO
+ * 🔍 SEARCHBAR MODERNO (estilo login consistente)
  * ============================================================================ */
 ion-searchbar {
-  --background: var(--color-surface);
-  --border-radius: var(--border-radius-full);
-  --box-shadow: var(--shadow-sm);
-  --color: var(--color-text);
-  --placeholder-color: var(--color-text-light);
-  --icon-color: var(--color-primary);
-  --clear-button-color: var(--color-primary);
-  padding: var(--spacing-sm);
+  --background: #f8f9fa !important;
+  --color: #2d3748 !important;
+  --placeholder-color: #718096 !important;
+  --icon-color: #862471 !important;
+  --clear-button-color: #862471 !important;
+  --border-radius: 12px !important;
+  --box-shadow: none !important;
+  /* Desactiva la línea de resaltado de Ionic */
+  --highlight-color-focused: transparent;
+  --highlight-color: transparent;
+  --highlight-background: transparent;
+  --highlight-height: 0;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  min-height: 52px;
+  padding: 0;
+  transition: all 0.2s ease;
 
-  &:focus-within {
-    --box-shadow: var(--shadow-md);
+  &:hover {
+    border-color: #a34490;
+  }
+
+  &.searchbar-has-focus {
+    border-color: #862471;
+    box-shadow: 0 0 0 3px rgba(134, 36, 113, 0.1);
   }
 }
 
@@ -456,8 +572,8 @@ ion-searchbar {
   }
 
   &[disabled] {
-    --background: var(--color-border);
-    --color: var(--color-text-light);
+    --background: var(--color-secondary);
+    --color: var(--color-secondary-dark);
     transform: none;
     opacity: 0.6;
   }

@@ -7,7 +7,7 @@
     <ion-img *ngIf="isMobile" slot="start" src="./../../../assets/logoNavbar.png" alt="Logo pequeño">
     </ion-img>
 
-    <ion-title class="tipografia">{{ title }}</ion-title>
+    <!-- <ion-title class="tipografia">{{ title }}</ion-title> -->
 
     <!-- Enlaces de navegación en desktop -->
     <div slot="end" class="desktop-menu" *ngIf="!isMobile && !debeOcultarMenu() && authService.isAuthenticated()">

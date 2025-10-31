@@ -4,8 +4,10 @@
     <ion-grid class="grid-center">
       <ion-row class="ion-justify-content-center">
         <ion-col size-xs="12" size-sm="12" size-md="10" size-lg="10">
-          <div class="contenedor-buscador">
-            <ion-title class="titulo">Buscador</ion-title>
+          <div class="contenedor-formulario">
+            <ion-toolbar class="cabeza">
+              <ion-title class="titulo-formulario">Buscador</ion-title>
+            </ion-toolbar>
 
             <!-- Barra de búsqueda -->
             <ion-searchbar class="search-bar" placeholder="Buscar Ciudadano" [(ngModel)]="searchTerm"
@@ -55,32 +57,47 @@
 
             </div>
 
-            <!-- Resultados -->
-            <ion-grid>
-              <ion-row>
-                <ion-col sizeXs="12" sizeSm="12" sizeMd="4" sizeLg="3" sizeXl="2.4"
-                  *ngFor="let ciudadano of ciudadanosFiltrados">
-                  <ion-card (click)="verCiudadano(ciudadano.id)">
-                    <ion-card-content>
-                      <ion-avatar>
-                        <img src="../../../assets/fotoPerfil.png" />
-                      </ion-avatar>
-                      <ion-label>{{ ciudadano.name + " " + ciudadano.last_name_father + " " +
-                        ciudadano.last_name_mother}}</ion-label>
-
-                      <!-- Mensaje de advertencia -->
-                      <ion-item *ngIf="selectedFilter === 'candidato' && estaPorTerminarDescanso(ciudadano)"
-                        color="warning" lines="none">
-                        <ion-label class="ion-text-wrap">
-                          ⚠ Faltan menos de 3 meses para que termine su descanso
-                        </ion-label>
-                      </ion-item>
-
-                    </ion-card-content>
-                  </ion-card>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
+            <!-- Resultados en tabla -->
+            <div class="tabla-container">
+              <table class="tabla-ciudadanos">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <!-- <th>Estado civil</th> -->
+                    <!-- <th>Teléfono</th> -->
+                    <!-- <th>Estado</th> -->
+                    <th>Datos generales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let ciudadano of ciudadanosFiltrados" class="fila">
+                    <td>
+                      <div class="nombre">
+                        {{ ciudadano.name }} {{ ciudadano.last_name_father }} {{ ciudadano.last_name_mother }}
+                        <!-- <span *ngIf="selectedFilter === 'candidato' && estaPorTerminarDescanso(ciudadano)"
+                          class="badge-aviso">Próximo a terminar descanso</span> -->
+                      </div>
+                    </td>
+                    <!-- <td>{{ mostrarEstadoCivil(ciudadano) }}</td> -->
+                    <!-- <td>{{ ciudadano.phone || '-' }}</td> -->
+                    <!-- <td>
+                      <span [class.estado-activo]="!ciudadano.deleted_at"
+                        [class.estado-inactivo]="ciudadano.deleted_at">
+                        {{ ciudadano.deleted_at ? 'Inactivo' : 'Activo' }}
+                      </span>
+                    </td> -->
+                    <td>
+                      <ion-button class="app-btn-primary" (click)="verCiudadano(ciudadano.id)">
+                        Datos generales
+                      </ion-button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="ciudadanosFiltrados.length === 0">
+                    <td colspan="5" class="sin-resultados">No se encontraron ciudadanos</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </ion-col>
       </ion-row>

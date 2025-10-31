@@ -1,33 +1,79 @@
 /* ============================================================================
- * 👤 PÁGINA CIUDADANO - Diseño minimalista y elegante
+ * 👤 PÁGINA CIUDADANO - Estilos específicos únicos
  * ============================================================================ */
-
-/* Contenedor principal */
-.contenedor-ciudadano {
-  width: 100%;
-  background: var(--color-surface);
-  border-radius: var(--border-radius-xl);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-  animation: fadeInUp 0.4s ease;
-}
 
 /* ============================================================================
- * 🎯 TÍTULO Y HEADER
+ * 🎛️ MENÚ ESPECÍFICO DE CIUDADANO
  * ============================================================================ */
+
+/* Ocultar título en PC, mostrar en móvil */
 .titulo-contenedor {
-  font-size: var(--text-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-white);
-  letter-spacing: -0.5px;
+  @media (min-width: 769px) {
+    display: none;
+  }
 }
 
-/* ============================================================================
- * 🎛️ MENÚ FLOTANTE
- * ============================================================================ */
+/* Menú horizontal visible en PC */
+.menu-horizontal {
+  display: none;
+
+  @media (min-width: 769px) {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-sm) 0;
+  }
+}
+
+.menu-tab {
+  --background: var(--color-secondary-light);
+  --color: var(--color-text);
+  --border-radius: var(--border-radius-md);
+  --padding-start: var(--spacing-lg);
+  --padding-end: var(--spacing-lg);
+  --box-shadow: var(--shadow-sm);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  text-transform: none;
+  letter-spacing: 0;
+  transition: var(--transition-base);
+  min-height: 44px;
+  margin: 0;
+
+  &:hover {
+    --background: var(--color-background);
+    --box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  &.active {
+    --background: var(--color-secondary-light);
+    --color: var(--color-primary);
+    border-bottom: 3px solid var(--color-primary);
+    --box-shadow: var(--shadow-md);
+  }
+
+  &.eliminar-btn {
+    margin-left: auto;
+    --color: var(--color-danger);
+
+    &:hover {
+      --background: rgba(245, 101, 101, 0.1);
+    }
+  }
+}
+
+/* Ocultar botones hamburguesa y acciones en PC */
+ion-buttons {
+  @media (min-width: 769px) {
+    display: none;
+  }
+}
+
 .menu-icono {
   font-size: var(--text-4xl);
-  color: var(--color-text-white);
+  color: var(--color-secondary-light);
   cursor: pointer;
   transition: var(--transition-base);
 
@@ -55,17 +101,17 @@
 .menu-flotante {
   position: absolute;
   top: 70px;
-  left: var(--spacing-md);
-  background: var(--color-surface);
+  left: var(--spacing-lg);
+  background: var(--color-secondary-light);
   z-index: 100;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-xl);
-  min-width: 220px;
+  min-width: 240px;
   animation: slideInRight 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   overflow: hidden;
 
   ion-list {
-    background: var(--color-surface);
+    background: var(--color-secondary-light);
     padding: var(--spacing-sm) 0;
   }
 
@@ -73,14 +119,14 @@
     --background: transparent;
     --padding-start: var(--spacing-lg);
     --padding-end: var(--spacing-lg);
-    --min-height: 48px;
+    --min-height: 52px;
     font-size: var(--text-base);
     font-weight: var(--font-weight-medium);
     color: var(--color-text);
     transition: var(--transition-fast);
     cursor: pointer;
     margin: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--border-radius-md);
 
     &:hover {
       --background: var(--color-background);
@@ -105,64 +151,35 @@
 }
 
 /* ============================================================================
- * 📝 CAMPOS Y VALORES
+ * 📝 VALOR DATO (específico de vista ciudadano)
  * ============================================================================ */
-.campo {
-  margin-bottom: var(--spacing-lg);
-  animation: fadeInUp 0.4s ease backwards;
-}
-
 .valor-dato {
   background: var(--color-background);
   color: var(--color-text);
-  border-radius: var(--border-radius-sm);
-  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--text-base);
-  min-height: 48px;
+  min-height: 52px;
+  height: 52px;
+  width: 100%;
   display: flex;
   align-items: center;
-  border: 2px solid var(--color-border);
-  transition: var(--transition-base);
-
-  &:hover {
-    border-color: var(--color-primary-light);
-    background: var(--color-surface);
-  }
+  border: 2px solid #e2e8f0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* ============================================================================
- * 📅 ICONO DE CALENDARIO
- * ============================================================================ */
-.calendar-icon {
-  color: var(--color-primary);
-  font-size: var(--text-xl);
-  cursor: pointer;
-  transition: var(--transition-fast);
-  padding: var(--spacing-sm);
-
-  &:hover {
-    color: var(--color-primary-dark);
-    transform: scale(1.1);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-}
-
-/* ============================================================================
- * 🔘 BOTONES ESPECÍFICOS
- * ============================================================================ */
-.boton-editar {
+.boton-agregar-cargo {
   --background: var(--color-primary);
-  --color: var(--color-text-white);
-  --border-radius: var(--border-radius-full);
+  --color: var(--color-secondary-light);
+  --border-radius: var(--border-radius-sm);
   --padding-start: var(--spacing-xl);
   --padding-end: var(--spacing-xl);
   --box-shadow: var(--shadow-primary);
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
-  min-width: 160px;
+  margin-bottom: var(--spacing-lg);
   transition: var(--transition-base);
 
   &:hover {
@@ -174,11 +191,16 @@
   &:active {
     transform: translateY(0);
   }
+
+  ion-icon {
+    font-size: var(--text-xl);
+    margin-right: var(--spacing-xs);
+  }
 }
 
 .boton-finalizar {
   --background: var(--color-success);
-  --color: var(--color-text-white);
+  --color: var(--color-secondary-light);
   --border-radius: var(--border-radius-md);
   --padding-start: var(--spacing-lg);
   --padding-end: var(--spacing-lg);
@@ -199,79 +221,189 @@
 }
 
 /* ============================================================================
- * 🎴 TARJETAS DE CARGOS
+ * 📊 TABLA DE CARGOS
  * ============================================================================ */
-ion-card {
-  --background: var(--color-primary);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-lg);
-  margin: var(--spacing-md) 0;
-  transition: var(--transition-base);
-  overflow: hidden;
-  border: 2px solid transparent;
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--color-primary-light);
+/* Encabezado de tabla */
+.tabla-header {
+  background: var(--color-primary);
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+  padding: var(--spacing-md) 0;
+  margin-top: var(--spacing-lg);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.tabla-th {
+  color: var(--color-secondary-light);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0 var(--spacing-sm);
+}
+
+/* Filas de datos */
+.tabla-row {
+  background: var(--color-secondary-light);
+  border-bottom: 3px solid var(--color-primary);
+  padding: var(--spacing-md) 0;
+  margin-bottom: var(--spacing-lg);
+  transition: background-color 0.2s ease;
+  align-items: center;
+
+  &:last-child {
+    border-bottom: none;
+    border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
   }
 
-  ion-card-content {
-    padding: var(--spacing-lg);
+  @media (max-width: 768px) {
+    border: 2px solid var(--color-primary);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+  }
 
-    .campo {
-      margin-bottom: var(--spacing-md);
+  ion-col {
+    display: flex;
+    align-items: center;
+    position: relative;
 
-      &:last-child {
-        margin-bottom: 0;
+    /* Separador vertical entre columnas */
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 10%;
+      bottom: 10%;
+      width: 1px;
+      background: linear-gradient(to bottom,
+          transparent,
+          rgba(134, 36, 113, 0.2) 20%,
+          rgba(134, 36, 113, 0.2) 80%,
+          transparent);
+
+      @media (max-width: 768px) {
+        display: none;
       }
     }
-
-    .etiqueta {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: var(--text-xs);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .valor-dato {
-      background: rgba(255, 255, 255, 0.15);
-      color: var(--color-text-white);
-      border-color: rgba(255, 255, 255, 0.2);
-      font-weight: var(--font-weight-medium);
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.25);
-        border-color: rgba(255, 255, 255, 0.4);
-      }
-    }
   }
 }
 
-/* ============================================================================
- * 🎬 ANIMACIONES
- * ============================================================================ */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
+.tabla-td {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  width: 100%;
 
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
+  @media (max-width: 768px) {
+    padding: var(--spacing-xs) 0;
+    min-height: auto;
   }
 }
 
+/* Etiquetas móviles */
+.tabla-label {
+  display: none;
+  font-weight: var(--font-weight-semibold);
+  margin-right: var(--spacing-xs);
+  color: var(--color-primary);
+
+  @media (max-width: 768px) {
+    display: inline;
+  }
+}
+
+/* Select de estado */
+.select-estado {
+  --background: var(--color-secondary-light);
+  --border-radius: var(--border-radius-md);
+  --padding-start: var(--spacing-sm);
+  --padding-end: var(--spacing-sm);
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--border-radius-md);
+  min-width: 140px;
+  min-height: 44px;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+
+  &:hover:not([disabled]) {
+    border-color: var(--color-primary);
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: var(--spacing-xs);
+  }
+}
+
+.estado-texto {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: capitalize;
+  background: rgba(134, 36, 113, 0.1);
+  color: var(--color-primary);
+}
+
+/* Badge de estado */
+.estado-badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: capitalize;
+
+  &.en-curso {
+    background: rgba(72, 187, 120, 0.15);
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+  }
+
+  &.completado {
+    background: rgba(66, 153, 225, 0.15);
+    color: #4299e1;
+    border: 1px solid #4299e1;
+  }
+}
+
+/* Observaciones */
+.observaciones-col {
+  border-top: 1px solid #e2e8f0;
+  padding-top: var(--spacing-sm) !important;
+  margin-top: var(--spacing-sm);
+}
+
+.observaciones-contenedor {
+  padding: var(--spacing-sm);
+  background: rgba(134, 36, 113, 0.05);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  border-left: 3px solid var(--color-primary);
+
+  strong {
+    color: var(--color-primary);
+    margin-right: var(--spacing-xs);
+  }
+}
+
+/* Animación específica para el menú flotante */
 @keyframes slideInRight {
   from {
     transform: translateX(-20px);
@@ -281,14 +413,5 @@ ion-card {
   to {
     transform: translateX(0);
     opacity: 1;
-  }
-}
-
-/* Animación escalonada para campos */
-.campo {
-  @for $i from 1 through 10 {
-    &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.05}s;
-    }
   }
 }

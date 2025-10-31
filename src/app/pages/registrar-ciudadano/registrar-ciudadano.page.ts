@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonContent, IonLabel, IonButton, IonInput, IonSelect, IonSelectOption, IonHeader, IonTitle,
+  IonContent, IonButton, IonInput, IonSelect, IonSelectOption, IonHeader, IonTitle,
   IonToolbar, IonRow,IonItem, IonCol, IonGrid, IonIcon, IonCardHeader, IonCardTitle, IonCardContent,
   IonCard, IonList,ToastController, IonSearchbar } from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component'
@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [IonSearchbar, IonList,
     IonCard, IonCardContent,IonItem, IonCardTitle, IonCardHeader, IonIcon, IonGrid, IonCol,
-    IonRow, IonToolbar, IonTitle, IonHeader, IonInput, IonButton, IonLabel, IonContent,
+    IonRow, IonToolbar, IonTitle, IonInput, IonButton, IonContent,
     CommonModule, FormsModule, NavbarComponent, IonSelect, IonSelectOption
   ]
 })

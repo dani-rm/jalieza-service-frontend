@@ -4,6 +4,29 @@
  * Solo estilos únicos de esta página. Los globales están en global.scss
  */
 
+/* Grid de formulario con espaciado horizontal */
+.grid-formulario {
+  width: calc(100% - var(--spacing-xl) * 2);
+  margin: 0 var(--spacing-xl);
+  padding: var(--spacing-xl) 0;
+
+  @media (max-width: 768px) {
+    width: calc(100% - var(--spacing-md) * 2);
+    margin: 0 var(--spacing-md);
+    padding: var(--spacing-lg) 0;
+  }
+}
+
+/* Etiquetas consistentes */
+.etiqueta {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+  margin-left: 5px;
+}
+
 /* 📝 Campos específicos para selects e items */
 ion-select,
 ion-item {
@@ -37,10 +60,11 @@ ion-item:focus-within ion-label {
 /* 🎯 Contenedor de botones específico */
 .boton-contenedor {
   display: flex;
-  background: var(--color-background);
+  gap: var(--spacing-md);
   justify-content: space-between;
-  width: 100%;
-  margin: auto;
-  padding: 10px;
-  border-radius: 0 0 var(--border-radius-standard) var(--border-radius-standard);
+  margin-top: var(--spacing-xl);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }

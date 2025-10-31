@@ -1,21 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  IonContent,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonLabel,
-  IonTitle,
-  IonCard,
-  IonSearchbar,
-  IonCardContent,
-  IonAvatar,
-  IonItem,
-  IonSelect,
-  IonSelectOption
-} from '@ionic/angular/standalone';
+import { IonContent, IonGrid, IonRow, IonCol, IonLabel, IonTitle, IonSearchbar, IonItem, IonButton, IonSelect, IonSelectOption, IonToolbar, IonHeader } from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { NavController } from '@ionic/angular';
@@ -29,10 +15,8 @@ import { CatalogoServiciosService } from 'src/app/services/catalogo-servicios.se
   standalone: true,
   imports: [
     IonItem,
-    IonAvatar,
-    IonCardContent,
     IonSearchbar,
-    IonCard,
+    IonButton,
     IonSelect,
     IonSelectOption,
     IonTitle,
@@ -43,8 +27,9 @@ import { CatalogoServiciosService } from 'src/app/services/catalogo-servicios.se
     IonContent,
     CommonModule,
     FormsModule,
-    NavbarComponent
-  ]
+    NavbarComponent,
+    IonToolbar,
+]
 })
 export class BuscarCiudadanoPage implements OnInit {
 
@@ -63,6 +48,21 @@ export class BuscarCiudadanoPage implements OnInit {
 
   ciudadanos: any[] = [];
   ciudadanosFiltrados: any[] = [];
+
+  // Mapear estado civil para mostrar en pantalla
+  mostrarEstadoCivil(ciudadano: any): string {
+    const valor = ciudadano?.marital_status;
+    // Si viene como número o string numérico
+    if (valor === 1 || valor === '1') return 'Soltero';
+    if (valor === 2 || valor === '2') return 'Casado';
+    // Si ya viene como texto desde el backend, lo normalizamos un poco
+    if (typeof valor === 'string') {
+      const v = valor.toLowerCase();
+      if (v.includes('solter')) return 'Soltero';
+      if (v.includes('casad')) return 'Casado';
+    }
+    return valor || '-';
+  }
 
   ngOnInit() {
     console.log('Ciudadanos cargados:', this.ciudadanos);
@@ -112,10 +112,16 @@ filtrarCiudadanos() {
       filtrados = filtrados.filter(c => !!c.deleted_at);
       break;
     case 'soltero':
-      filtrados = filtrados.filter(c => c.marital_status === 'Soltero' && !c.deleted_at);
+      filtrados = filtrados.filter(c =>
+        !c.deleted_at && (c.marital_status === 1 || c.marital_status === '1' ||
+        (typeof c.marital_status === 'string' && c.marital_status.toLowerCase().includes('solter')))
+      );
       break;
     case 'casado':
-      filtrados = filtrados.filter(c => c.marital_status === 'Casado' && !c.deleted_at);
+      filtrados = filtrados.filter(c =>
+        !c.deleted_at && (c.marital_status === 2 || c.marital_status === '2' ||
+        (typeof c.marital_status === 'string' && c.marital_status.toLowerCase().includes('casad')))
+      );
       break;
     case 'divorciado':
       filtrados = filtrados.filter(c => c.marital_status === 'Divorciado' && !c.deleted_at);

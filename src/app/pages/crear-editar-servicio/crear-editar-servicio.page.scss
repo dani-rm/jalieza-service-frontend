@@ -1,200 +1,84 @@
-.container {
-    padding: 16px;
-    max-width: 800px;
-    margin: 0 auto;
-}
+/* ============================================================================
+ * 📝 CREAR/EDITAR SERVICIO - Diseño consistente con el sistema
+ * ============================================================================ */
 
-.titulo-pagina {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
-}
+/* ============================================================================
+ * 🎯 ESTILOS ESPECÍFICOS DE ESTA PÁGINA
+ * ============================================================================ */
 
-// Estilos para el formulario
-ion-card {
-    --background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    margin-bottom: 16px;
-}
-
-ion-item {
-    --background: transparent;
-    --border-radius: 8px;
-    --padding-start: 0;
-    --padding-end: 0;
-    margin-bottom: 16px;
-    --inner-padding-end: 0;
-    --inner-padding-start: 0;
-    --inner-padding-top: 0;
-    --inner-padding-bottom: 0;
-}
-
-ion-label {
-    font-weight: 600;
-    color: #333 !important;
-    margin-bottom: 8px;
-    display: block;
-    width: 100%;
-}
-
-// Estilos específicos para labels con position="stacked"
-ion-item ion-label[position="stacked"] {
-    margin-bottom: 8px;
-    transform: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #333 !important;
-}
-
-ion-input,
-ion-select {
-    --background: #f8f9fa;
-    --color: #333 !important;
-    --border-radius: 8px;
-    --padding-start: 12px;
-    --padding-end: 12px;
-    --padding-top: 12px;
-    --padding-bottom: 12px;
-    border: 1px solid #e0e0e0;
-    transition: border-color 0.2s ease;
-    margin-top: 8px;
-    width: 100%;
-
-    &:focus-within {
-        border-color: #667eea;
-        --border-color: #667eea;
-    }
-
-    &.ion-invalid.ion-touched {
-        border-color: #f44336;
-        --border-color: #f44336;
-    }
-}
-
-// Estilos específicos para inputs dentro de items con labels stacked
-ion-item ion-input,
-ion-item ion-select {
-    margin-top: 8px;
-    margin-bottom: 0;
-}
-
-// Estilos para mensajes de error
-.error-message {
-    font-size: 0.875rem;
-    margin: 4px 0 0 0;
-    padding-left: 12px;
-}
-
-// Estilos para botones
-.botones-container {
-    margin-top: 24px;
-}
-
-ion-button {
-    --border-radius: 8px;
-    --padding-top: 12px;
-    --padding-bottom: 12px;
-    font-weight: 600;
+/* Botón volver en el header */
+.boton-volver-header {
+    --background: var(--color-secondary-light);
+    --color: var(--color-primary);
+    --border-radius: var(--border-radius-md);
+    --padding-start: var(--spacing-md);
+    --padding-end: var(--spacing-md);
+    --box-shadow: var(--shadow-sm);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
     text-transform: none;
-    letter-spacing: 0.5px;
+    margin-left: var(--spacing-sm);
+    min-height: 44px;
 
-    &[type="submit"] {
-        --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --color: white;
-        --box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-
-        &:hover:not([disabled]) {
-            --box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
-            transform: translateY(-1px);
-        }
-
-        &[disabled] {
-            --background: #e0e0e0;
-            --color: #999;
-            --box-shadow: none;
-        }
+    &:hover {
+        --background: var(--color-background);
+        --box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
     }
 
-    &[fill="outline"] {
-        --color: #667eea;
-        --border-color: #667eea;
-        --border-width: 1px;
+    @media (max-width: 768px) {
+        --padding-start: var(--spacing-sm);
+        --padding-end: var(--spacing-sm);
+        font-size: var(--text-sm);
 
-        &:hover {
-            --background: #667eea;
-            --color: white;
+        ion-icon {
+            font-size: 18px;
         }
     }
 }
 
-// Estilos para campos de solo lectura
-ion-input[readonly] {
-    --background: #f5f5f5;
-    --color: #666 !important;
-    cursor: not-allowed;
+/* Mensaje de error de validación */
+.error-message {
+    font-size: var(--text-xs);
+    margin: var(--spacing-xs) 0 0 var(--spacing-xs);
+    padding: 0;
+    color: var(--color-danger);
 }
 
-// Asegurar que los textos sean visibles
-ion-text {
-    color: #333 !important;
-}
+/* Botón de guardar/crear */
+.boton-guardar {
+    --background: var(--color-primary);
+    --color: var(--color-secondary-light);
+    --border-radius: var(--border-radius-full);
+    --padding-start: var(--spacing-xl);
+    --padding-end: var(--spacing-xl);
+    --box-shadow: var(--shadow-primary);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    text-transform: none;
+    min-width: 200px;
+    min-height: 48px;
+    transition: var(--transition-base);
 
-ion-text p {
-    color: #333 !important;
-}
-
-// Estilos específicos para el formulario
-.formulario-container {
-    ion-label {
-        color: #333 !important;
+    &:hover:not([disabled]) {
+        --background: var(--color-primary-dark);
+        transform: translateY(-2px);
+        --box-shadow: var(--shadow-xl);
     }
 
-    ion-input {
-        --color: #333 !important;
+    &:active {
+        transform: translateY(0);
     }
 
-    ion-select {
-        --color: #333 !important;
-    }
-}
-
-// Responsive design
-@media (max-width: 768px) {
-    .container {
-        padding: 8px;
+    &[disabled] {
+        --background: var(--color-secondary);
+        --color: var(--color-secondary-dark);
+        --box-shadow: none;
+        opacity: 0.6;
+        cursor: not-allowed;
     }
 
-    .titulo-pagina {
-        font-size: 1.5rem;
+    @media (max-width: 768px) {
+        width: 100%;
     }
-
-    ion-card {
-        margin: 0 -8px 16px -8px;
-        border-radius: 0;
-    }
-}
-
-// Animaciones
-ion-button {
-    transition: all 0.2s ease;
-}
-
-ion-input,
-ion-select {
-    transition: all 0.2s ease;
-}
-
-// Estilos para el header
-ion-toolbar {
-    --background: white;
-    --color: #333;
-    --border-width: 0 0 1px 0;
-    --border-color: #e0e0e0;
-}
-
-// Estilos para el título
-ion-title {
-    font-weight: 700;
-    letter-spacing: -0.5px;
 }

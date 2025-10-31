@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel,
-  IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonItem, IonCard,
-  IonCardContent, IonList,ToastController, IonText,AlertController
+  IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonItem,
+  IonList,ToastController, IonText,AlertController, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
@@ -23,9 +23,9 @@ import { FinalizacionServicio } from 'src/app/interfaces/servicios.interface';
   styleUrls: ['./ciudadano.page.scss'],
   standalone: true,
   imports: [
-    IonText, IonList, IonCardContent, IonCard, IonItem, IonIcon, IonButtons,
+    IonText, IonList, IonItem, IonIcon, IonButtons,
     IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader,
-    IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent
+    IonTitle, IonToolbar, IonSelect, IonSelectOption, CommonModule, FormsModule, NavbarComponent
   ]
 })
 export class CiudadanoPage implements OnInit {
@@ -129,6 +129,18 @@ async mostrarToastError(mensaje: string) {
 
   editarCargos() {
     this.navCtrl.navigateForward(`/ciudadano/${this.ciudadano.id}/editar-cargos-ciudadano`);
+  }
+  // Mapear estado civil a texto visible
+  mostrarEstadoCivil(ciudadano: any): string {
+    const valor = ciudadano?.marital_status;
+    if (valor === 1 || valor === '1') return 'Soltero';
+    if (valor === 2 || valor === '2') return 'Casado';
+    if (typeof valor === 'string') {
+      const v = valor.toLowerCase();
+      if (v.includes('solter')) return 'Soltero';
+      if (v.includes('casad')) return 'Casado';
+    }
+    return valor || '-';
   }
 async eliminarCiudadano() {
   const alert = await this.alertController.create({
@@ -270,6 +282,76 @@ procesarFinalizacion(servicioId: number, endDate: string) {
     error: async (err) => {
       console.error('❌ Error al finalizar servicio:', err);
       await this.mostrarToastError('Error al finalizar servicio');
+    }
+  });
+}
+
+// ✅ Cambiar estado del servicio con confirmación
+async cambiarEstadoServicio(cargo: any, event: any) {
+  const nuevoEstado = event.detail.value;
+  const estadoAnterior = cargo.service_status_original || cargo.service_status;
+
+  // Guardar el estado original antes del cambio
+  if (!cargo.service_status_original) {
+    cargo.service_status_original = estadoAnterior;
+  }
+
+  // Mensajes según el cambio
+  let mensaje = '';
+  if (nuevoEstado === 'completado') {
+    mensaje = '¿Está seguro que desea marcar este servicio como completado?';
+  } else if (nuevoEstado === 'rechazado') {
+    mensaje = '¿Está seguro que el ciudadano rechazó este servicio?';
+  } else {
+    mensaje = `¿Confirma cambiar el estado a "${nuevoEstado}"?`;
+  }
+
+  const alert = await this.alertController.create({
+    header: 'Confirmar cambio',
+    message: mensaje,
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+          // Revertir al estado anterior
+          cargo.service_status = estadoAnterior;
+        }
+      },
+      {
+        text: 'Confirmar',
+        handler: () => {
+          this.actualizarEstadoServicio(cargo, nuevoEstado);
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+// Actualizar estado en el backend
+actualizarEstadoServicio(cargo: any, nuevoEstado: string) {
+  const datos: any = {
+    service_status: nuevoEstado
+  };
+
+  // Si se marca como completado, agregar fecha fin automáticamente
+  if (nuevoEstado === 'completado' && !cargo.end_date) {
+    datos.end_date = new Date().toISOString().split('T')[0];
+  }
+
+  this.ciudadanoService.actualizarCargo(cargo.id, datos).subscribe({
+    next: async () => {
+      await this.mostrarToast(`Estado actualizado a: ${nuevoEstado}`);
+      cargo.service_status_original = nuevoEstado;
+      this.cargarDatos(this.ciudadano.id);
+    },
+    error: async (err) => {
+      console.error('❌ Error al actualizar estado:', err);
+      await this.mostrarToastError('Error al actualizar el estado');
+      // Revertir en caso de error
+      cargo.service_status = cargo.service_status_original;
     }
   });
 }
