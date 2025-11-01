@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonButton, IonInput, IonSelect, IonSelectOption, IonHeader, IonTitle,
   IonToolbar, IonRow,IonItem, IonCol, IonGrid, IonIcon, IonCardHeader, IonCardTitle, IonCardContent,
-  IonCard, IonList,ToastController, IonSearchbar } from '@ionic/angular/standalone';
+  IonCard, IonList,ToastController, IonSearchbar, IonNote } from '@ionic/angular/standalone';
 import { NavbarComponent } from './../../components/navbar/navbar.component'
 import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [IonSearchbar, IonList,
     IonCard, IonCardContent,IonItem, IonCardTitle, IonCardHeader, IonIcon, IonGrid, IonCol,
-    IonRow, IonToolbar, IonTitle, IonInput, IonButton, IonContent,
+    IonRow, IonToolbar, IonTitle, IonInput, IonButton, IonContent, IonNote,
     CommonModule, FormsModule, NavbarComponent, IonSelect, IonSelectOption
   ]
 })
@@ -92,6 +92,16 @@ estadoCivilParejaFijo: boolean = false;
   const hoyLocal = new Date();
 this.hoy = hoyLocal.toLocaleDateString('sv-SE'); // 'sv-SE' da formato 'YYYY-MM-DD'
 
+    this.cargarPersonasDisponibles();
+  }
+
+  // Al reingresar a la página desde la navegación, Ionic mantiene la instancia en caché.
+  // Limpiamos el formulario y recargamos listas cada vez que la vista entra en foco.
+  ionViewWillEnter() {
+    this.resetFormularioPrincipal();
+    this.resetFormularioPareja();
+    const hoyLocal = new Date();
+    this.hoy = hoyLocal.toLocaleDateString('sv-SE');
     this.cargarPersonasDisponibles();
   }
 
@@ -189,28 +199,57 @@ formatearFecha(event: any) {
     this.parejaSeleccionada = null;
   }
 
+  // Limpia por completo el subformulario de pareja y estados auxiliares
+  private resetFormularioPareja() {
+    this.nombresPareja = '';
+    this.apellidoPaternoPareja = '';
+    this.apellidoMaternoPareja = '';
+    this.commentPareja = '';
+    this.telefonoPareja = '';
+    this.fechaNacimientoPareja = '';
+    this.estadoCivilPareja = 1;
+    this.mostrarFormularioPareja = false;
+    this.modalAbierto = false;
+    this.busquedaPareja = '';
+    this.personasFiltradas = [];
+    this.mostrarBuscador = false;
+    this.mostrarBuscadorPareja = false;
+    this.estadoCivilParejaFijo = false;
+  }
+
 
   cerrarModal() {
     this.modalAbierto = false;
   }
+
+  // Construye el nombre completo sin mostrar valores null/undefined o vacíos
+  getNombreCompleto(persona: any): string {
+    if (!persona) return '';
+    const parts = [persona.name, persona.last_name_father, persona.last_name_mother]
+      .map(v => (typeof v === 'string' ? v.trim() : v))
+      .filter(v => v && v !== 'null' && v !== 'undefined') as string[];
+    return parts.join(' ');
+  }
   filtrarPersonasDirecto(event: any) {
   const filtro = event.target.value.toLowerCase().trim();
   this.ciudadanosFiltrados = this.personasDisponibles.filter(p =>
-    (`${p.name} ${p.last_name_father} ${p.last_name_mother}`).toLowerCase().includes(filtro)
+    this.getNombreCompleto(p).toLowerCase().includes(filtro)
   );
 }
 
 filtrarPersonas() {
   const filtro = this.busquedaPareja.toLowerCase().trim();
   this.ciudadanosFiltrados = this.personasDisponibles.filter(p =>
-    (`${p.name} ${p.last_name_father} ${p.last_name_mother}`).toLowerCase().includes(filtro)
+    this.getNombreCompleto(p).toLowerCase().includes(filtro)
   );
 }
 
 
   get isFormValid(): boolean {
     const basicValid =
-      this.nombres.trim() !== ''
+      this.nombres.trim() !== '' &&
+      this.apellidoPaterno.trim() !== '' &&
+      this.estadoCivil !== -1;
 
     if (this.estadosConPareja.includes(this.estadoCivil)) {
       return basicValid && this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar';
