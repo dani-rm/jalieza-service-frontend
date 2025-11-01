@@ -66,17 +66,24 @@ export class BuscarCiudadanoPage implements OnInit {
 
   ngOnInit() {
     console.log('Ciudadanos cargados:', this.ciudadanos);
-
-    console.log(this.ciudadanos)
+    console.log(this.ciudadanos);
     this.menuCtrl.enable(true);
-     this.obtenerCargos(); // 👈s
+    this.obtenerCargos(); // Cargar catálogo de cargos
+    this.cargarCiudadanos(); // Primera carga
+  }
 
+  // Ionic vuelve a montar esta vista desde caché y ngOnInit no se ejecuta de nuevo.
+  // ionViewWillEnter se dispara cada vez que la página entra en foco.
+  ionViewWillEnter() {
+    this.cargarCiudadanos(); // Refrescar lista al regresar desde registrar-ciudadano
+  }
+
+  private cargarCiudadanos() {
     this.ciudadanoService.getCiudadanos().subscribe({
       next: (data) => {
-         console.log('📦 Ciudadanos recibidos:', data);
+        console.log('📦 Ciudadanos recibidos:', data);
         this.ciudadanos = data;
-console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanos.map(c => ({ id: c.id, services: c.services })));
-
+        console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanos.map(c => ({ id: c.id, services: c.services })));
         this.filtrarCiudadanos();
       },
       error: (err) => {
