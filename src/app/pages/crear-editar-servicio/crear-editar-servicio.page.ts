@@ -3,9 +3,9 @@ import { CommonModule, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  IonContent, IonHeader, IonToolbar, IonButton, IonLabel,
-  IonCol, IonGrid, IonRow, IonItem, IonInput, IonSelect, IonSelectOption,
-  IonText, IonCard, IonCardContent, IonIcon, IonTitle, ToastController, IonButtons
+  IonContent, IonHeader, IonToolbar, IonButton,
+  IonCol, IonGrid, IonRow, IonInput, IonSelect, IonSelectOption,
+  IonText, IonCard, IonCardContent, IonIcon, IonTitle, ToastController,
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { CatalogoServiciosCrudService } from 'src/app/services/catalogo-servicios-crud.service';
@@ -19,8 +19,8 @@ import { saveOutline, arrowBackOutline, checkmarkCircleOutline } from 'ionicons/
   styleUrls: ['./crear-editar-servicio.page.scss'],
   standalone: true,
   imports: [
-    IonText, IonCardContent, IonCard, IonIcon, IonButtons,
-    IonRow, IonGrid, IonCol, IonButton, IonContent, IonHeader,
+    IonText, IonCardContent, IonCard, IonIcon,
+    IonRow, IonGrid, IonCol, IonButton, IonContent,
     IonToolbar, IonTitle, CommonModule, FormsModule, ReactiveFormsModule,
     NavbarComponent, IonInput, IonSelect, IonSelectOption
   ]

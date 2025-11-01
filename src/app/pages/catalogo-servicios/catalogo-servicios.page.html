@@ -8,21 +8,21 @@
                     <div class="contenedor-servicios">
 
                         <!-- Encabezado con título y acciones -->
-                        <ion-header>
-                            <ion-toolbar class="cabeza">
-                                <ion-title class="titulo-contenedor">Catálogo de Servicios</ion-title>
-                                <ion-buttons slot="end">
-                                    <ion-button (click)="navegarACrearServicio()" class="boton-accion">
-                                        <ion-icon name="add-outline" slot="start"></ion-icon>
-                                        Nuevo Servicio
-                                    </ion-button>
-                                    <ion-button (click)="cargarDatos()" class="boton-accion-secundario">
-                                        <ion-icon name="refresh-outline" slot="start"></ion-icon>
-                                        Actualizar
-                                    </ion-button>
-                                </ion-buttons>
-                            </ion-toolbar>
-                        </ion-header>
+                        <ion-toolbar class="cabeza">
+                            <ion-grid style="padding:0;">
+                                <ion-row class="ion-align-items-center">
+                                    <ion-col size="8" size-md="10">
+                                        <ion-title class="titulo-contenedor">Catálogo de Servicios</ion-title>
+                                    </ion-col>
+                                    <ion-col size="4" size-md="2" class="ion-text-end">
+                                        <ion-button (click)="navegarACrearServicio()" class="boton-accion">
+                                            <ion-icon name="add-outline" slot="start"></ion-icon>
+                                            Nuevo Servicio
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-toolbar>
 
                         <!-- Filtros y búsqueda -->
                         <div class="filtros-contenedor">

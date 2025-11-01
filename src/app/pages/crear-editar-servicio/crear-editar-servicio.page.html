@@ -8,17 +8,9 @@
                     <div class="contenedor-formulario">
 
                         <!-- Encabezado con botón volver -->
-                        <ion-header>
-                            <ion-toolbar class="cabeza">
-                                <ion-title class="titulo-contenedor">{{ obtenerTitulo() }}</ion-title>
-                                <ion-buttons slot="end">
-                                    <ion-button (click)="volver()" class="boton-volver-header">
-                                        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
-                                        Volver
-                                    </ion-button>
-                                </ion-buttons>
-                            </ion-toolbar>
-                        </ion-header>
+                        <ion-toolbar class="cabeza">
+                            <ion-title class="titulo-contenedor">{{ obtenerTitulo() }}</ion-title>
+                        </ion-toolbar>
 
                         <!-- Estado de carga -->
                         <div *ngIf="cargando" class="estado-carga">
@@ -98,17 +90,21 @@
 
                                 <!-- Botones de acción -->
                                 <ion-row>
-                                    <ion-col size="12">
-                                        <div class="boton-contenedor">
-                                            <ion-button type="submit" [disabled]="servicioForm.invalid || guardando"
-                                                class="boton-guardar">
-                                                <ion-icon *ngIf="!guardando" name="save-outline"
-                                                    slot="start"></ion-icon>
-                                                <ion-icon *ngIf="guardando" name="checkmark-circle-outline"
-                                                    slot="start"></ion-icon>
-                                                {{ guardando ? 'Guardando...' : obtenerTextoBoton() }}
-                                            </ion-button>
-                                        </div>
+                                    <ion-col size="6" class="ion-text-start">
+                                        <ion-button type="button" (click)="volver()" class="boton-volver"
+                                            color="medium">
+                                            <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+                                            Volver
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col size="6" class="ion-text-end">
+                                        <ion-button type="submit" [disabled]="servicioForm.invalid || guardando"
+                                            class="boton-guardar">
+                                            <ion-icon *ngIf="!guardando" name="save-outline" slot="start"></ion-icon>
+                                            <ion-icon *ngIf="guardando" name="checkmark-circle-outline"
+                                                slot="start"></ion-icon>
+                                            {{ guardando ? 'Guardando...' : obtenerTextoBoton() }}
+                                        </ion-button>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>

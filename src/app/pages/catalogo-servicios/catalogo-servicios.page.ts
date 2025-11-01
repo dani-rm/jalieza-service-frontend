@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonContent, IonHeader, IonToolbar, IonButton,
-  IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonCard,
+  IonContent, IonToolbar, IonButton,
+  IonCol, IonGrid, IonRow,IonIcon, IonCard,
   IonCardContent, IonText, IonSearchbar, 
   IonSelect, IonSelectOption, IonTitle, ToastController, AlertController
 } from '@ionic/angular/standalone';
@@ -20,8 +20,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./catalogo-servicios.page.scss'],
   standalone: true,
   imports: [
-    IonText, IonCardContent, IonCard, IonIcon, IonButtons,
-    IonRow, IonGrid, IonCol, IonButton, IonContent, IonHeader,
+    IonText, IonCardContent, IonCard, IonIcon,
+    IonRow, IonGrid, IonCol, IonButton, IonContent,
     IonToolbar, IonTitle, CommonModule, FormsModule, NavbarComponent, 
     IonSearchbar, IonSelect, 
     IonSelectOption
@@ -53,6 +53,11 @@ export class CatalogoServiciosPage implements OnInit {
   }
 
   ngOnInit() {
+    this.cargarDatos();
+  }
+
+  // Refresca la lista cada vez que se entra a la vista (no solo al cargar el componente)
+  ionViewWillEnter() {
     this.cargarDatos();
   }
 
