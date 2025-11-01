@@ -33,11 +33,31 @@
                         <!-- Formulario -->
                         <form *ngIf="!cargando && !error" [formGroup]="servicioForm" (ngSubmit)="guardarServicio()">
                             <ion-grid class="grid-datos">
+
+                                <!-- Orden -->
+                                <ion-row>
+                                    <ion-col size="12">
+                                        <div class="campo">
+                                            <label class="etiqueta">Orden</label>
+                                            <ion-select formControlName="orden_id" placeholder="Seleccione una orden"
+                                                [class.ion-invalid]="esCampoInvalido('orden_id')"
+                                                [class.ion-touched]="servicioForm.get('orden_id')?.touched">
+                                                <ion-select-option *ngFor="let orden of ordenes" [value]="orden.id">
+                                                    {{ orden.order_name }} <!-- ({{ orden.required_points }} puntos) -->
+                                                </ion-select-option>
+                                            </ion-select>
+                                            <ion-text *ngIf="esCampoInvalido('orden_id')" color="danger">
+                                                <p class="error-message">{{ obtenerMensajeError('orden_id') }}</p>
+                                            </ion-text>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+
                                 <!-- Nombre del servicio -->
                                 <ion-row>
                                     <ion-col size="12">
                                         <div class="campo">
-                                            <label class="etiqueta">Nombre del Servicio *</label>
+                                            <label class="etiqueta">Nombre del Servicio</label>
                                             <ion-input formControlName="service_name"
                                                 placeholder="Ej: barrendero, policía, presidente..."
                                                 [class.ion-invalid]="esCampoInvalido('service_name')"
@@ -46,25 +66,6 @@
                                             <ion-text *ngIf="esCampoInvalido('service_name')" color="danger">
                                                 <p class="error-message">{{ obtenerMensajeError('service_name') }}
                                                 </p>
-                                            </ion-text>
-                                        </div>
-                                    </ion-col>
-                                </ion-row>
-
-                                <!-- Orden -->
-                                <ion-row>
-                                    <ion-col size="12">
-                                        <div class="campo">
-                                            <label class="etiqueta">Orden *</label>
-                                            <ion-select formControlName="orden_id" placeholder="Seleccione una orden"
-                                                [class.ion-invalid]="esCampoInvalido('orden_id')"
-                                                [class.ion-touched]="servicioForm.get('orden_id')?.touched">
-                                                <ion-select-option *ngFor="let orden of ordenes" [value]="orden.id">
-                                                    {{ orden.order_name }} ({{ orden.required_points }} puntos)
-                                                </ion-select-option>
-                                            </ion-select>
-                                            <ion-text *ngIf="esCampoInvalido('orden_id')" color="danger">
-                                                <p class="error-message">{{ obtenerMensajeError('orden_id') }}</p>
                                             </ion-text>
                                         </div>
                                     </ion-col>
