@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel,
   IonCol, IonGrid, IonRow, IonButtons, IonIcon, IonItem,
-  IonList,ToastController, IonText,AlertController, IonSelect, IonSelectOption
+  IonList,ToastController, IonText,AlertController, IonSelect, IonSelectOption,
+  ModalController, IonInput, IonTextarea
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
@@ -15,6 +16,7 @@ import { addIcons } from 'ionicons';
 import { addCircleOutline, menuOutline, checkmarkCircleOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { FinalizacionServicio } from 'src/app/interfaces/servicios.interface';
+import { ModalFinalizarServicioComponent } from 'src/app/components/modal-finalizar-servicio/modal-finalizar-servicio.component';
 
 
 @Component({
@@ -25,7 +27,8 @@ import { FinalizacionServicio } from 'src/app/interfaces/servicios.interface';
   imports: [
     IonText, IonList, IonItem, IonIcon, IonButtons,
     IonRow, IonGrid, IonCol, IonLabel, IonButton, IonContent, IonHeader,
-    IonTitle, IonToolbar, IonSelect, IonSelectOption, CommonModule, FormsModule, NavbarComponent
+    IonTitle, IonToolbar, IonSelect, IonSelectOption,
+    CommonModule, FormsModule, NavbarComponent
   ]
 })
 export class CiudadanoPage implements OnInit {
@@ -33,6 +36,10 @@ export class CiudadanoPage implements OnInit {
   cargos: any[] = [];
   mostrarMenu = false;
   seccionActual = 'Datos Generales';
+  
+  // ✅ Variables para órdenes desbloqueadas
+  ordenesDesbloqueadas: any[] = [];
+  maxOrdenDesbloqueada: number = 0;
 
   constructor(
        private toastController: ToastController,
@@ -42,6 +49,7 @@ export class CiudadanoPage implements OnInit {
     private navCtrl: NavController,
     private route: ActivatedRoute,
      private router: Router,
+     private modalController: ModalController,
   ) {
     addIcons({ menuOutline, addCircleOutline, checkmarkCircleOutline });
   }
@@ -104,6 +112,24 @@ async mostrarToastError(mensaje: string) {
       },
       error: (error) => {
         console.error('❌ Error al obtener ciudadano:', error);
+      }
+    });
+    
+    // 3. Cargar órdenes desbloqueadas
+    this.cargarOrdenesDesbloqueadas(ciudadanoId);
+  }
+
+  // ✅ Cargar órdenes desbloqueadas del ciudadano
+  cargarOrdenesDesbloqueadas(ciudadanoId: number) {
+    this.ciudadanoService.getOrdenesDisponibles(ciudadanoId).subscribe({
+      next: (response: any) => {
+        this.maxOrdenDesbloqueada = response.max_orden_desbloqueada;
+        this.ordenesDesbloqueadas = response.ordenes_disponibles;
+        console.log('🔓 Órdenes desbloqueadas:', this.ordenesDesbloqueadas);
+        console.log('📊 Máxima orden desbloqueada:', this.maxOrdenDesbloqueada);
+      },
+      error: (err) => {
+        console.error('❌ Error al cargar órdenes desbloqueadas:', err);
       }
     });
   }
@@ -286,25 +312,39 @@ procesarFinalizacion(servicioId: number, endDate: string) {
   });
 }
 
-// ✅ Cambiar estado del servicio con confirmación
+// ✅ Cambiar estado del servicio con confirmación (solicitar observaciones al finalizar)
 async cambiarEstadoServicio(cargo: any, event: any) {
   const nuevoEstado = event.detail.value;
-  const estadoAnterior = cargo.service_status_original || cargo.service_status;
+  const estadoAnterior = cargo.service_status;
 
-  // Guardar el estado original antes del cambio
-  if (!cargo.service_status_original) {
-    cargo.service_status_original = estadoAnterior;
+  // Si se va a finalizar (completado o inconcluso), abrir modal personalizado
+  if (nuevoEstado === 'completado' || nuevoEstado === 'inconcluso') {
+    const fechaPorDefecto = cargo.end_date || new Date().toISOString().split('T')[0];
+
+    const modal = await this.modalController.create({
+      component: ModalFinalizarServicioComponent,
+      componentProps: {
+        nuevoEstado: nuevoEstado,
+        fechaActual: fechaPorDefecto,
+        observacionesActuales: cargo.observations || ''
+      }
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm' && data) {
+      // Solo actualizar el estado si se confirma
+      this.actualizarEstadoServicio(cargo, nuevoEstado, data.end_date, data.observations);
+    }
+    // Si se cancela, no hacer nada - el select mantendrá el valor original
+
+    return; // no continuar con confirmación genérica
   }
 
-  // Mensajes según el cambio
-  let mensaje = '';
-  if (nuevoEstado === 'completado') {
-    mensaje = '¿Está seguro que desea marcar este servicio como completado?';
-  } else if (nuevoEstado === 'rechazado') {
-    mensaje = '¿Está seguro que el ciudadano rechazó este servicio?';
-  } else {
-    mensaje = `¿Confirma cambiar el estado a "${nuevoEstado}"?`;
-  }
+  // Confirmación genérica para otros estados
+  let mensaje = `¿Confirma cambiar el estado a "${nuevoEstado}"?`;
 
   const alert = await this.alertController.create({
     header: 'Confirmar cambio',
@@ -314,7 +354,6 @@ async cambiarEstadoServicio(cargo: any, event: any) {
         text: 'Cancelar',
         role: 'cancel',
         handler: () => {
-          // Revertir al estado anterior
           cargo.service_status = estadoAnterior;
         }
       },
@@ -330,20 +369,27 @@ async cambiarEstadoServicio(cargo: any, event: any) {
   await alert.present();
 }
 
-// Actualizar estado en el backend
-actualizarEstadoServicio(cargo: any, nuevoEstado: string) {
+// Actualizar estado en el backend (acepta fecha y observaciones opcionales)
+actualizarEstadoServicio(cargo: any, nuevoEstado: string, endDate?: string, observations?: string) {
   const datos: any = {
     service_status: nuevoEstado
   };
 
-  // Si se marca como completado, agregar fecha fin automáticamente
-  if (nuevoEstado === 'completado' && !cargo.end_date) {
+  // Fecha de finalización
+  if (endDate) {
+    datos.end_date = endDate;
+  } else if (nuevoEstado === 'completado' && !cargo.end_date) {
     datos.end_date = new Date().toISOString().split('T')[0];
+  }
+
+  // Observaciones
+  if (typeof observations === 'string') {
+    datos.observations = observations;
   }
 
   this.ciudadanoService.actualizarCargo(cargo.id, datos).subscribe({
     next: async () => {
-      await this.mostrarToast(`Estado actualizado a: ${nuevoEstado}`);
+      await this.mostrarToast(`Estado actualizado a: ${this.estadoLegible(nuevoEstado)}`);
       cargo.service_status_original = nuevoEstado;
       this.cargarDatos(this.ciudadano.id);
     },
@@ -354,6 +400,84 @@ actualizarEstadoServicio(cargo: any, nuevoEstado: string) {
       cargo.service_status = cargo.service_status_original;
     }
   });
+}
+
+// Mostrar estado legible en UI
+estadoLegible(status: string): string {
+  switch (status) {
+    case 'en_curso':
+      return 'En curso';
+    case 'completado':
+      return 'Completado';
+    case 'inconcluso':
+      return 'Inconcluso';
+    case 'rechazado':
+      return 'Rechazó';
+    default:
+      return status;
+  }
+}
+
+// ✅ Promover ciudadano a la siguiente orden
+async promoverOrden() {
+  const alert = await this.alertController.create({
+    header: 'Promover Orden',
+    message: '¿Está seguro que desea promover al ciudadano a la siguiente orden?',
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel'
+      },
+      {
+        text: 'Promover',
+        handler: () => {
+          this.ciudadanoService.promoverOrden(this.ciudadano.id).subscribe({
+            next: async () => {
+              await this.mostrarToast('Ciudadano promovido correctamente');
+              this.cargarOrdenesDesbloqueadas(this.ciudadano.id);
+            },
+            error: async (err) => {
+              console.error('❌ Error al promover:', err);
+              await this.mostrarToastError(err.error?.message || 'Error al promover ciudadano');
+            }
+          });
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+// ✅ Retroceder ciudadano a la orden anterior
+async retrocederOrden() {
+  const alert = await this.alertController.create({
+    header: 'Retroceder Orden',
+    message: '¿Está seguro que desea retroceder al ciudadano a la orden anterior?',
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel'
+      },
+      {
+        text: 'Retroceder',
+        handler: () => {
+          this.ciudadanoService.retrocederOrden(this.ciudadano.id).subscribe({
+            next: async () => {
+              await this.mostrarToast('Ciudadano retrocedido correctamente');
+              this.cargarOrdenesDesbloqueadas(this.ciudadano.id);
+            },
+            error: async (err) => {
+              console.error('❌ Error al retroceder:', err);
+              await this.mostrarToastError(err.error?.message || 'Error al retroceder ciudadano');
+            }
+          });
+        }
+      }
+    ]
+  });
+
+  await alert.present();
 }
 
 }

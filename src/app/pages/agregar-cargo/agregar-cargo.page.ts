@@ -11,7 +11,7 @@ import { addIcons } from 'ionicons';
 import { calendar } from 'ionicons/icons';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { CiudadanoService } from 'src/app/services/ciudadano.service';
-import { OrdenDisponible, ServicioDisponible, AsignacionServicio } from 'src/app/interfaces/servicios.interface';
+import { OrdenDisponible, ServicioDisponible, AsignacionServicio, ServicioCompleto, OrdenesDisponiblesResponse } from 'src/app/interfaces/servicios.interface';
 interface Ciudadano {
   id: number;
   name: string;
@@ -27,7 +27,7 @@ interface Ciudadano {
   standalone: true,
   imports: [
     IonIcon, IonInput, IonButton, IonLabel, IonGrid, IonItem, IonRow, IonCol,
-    IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
+    IonContent, IonTitle, IonToolbar, CommonModule, FormsModule,
     NavbarComponent, IonSelect, IonSelectOption
   ]
 })
@@ -36,14 +36,20 @@ export class AgregarCargoPage implements OnInit {
   ciudadano: Ciudadano | null = null;
   ciudadanoId: number = 1;
   
-  // ✅ NUEVAS VARIABLES CON TIPADO CORRECTO
-  ordenesDisponibles: OrdenDisponible[] = [];
-  serviciosDisponibles: ServicioDisponible[] = [];
+  // ✅ Variables para órdenes desbloqueadas
+  ordenesDesbloqueadas: { id: number; order_name: string }[] = [];
+  maxOrdenDesbloqueada: number = 0;
+  
+  // ✅ Variables para el catálogo de servicios
+  serviciosCatalogo: ServicioCompleto[] = [];
+  serviciosFiltrados: ServicioCompleto[] = [];
   ordenSeleccionadoId: number | null = null;
   servicioSeleccionadoId: number | null = null;
 
   start_date: string = '';
   observations: string = '';
+  // Estado inicial del cargo (null para mostrar placeholder "Seleccionar")
+  initialStatus: 'en_curso' | 'rechazado' | null = null;
 
   constructor(
     private location: Location,
@@ -57,9 +63,10 @@ ngOnInit() {
   // Obtener id del ciudadano de la ruta
   this.ciudadanoId = +this.route.snapshot.paramMap.get('id')!;
   
-  // Cargar datos del ciudadano y órdenes disponibles
+  // Cargar datos del ciudadano, órdenes desbloqueadas y catálogo de servicios
   this.cargarCiudadano();
-  this.cargarOrdenesDisponibles();
+  this.cargarOrdenesDesbloqueadas();
+  this.cargarCatalogoServicios();
 }
   calcularEdad(fechaNacimiento: string): number {
   const nacimiento = new Date(fechaNacimiento);
@@ -85,26 +92,62 @@ ngOnInit() {
     });
   }
 
-  // ✅ NUEVO: Cargar órdenes disponibles para el ciudadano
-  cargarOrdenesDisponibles() {
+  // ✅ Cargar órdenes desbloqueadas para el ciudadano
+  cargarOrdenesDesbloqueadas() {
+    console.log('🔍 Cargando órdenes desbloqueadas para ciudadano ID:', this.ciudadanoId);
     this.ciudadanoService.getOrdenesDisponibles(this.ciudadanoId).subscribe({
-      next: (ordenes) => {
-        this.ordenesDisponibles = ordenes;
-        console.log('📦 Órdenes disponibles:', ordenes);
+      next: (response: any) => {
+        this.maxOrdenDesbloqueada = response.max_orden_desbloqueada;
+        this.ordenesDesbloqueadas = response.ordenes_disponibles.map((orden: any) => ({
+          id: orden.id,
+          order_name: orden.order_name
+        }));
+        console.log('� Órdenes desbloqueadas:', this.ordenesDesbloqueadas);
+        console.log('📊 Máxima orden desbloqueada:', this.maxOrdenDesbloqueada);
       },
       error: (err) => {
-        console.error('❌ Error al cargar órdenes disponibles:', err);
+        console.error('❌ Error al cargar órdenes desbloqueadas:', err);
+        this.mostrarToastError('No se pudieron cargar las órdenes disponibles');
       }
     });
   }
 
-  // ✅ ACTUALIZADO: Al seleccionar orden, cargar sus servicios
+  // ✅ Cargar catálogo completo de servicios
+  cargarCatalogoServicios() {
+    console.log('🔍 Cargando catálogo de servicios...');
+    this.ciudadanoService.getCatalogoServicios().subscribe({
+      next: (servicios) => {
+        this.serviciosCatalogo = servicios;
+        console.log('📦 Catálogo de servicios recibido:', servicios);
+        console.log('📊 Total de servicios:', servicios?.length);
+      },
+      error: (err) => {
+        console.error('❌ Error al cargar catálogo de servicios:', err);
+        console.error('❌ Detalles del error:', err.error);
+        console.error('❌ Status:', err.status);
+        this.mostrarToastError('No se pudieron cargar los servicios disponibles');
+      }
+    });
+  }
+
+  // ✅ Al seleccionar orden, filtrar servicios de esa orden (solo órdenes desbloqueadas)
   onOrdenSeleccionado() {
-    const orden = this.ordenesDisponibles.find(o => o.id === this.ordenSeleccionadoId);
-    this.serviciosDisponibles = orden?.services || [];
+    // Verificar que la orden esté desbloqueada
+    const ordenDesbloqueada = this.ordenesDesbloqueadas.find(o => o.id === this.ordenSeleccionadoId);
+    
+    if (!ordenDesbloqueada) {
+      console.warn('⚠️ Orden no desbloqueada seleccionada');
+      this.serviciosFiltrados = [];
+      this.servicioSeleccionadoId = null;
+      return;
+    }
+    
+    this.serviciosFiltrados = this.serviciosCatalogo.filter(
+      servicio => servicio.order.id === this.ordenSeleccionadoId
+    );
     this.servicioSeleccionadoId = null; // Reinicia el servicio seleccionado
-    console.log('🔍 Orden seleccionada:', orden);
-    console.log('🛠 Servicios disponibles:', orden?.services);
+    console.log('🔍 Orden seleccionada ID:', this.ordenSeleccionadoId);
+    console.log('🛠 Servicios filtrados:', this.serviciosFiltrados);
   }
 
   abrirSelectorFecha(fechaInput: any) {
@@ -157,11 +200,14 @@ ngOnInit() {
       }
     }
 
+    // Si no selecciona estado, por defecto se registra como 'en_curso'
+    const status: 'en_curso' | 'rechazado' = this.initialStatus ?? 'en_curso';
+
     const datos: AsignacionServicio = {
       ciudadano_id: this.ciudadanoId,
       service_id: this.servicioSeleccionadoId,
       start_date: this.start_date,
-      service_status: 'en_curso',
+      service_status: status,
       observations: this.observations || ''
     };
 

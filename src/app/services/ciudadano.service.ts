@@ -85,9 +85,19 @@ private getAuthOptions() {
 
   // ✅ NUEVOS MÉTODOS PARA EL FLUJO DE SERVICIOS
 
-  // Obtener órdenes disponibles para un ciudadano específico
-  getOrdenesDisponibles(ciudadanoId: number): Observable<OrdenDisponible[]> {
-    return this.http.get<OrdenDisponible[]>(`${this.baseUrl}/${ciudadanoId}/ordenes-disponibles`, this.getAuthOptions());
+  // Obtener órdenes desbloqueadas para un ciudadano específico
+  getOrdenesDisponibles(ciudadanoId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${ciudadanoId}/ordenes-disponibles`, this.getAuthOptions());
+  }
+
+  // Promover ciudadano a la siguiente orden
+  promoverOrden(ciudadanoId: number): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/${ciudadanoId}/promover-orden`, {}, this.getAuthOptions());
+  }
+
+  // Retroceder ciudadano a la orden anterior
+  retrocederOrden(ciudadanoId: number): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/${ciudadanoId}/retroceder-orden`, {}, this.getAuthOptions());
   }
 
   // Obtener catálogo completo de servicios

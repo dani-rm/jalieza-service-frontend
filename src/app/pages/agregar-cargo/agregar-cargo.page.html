@@ -5,29 +5,37 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size-xs="12" size-sm="12" size-md="10" size-lg="10">
           <div class="contenedor-formulario">
-            <ion-header>
-              <ion-toolbar class="cabeza">
-                <ion-title class="titulo-formulario">Agregar Cargo</ion-title>
-              </ion-toolbar>
-            </ion-header>
+            <ion-toolbar class="cabeza">
+              <ion-title class="titulo-formulario">Agregar Cargo</ion-title>
+            </ion-toolbar>
 
             <ion-grid class="grid-formulario">
               <ion-item>
                 <ion-label>Orden</ion-label>
                 <ion-select [(ngModel)]="ordenSeleccionadoId" placeholder="Selecciona un orden"
                   (ionChange)="onOrdenSeleccionado()">
-                  <ion-select-option *ngFor="let orden of ordenesDisponibles" [value]="orden.id">
-                    {{ orden.order_name }} ({{ orden.required_points }} puntos)
+                  <ion-select-option *ngFor="let orden of ordenesDesbloqueadas" [value]="orden.id">
+                    {{ orden.order_name }}
                   </ion-select-option>
                 </ion-select>
               </ion-item>
 
-              <ion-item *ngIf="serviciosDisponibles.length > 0">
+              <ion-item>
                 <ion-label>Servicio</ion-label>
-                <ion-select [(ngModel)]="servicioSeleccionadoId" placeholder="Selecciona un servicio">
-                  <ion-select-option *ngFor="let servicio of serviciosDisponibles" [value]="servicio.id">
+                <ion-select [(ngModel)]="servicioSeleccionadoId" placeholder="Selecciona un servicio"
+                  [disabled]="serviciosFiltrados.length === 0">
+                  <ion-select-option *ngFor="let servicio of serviciosFiltrados" [value]="servicio.id">
                     {{ servicio.service_name }}
                   </ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <!-- Estado inicial del cargo -->
+              <ion-item>
+                <ion-label>Estado inicial</ion-label>
+                <ion-select [(ngModel)]="initialStatus" placeholder="Seleccionar">
+                  <ion-select-option value="en_curso">En curso</ion-select-option>
+                  <ion-select-option value="rechazado">Rechazado</ion-select-option>
                 </ion-select>
               </ion-item>
 

@@ -120,6 +120,38 @@
                   </ion-col>
                 </ion-row>
 
+                <!-- Gestión de Órdenes Desbloqueadas -->
+                <ion-row *ngIf="authService.getUserRole() !== '4'">
+                  <ion-col size="12">
+                    <div class="campo">
+                      <label class="etiqueta">Órdenes Desbloqueadas</label>
+                      <div class="valor-dato">
+                        <ion-text *ngIf="ordenesDesbloqueadas.length > 0">
+                          <span *ngFor="let orden of ordenesDesbloqueadas; let last = last">
+                            {{ orden.order_name }}<span *ngIf="!last">, </span>
+                          </span>
+                        </ion-text>
+                        <ion-text *ngIf="ordenesDesbloqueadas.length === 0" color="medium">
+                          Sin órdenes desbloqueadas
+                        </ion-text>
+                      </div>
+                    </div>
+                  </ion-col>
+                </ion-row>
+
+                <ion-row *ngIf="authService.getUserRole() !== '4'">
+                  <ion-col size="12" size-md="6">
+                    <ion-button expand="block" color="success" (click)="promoverOrden()">
+                      Promover a Siguiente Orden
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="12" size-md="6">
+                    <ion-button expand="block" color="warning" (click)="retrocederOrden()">
+                      Retroceder a Orden Anterior
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+
                 <ion-row *ngIf="ciudadano?.partner">
                   <ion-col size="12">
                     <div class="campo">
@@ -202,8 +234,9 @@
                       <div class="tabla-td">
                         <span class="tabla-label">Estado:</span>
                         <span class="estado-badge" [class.en-curso]="cargo.service_status === 'en_curso'"
-                          [class.completado]="cargo.service_status === 'completado'">
-                          {{ cargo.service_status }}
+                          [class.completado]="cargo.service_status === 'completado'"
+                          [class.inconcluso]="cargo.service_status === 'inconcluso'">
+                          {{ estadoLegible(cargo.service_status) }}
                         </span>
                       </div>
                     </ion-col>
@@ -211,12 +244,11 @@
                       <div class="tabla-td">
                         <span class="tabla-label">Acciones:</span>
                         <ion-select *ngIf="authService.getUserRole() !== '4'" class="select-estado"
-                          [(ngModel)]="cargo.service_status"
-                          [disabled]="cargo.service_status === 'completado' || cargo.service_status === 'rechazado'"
-                          (ionChange)="cambiarEstadoServicio(cargo, $event)" interface="alert">
-                          <ion-select-option value="en_curso">En curso</ion-select-option>
+                          [value]="cargo.service_status" [disabled]="cargo.service_status !== 'en_curso'"
+                          (ionChange)="cambiarEstadoServicio(cargo, $event)" interface="alert"
+                          placeholder="Finalizar como...">
                           <ion-select-option value="completado">Completado</ion-select-option>
-                          <ion-select-option value="rechazado">Rechazó</ion-select-option>
+                          <ion-select-option value="inconcluso">Inconcluso</ion-select-option>
                         </ion-select>
                         <span *ngIf="authService.getUserRole() === '4'" class="estado-texto">
                           {{ cargo.service_status }}

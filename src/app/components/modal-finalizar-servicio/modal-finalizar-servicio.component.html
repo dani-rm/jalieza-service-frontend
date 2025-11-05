@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar class="cabeza-modal">
+        <ion-title class="titulo-modal">Finalizar Servicio</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="cancelar()">
+                Cerrar
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="contenedor-modal">
+        <p class="modal-mensaje">
+            Selecciona la fecha de finalización y agrega observaciones finales (opcional).
+        </p>
+
+        <div class="campos-contenedor">
+            <!-- Fecha de Finalización -->
+            <ion-item>
+                <ion-label position="stacked">Fecha de Finalización *</ion-label>
+                <ion-input type="date" [(ngModel)]="end_date" #fechaFinInput>
+                    <ion-icon slot="end" name="calendar" class="calendar-icon"
+                        (click)="abrirSelectorFecha(fechaFinInput)"></ion-icon>
+                </ion-input>
+            </ion-item>
+
+            <!-- Observaciones -->
+            <ion-item class="item-textarea">
+                <ion-label position="stacked">Observaciones Finales</ion-label>
+                <ion-textarea [(ngModel)]="observations" placeholder="Escribe observaciones finales (opcional)" rows="4"
+                    autoGrow="true">
+                </ion-textarea>
+            </ion-item>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="boton-contenedor">
+            <ion-button class="boton-volver" (click)="cancelar()">
+                Cancelar
+            </ion-button>
+            <ion-button class="boton-registrar" (click)="confirmar()" [disabled]="!end_date">
+                Confirmar
+            </ion-button>
+        </div>
+    </div>
+</ion-content>
