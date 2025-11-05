@@ -44,6 +44,14 @@ export class NavbarComponent  implements OnInit {
     this.authService.logout();
   }
 
+  // Navegar a la página principal
+  irAPaginaPrincipal() {
+    this.router.navigate(['/buscar-ciudadano']);
+  }
 
+  // Verificar si una ruta está activa
+  esRutaActiva(ruta: string): boolean {
+    return this.router.url.includes(ruta);
+  }
 
 }
