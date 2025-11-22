@@ -55,23 +55,25 @@ export class CiudadanoPage implements OnInit {
   }
 
   ngOnInit() {
-console.log(this.ciudadano);
+    console.log(this.ciudadano);
 
-    const id = this.route.snapshot.paramMap.get('id');
+    // Escuchar cambios en los parámetros de la ruta
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
       console.log('ID ciudadano recibido en ruta:', id);
-    if (id) {
-      const ciudadanoId = +id;
+      
+      if (id) {
+        const ciudadanoId = +id;
+        this.cargarDatos(ciudadanoId);
 
-      this.cargarDatos(ciudadanoId);
-
-      // Detectar si hay que refrescar (por registro nuevo de cargo)
-      if (localStorage.getItem('cargoActualizado') === 'true') {
-        localStorage.removeItem('cargoActualizado');
-        this.cargarDatos(ciudadanoId); // recarga todo de nuevo
+        // Detectar si hay que refrescar (por registro nuevo de cargo)
+        if (localStorage.getItem('cargoActualizado') === 'true') {
+          localStorage.removeItem('cargoActualizado');
+        }
+      } else {
+        console.warn('⚠️ No se proporcionó ID de ciudadano en la ruta');
       }
-    } else {
-      console.warn('⚠️ No se proporcionó ID de ciudadano en la ruta');
-    }
+    });
   }
  async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({

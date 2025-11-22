@@ -210,10 +210,7 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     this.ciudadanoService.actualizarCiudadano(id, dto).subscribe({
       next: async () => {
         await this.mostrarToast('Datos actualizados correctamente');
-          this.router.navigate(['/buscar-ciudadano']);
-        this.cargarCiudadano()
-          // Recarga la página completa
-
+        this.router.navigate(['/ciudadano', id]);
       },
       error: async (err) => {
         console.error('❌ Error al actualizar ciudadano:', err);
@@ -290,12 +287,24 @@ registrarPareja() {
   };
 
   this.ciudadanoService.crearCiudadano(dto).subscribe({
-    next: async (nuevo) => {
+    next: async (response) => {
+      // Extraer los datos del objeto 'data' que envuelve el backend
+      const nuevaPareja = response.data || response;
+      
+      console.log('✅ Pareja registrada:', nuevaPareja);
+      
       await this.mostrarToast('Pareja registrada correctamente');
-      this.parejaSeleccionada = nuevo;
+      
+      // Asignar la pareja extraída correctamente
+      this.parejaSeleccionada = nuevaPareja;
+      
+      // Agregar a la lista de personas disponibles para que aparezca en el buscador
+      this.personasDisponibles.push(nuevaPareja);
+      
       this.mostrarFormularioPareja = false;
       // Asegurar que el ciudadano actual quede como Casado al guardar
       this.estadoCivil = 2;
+      
       // Limpiar formulario modal
       this.nombresPareja = '';
       this.apellidoPaternoPareja = '';
@@ -304,7 +313,7 @@ registrarPareja() {
       this.fechaNacimientoPareja = '';
     },
     error: async (err) => {
-      console.error('Error al registrar pareja', err);
+      console.error('❌ Error al registrar pareja:', err);
       await this.mostrarToastError('No se pudo registrar la pareja');
     }
   });
