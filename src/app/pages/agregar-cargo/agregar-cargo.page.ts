@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonCol, IonRow, IonItem, IonGrid, IonLabel,
@@ -55,7 +55,8 @@ export class AgregarCargoPage implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private ciudadanoService: CiudadanoService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router
   ) {
     addIcons({ calendar });
   }
@@ -219,12 +220,8 @@ ngOnInit() {
         await this.mostrarToast('Servicio asignado correctamente');
         localStorage.setItem('cargoActualizado', 'true');
 
-        // Vuelve atrás y luego recarga para ver los cambios
-        this.location.back();
-
-        setTimeout(() => {
-          window.location.reload(); // 🔄 Recarga tras regresar
-        }, 300);
+        // Cambiar a la sección de Cargos
+        this.router.navigate(['/ciudadano', this.ciudadanoId], { queryParams: { seccion: 'Cargos' } });
       },
       error: async (err) => {
         console.error('❌ Error al asignar servicio:', err);

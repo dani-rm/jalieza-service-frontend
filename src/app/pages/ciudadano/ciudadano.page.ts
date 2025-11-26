@@ -148,7 +148,7 @@ async mostrarToastError(mensaje: string) {
   }
 
   volver() {
-    this.navCtrl.back();
+    this.cambiarSeccion('Datos Generales');
   }
 
   editarDatos() {
