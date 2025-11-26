@@ -403,6 +403,36 @@ ion-buttons {
   }
 }
 
+/* Estilos para botones consistentes */
+.boton-promover,
+.boton-retroceder {
+  --background: var(--color-primary);
+  --color: var(--color-secondary-light);
+  --border-radius: var(--border-radius-md);
+  --padding-start: var(--spacing-lg);
+  --padding-end: var(--spacing-lg);
+  --box-shadow: var(--shadow-primary);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  transition: var(--transition-base);
+  margin-bottom: var(--spacing-md);
+
+  &:hover {
+    --background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    --box-shadow: var(--shadow-xl);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  ion-icon {
+    font-size: var(--text-xl);
+    margin-right: var(--spacing-xs);
+  }
+}
+
 /* Animación específica para el menú flotante */
 @keyframes slideInRight {
   from {
