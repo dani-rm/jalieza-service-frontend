@@ -49,6 +49,9 @@ export class BuscarCiudadanoPage implements OnInit {
   ciudadanos: any[] = [];
   ciudadanosFiltrados: any[] = [];
 
+  ciudadanosPorPagina = 20;
+  paginaActual = 1;
+
   // Mapear estado civil para mostrar en pantalla
   mostrarEstadoCivil(ciudadano: any): string {
     const valor = ciudadano?.marital_status;
@@ -101,6 +104,17 @@ export class BuscarCiudadanoPage implements OnInit {
       console.error('Error al obtener catálogo de cargos:', err);
     }
   });
+}
+
+cambiarPagina(pagina: number) {
+  this.paginaActual = pagina;
+  this.actualizarCiudadanosPaginados();
+}
+
+actualizarCiudadanosPaginados() {
+  const inicio = (this.paginaActual - 1) * this.ciudadanosPorPagina;
+  const fin = inicio + this.ciudadanosPorPagina;
+  this.ciudadanosFiltrados = this.ciudadanos.slice(inicio, fin);
 }
 
 filtrarCiudadanos() {
@@ -181,7 +195,8 @@ case 'conComentario':
     );
   }
 
-  this.ciudadanosFiltrados = filtrados;
+  this.ciudadanos = filtrados;
+  this.actualizarCiudadanosPaginados();
 }
 
 normalizarOrden(orden: string): string | null {
@@ -275,5 +290,7 @@ estaPorTerminarDescanso(ciudadano: any): boolean {
 verCiudadano(id: number) {
   this.navCtrl.navigateForward(`/ciudadano/${id}`);
 }
-
+get totalPaginas(): number {
+    return Math.ceil(this.ciudadanos.length / this.ciudadanosPorPagina);
+  }
 }

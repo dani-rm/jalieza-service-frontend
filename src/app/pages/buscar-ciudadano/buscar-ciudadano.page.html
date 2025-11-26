@@ -98,6 +98,18 @@
                 </tbody>
               </table>
             </div>
+
+            <!-- Controles de paginación con número de páginas -->
+            <div class="paginacion-container">
+              <ion-button class="boton-volver" *ngIf="paginaActual > 1" (click)="cambiarPagina(paginaActual - 1)">
+                Anterior
+              </ion-button>
+              <span class="pagina-info">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+              <ion-button class="boton-volver" *ngIf="ciudadanos.length > paginaActual * ciudadanosPorPagina"
+                (click)="cambiarPagina(paginaActual + 1)">
+                Siguiente
+              </ion-button>
+            </div>
           </div>
         </ion-col>
       </ion-row>
