@@ -54,6 +54,16 @@
                       </ion-input>
                     </div>
                   </ion-col>
+
+                  <ion-col size="12" size-md="4">
+                    <div class="campo">
+                      <label class="etiqueta">Teléfono Referencia</label>
+                      <ion-input type="tel" maxlength="10" placeholder="Ingrese los 10 dígitos" [(ngModel)]="telefono"
+                        name="telefono" (keypress)="soloNumeros($event)">
+                      </ion-input>
+                    </div>
+                  </ion-col>
+
                   <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Fecha de Nacimiento</label>
@@ -79,9 +89,27 @@
                       </ion-note>
                     </div>
                   </ion-col>
+
+                   <ion-col size="12" size-md="4">
+                    <div class="campo">
+                      <label class="etiqueta">Dirección</label>
+                      <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                        type="text" [(ngModel)]="apellidoMaterno" name="Address"></ion-input>
+                    </div>
+                  </ion-col>
+
+                    <ion-col size="12" size-md="4">
+                    <div class="campo">
+                      <label class="etiqueta">Ocupación</label>
+                      <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                        type="text" [(ngModel)]="apellidoMaterno" name="Occupation"></ion-input>
+                    </div>
+                  </ion-col>
+
+
                   <ion-col size="12" size-md="6">
                     <div class="campo">
-                      <label class="etiqueta">Comentario</label>
+                      <label class="etiqueta">Observaciones/Referencias</label>
                       <ion-input type="text" [(ngModel)]="comment" name="comment"></ion-input>
                     </div>
                   </ion-col>
