@@ -102,6 +102,12 @@
                   </ion-col>
                   <ion-col size="12" size-md="4">
                     <div class="campo">
+                      <label class="etiqueta">Teléfono Referencial </label>
+                      <div class="valor-dato">{{ ciudadano?.alternatePhone }}</div>
+                    </div>
+                  </ion-col>
+                  <ion-col size="12" size-md="4">
+                    <div class="campo">
                       <label class="etiqueta">Fecha de Nacimiento</label>
                       <div class="valor-dato">{{ ciudadano?.birth_date }}</div>
                     </div>
@@ -114,7 +120,19 @@
                   </ion-col>
                   <ion-col size="12" size-md="4">
                     <div class="campo">
-                      <label class="etiqueta">Comentario</label>
+                      <label class="etiqueta">Dirección</label>
+                      <div class="valor-dato">{{ ciudadano?.address }}</div>
+                    </div>
+                  </ion-col>
+                  <ion-col size="12" size-md="4">
+                    <div class="campo">
+                      <label class="etiqueta">Ocupación</label>
+                      <div class="valor-dato">{{ ciudadano?.occupation }}</div>
+                    </div>
+                  </ion-col>
+                  <ion-col size="12" size-md="4">
+                    <div class="campo">
+                      <label class="etiqueta">Observaciones/Referencias</label>
                       <div class="valor-dato">{{ ciudadano?.comment || 'No hay comentario' }}</div>
                     </div>
                   </ion-col>

@@ -44,6 +44,13 @@
                         maxlength="10" inputmode="numeric" (ionInput)="filtrarTelefono($event)"></ion-input>
                     </div>
                   </ion-col>
+                   <ion-col size="12" size-md="4">
+                    <div class="campo">
+                      <label class="etiqueta">Teléfono Referencial</label>
+                      <ion-input (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="ciudadano.alternatePhone" name="alternatePhone"
+                        maxlength="10" inputmode="numeric" (ionInput)="filtrarTelefonoAlternativa($event)"></ion-input>
+                    </div>
+                  </ion-col>
                   <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Fecha de Nacimiento</label>
@@ -64,9 +71,26 @@
                       </ion-select>
                     </div>
                   </ion-col>
+
                   <ion-col size="12" size-md="4">
                     <div class="campo">
-                      <label class="etiqueta">Comentario</label>
+                      <label class="etiqueta">Dirección</label>
+                      <ion-input type="text" [(ngModel)]="ciudadano.address"
+                        name="Address"></ion-input>
+                    </div>
+                  </ion-col>
+
+                    <ion-col size="12" size-md="4">
+                    <div class="campo">
+                      <label class="etiqueta">Ocupación</label>
+                      <ion-input type="text" [(ngModel)]="ciudadano.occupation"
+                        name="Occupation"></ion-input>
+                    </div>
+                  </ion-col>
+
+                  <ion-col size="12" size-md="4">
+                    <div class="campo">
+                      <label class="etiqueta">Observaciones/Referencias</label>
                       <ion-input type="text" [(ngModel)]="ciudadano.comment" name="comment" maxlength="255"></ion-input>
                     </div>
                   </ion-col>
