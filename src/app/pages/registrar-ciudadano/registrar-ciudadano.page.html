@@ -58,8 +58,8 @@
                   <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Teléfono Referencia</label>
-                      <ion-input type="tel" maxlength="10" placeholder="Ingrese los 10 dígitos" [(ngModel)]="telefonoAlterno" 
-                        name="telefonoAlterno" (keypress)="soloNumeros($event)">
+                      <ion-input type="tel" maxlength="10" placeholder="Ingrese los 10 dígitos"
+                        [(ngModel)]="telefonoAlterno" name="telefonoAlterno" (keypress)="soloNumeros($event)">
                       </ion-input>
                     </div>
                   </ion-col>
@@ -90,19 +90,31 @@
                     </div>
                   </ion-col>
 
-                   <ion-col size="12" size-md="4">
+                  <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Dirección</label>
-                      <ion-input inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
-                        type="text" [(ngModel)]="direccion" name="direccion"></ion-input>
+
+                      <ion-input inputmode="text" type="text" [(ngModel)]="direccion" name="direccion" required
+                        #direccionRef="ngModel">
+                      </ion-input>
+
+                      <ion-note color="danger" *ngIf="direccionRef.invalid && direccionRef.touched">
+                        La dirección es obligatoria.
+                      </ion-note>
                     </div>
                   </ion-col>
 
-                    <ion-col size="12" size-md="4">
+                  <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Ocupación</label>
-                      <ion-input inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
-                        type="text" [(ngModel)]="ocupacion" name="ocupacion"></ion-input>
+
+                      <ion-input inputmode="text" type="text" [(ngModel)]="ocupacion" name="ocupacion" required
+                        #ocupacionRef="ngModel">
+                      </ion-input>
+
+                      <ion-note color="danger" *ngIf="ocupacionRef.invalid && ocupacionRef.touched">
+                        La ocupación es obligatoria.
+                      </ion-note>
                     </div>
                   </ion-col>
 
