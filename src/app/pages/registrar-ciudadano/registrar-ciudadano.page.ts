@@ -31,6 +31,9 @@ export class RegistrarCiudadanoPage implements OnInit {
   apellidoMaternoPareja = '';
   commentPareja = '';
   telefonoPareja = '';
+  telefonoAlternoPareja = '';
+  direccionPareja = '';
+  ocupacionPareja = '';
   fechaNacimientoPareja = '';
   estadoCivilPareja = 1;
 
@@ -41,6 +44,9 @@ resetFormularioPrincipal() {
   this.apellidoMaterno = '';
   this.comment = '';
   this.telefono = '';
+  this.telefonoAlterno = '';
+  this.direccion = '';
+  this.ocupacion = '';
   this.fechaNacimiento = '';
   this.estadoCivil = -1;
   this.parejaSeleccionada = null;
@@ -55,6 +61,9 @@ resetFormularioPrincipal() {
   apellidoMaterno = '';
   comment = '';
   telefono = '';
+  telefonoAlterno = '';
+  direccion  = '';
+  ocupacion = '';
   fechaNacimiento = '';
   estadoCivil = -1;
   partner = null;
@@ -206,6 +215,9 @@ formatearFecha(event: any) {
     this.apellidoMaternoPareja = '';
     this.commentPareja = '';
     this.telefonoPareja = '';
+    this.telefonoAlternoPareja = '';
+    this.direccionPareja = '';
+    this.ocupacionPareja = '';
     this.fechaNacimientoPareja = '';
     this.estadoCivilPareja = 1;
     this.mostrarFormularioPareja = false;
@@ -277,6 +289,9 @@ registrarCiudadano(): Promise<number> {
       comment: this.comment.trim(),
       birth_date: this.fechaNacimiento.trim(),
       phone: this.telefono.trim(),
+      alternatePhone: this.telefonoAlterno.trim(),
+      address: this.direccion.trim(),
+      occupation: this.ocupacion.trim(),
       marital_status: this.estadoCivil,
       partner: this.parejaSeleccionada?.id
     };
@@ -313,6 +328,9 @@ registrarCiudadano(): Promise<number> {
       comment: this.commentPareja.trim(),
       birth_date: this.fechaNacimientoPareja.trim(),
       phone: this.telefonoPareja.trim(),
+      alternatePhone: this.telefonoAlternoPareja.trim(),
+      address: this.direccionPareja.trim(),
+      occupation: this. ocupacionPareja.trim(),
       marital_status: 1,
       partner: null// 🔗 Enlaza al ciudadano
     };

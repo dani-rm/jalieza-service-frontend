@@ -58,8 +58,8 @@
                   <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Teléfono Referencia</label>
-                      <ion-input type="tel" maxlength="10" placeholder="Ingrese los 10 dígitos" [(ngModel)]="telefono"
-                        name="telefono" (keypress)="soloNumeros($event)">
+                      <ion-input type="tel" maxlength="10" placeholder="Ingrese los 10 dígitos" [(ngModel)]="telefonoAlterno" 
+                        name="telefonoAlterno" (keypress)="soloNumeros($event)">
                       </ion-input>
                     </div>
                   </ion-col>
@@ -93,16 +93,16 @@
                    <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Dirección</label>
-                      <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
-                        type="text" [(ngModel)]="apellidoMaterno" name="Address"></ion-input>
+                      <ion-input inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                        type="text" [(ngModel)]="direccion" name="direccion"></ion-input>
                     </div>
                   </ion-col>
 
                     <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Ocupación</label>
-                      <ion-input (keypress)="soloLetras($event)" inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
-                        type="text" [(ngModel)]="apellidoMaterno" name="Occupation"></ion-input>
+                      <ion-input inputmode="text" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                        type="text" [(ngModel)]="ocupacion" name="ocupacion"></ion-input>
                     </div>
                   </ion-col>
 
