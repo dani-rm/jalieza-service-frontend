@@ -41,6 +41,9 @@ private getAuthOptions() {
     last_name_mother: string;
     birth_date: string;
     phone: string;
+    alternatePhone: string;
+    address: string;
+    occupation: string;
     marital_status: number;
     partner?: number | null;
   }): Observable<any> {

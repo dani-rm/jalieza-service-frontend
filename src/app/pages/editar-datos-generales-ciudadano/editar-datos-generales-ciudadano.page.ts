@@ -25,6 +25,9 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
   apellidoMaternoPareja = '';
   commentPareja = '';
   telefonoPareja = '';
+  telefonoAlternoPareja = '';
+  ocupacionPareja = '';
+  direccionPareja= '';
   fechaNacimientoPareja = '';
   estadoCivilPareja = -1;
   // mostrarBuscadorPareja = false;
@@ -37,8 +40,11 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     comment: '',
     birth_date: '',
     phone: '',
+    alternatePhone: '',
+    address: '',
+    occupation: '',
     marital_status: '',
-    partner: null
+    partner: null,
   };
 
   ciudadanoOriginal: any = null;
@@ -160,6 +166,14 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
     input.value = soloNumeros;
   }
 
+    filtrarTelefonoAlternativa(event: any) {
+    const input = event.target as HTMLInputElement;
+    const soloNumeros = input.value.replace(/\D/g, '').slice(0, 10);
+    this.ciudadano.alternatePhone = soloNumeros;
+    input.value = soloNumeros;
+  }
+
+
   abrirSelectorFecha(fechaInput: any) {
     const nativeInput = fechaInput?.getInputElement?.();
     if (nativeInput instanceof Promise) {
@@ -181,6 +195,9 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
       last_name_mother: this.ciudadano.last_name_mother,
       comment: this.ciudadano.comment,
       phone: this.ciudadano.phone,
+      alternatePhone: this.ciudadano.alternatePhone,
+      address: this.ciudadano.address,
+      occupation: this.ciudadano.occupation,
       birth_date: this.ciudadano.birth_date,
       marital_status: this.estadoCivil,
       partner: this.parejaSeleccionada && this.parejaSeleccionada !== 'registrar'
@@ -195,6 +212,9 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
       last_name_mother: this.ciudadanoOriginal.last_name_mother,
       comment: this.ciudadanoOriginal.comment,
       phone: this.ciudadanoOriginal.phone,
+      alternatePhone: this.ciudadanoOriginal.alternatePhone,
+      occupation: this.ciudadanoOriginal.occupation,
+      address: this.ciudadanoOriginal.address,
       birth_date: this.ciudadanoOriginal.birth_date,
       marital_status: this.ciudadanoOriginal.marital_status,
       partner: this.ciudadanoOriginal.partner?.id || null
@@ -282,6 +302,9 @@ registrarPareja() {
     last_name_mother: (this.apellidoMaternoPareja || '').trim(),
     birth_date: (this.fechaNacimientoPareja || ''),
     phone: (this.telefonoPareja || '').replace(/\D/g, '').slice(0, 10),
+    alternatePhone: (this.telefonoAlternoPareja || '').replace(/\D/g, '').slice(0, 10),
+     address: (this.direccionPareja || '').trim(),   
+  occupation: (this.ocupacionPareja || '').trim(),  
     marital_status: 2,
     partner: this.ciudadano?.id || null,
   };
@@ -311,6 +334,9 @@ registrarPareja() {
       this.apellidoMaternoPareja = '';
       this.telefonoPareja = '';
       this.fechaNacimientoPareja = '';
+      this.telefonoAlternoPareja = '';
+      this.direccionPareja= '';
+      this.ocupacionPareja= '';
     },
     error: async (err) => {
       console.error('❌ Error al registrar pareja:', err);
