@@ -39,6 +39,9 @@
                     (click)="cambiarSeccion('Cargos')">
                     Cargos
                   </ion-button>
+                  <div class="nombre-ciudadano">
+                    {{ ciudadano?.name }} {{ ciudadano?.last_name_father }} {{ ciudadano?.last_name_mother }}
+                  </div>
                   <ion-button *ngIf="authService.getUserRole() !== '4' && !ciudadano?.deleted_at"
                     class="menu-tab eliminar-btn" (click)="eliminarCiudadano()">
                     Eliminar ciudadano
