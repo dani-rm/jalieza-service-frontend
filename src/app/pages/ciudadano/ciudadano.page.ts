@@ -484,9 +484,8 @@ export class CiudadanoPage implements OnInit {
     await alert.present();
   }
 
-  generarPDFGeneral() {
+  async generarPDFGeneral() {
     const doc = new jsPDF();
-
     const c = this.ciudadano;
 
     if (!c) {
@@ -494,25 +493,35 @@ export class CiudadanoPage implements OnInit {
       return;
     }
 
-    // Título
+    try {
+      // ✅ cargar imagen correctamente
+      const logo = await this.getBase64ImageFromURL('/../../../assets/LogoJaliezaNavbar_2026.jpeg');
+
+      doc.addImage(logo, 'PNG', 170, 5, 20, 20);
+
+    } catch (error) {
+      console.error('Error cargando imagen:', error);
+    }
+
+    // ✅ Título
     doc.setFontSize(18);
-    doc.text('Datos Generales del Ciudadano', 14, 15);
+    doc.text('Datos Generales del Ciudadano', 40, 18);
 
-    // Línea separadora
-    doc.setLineWidth(0.5);
-    doc.line(14, 18, 196, 18);
+    // Línea
+    doc.setDrawColor(122, 28, 28);
+    doc.line(14, 30, 196, 30);
 
-    // Nombre completo
+    // Nombre
     doc.setFontSize(12);
     doc.text(
       `Nombre: ${c.name} ${c.last_name_father} ${c.last_name_mother}`,
       14,
-      30
+      40
     );
 
-    // Datos en tabla
+    // Tabla
     autoTable(doc, {
-      startY: 40,
+      startY: 50,
       theme: 'grid',
       head: [['Datos', 'Información']],
       body: [
@@ -529,9 +538,26 @@ export class CiudadanoPage implements OnInit {
         ['Ocupación', c.occupation || '-'],
         ['Observaciones', c.comment || 'No hay comentario']
       ],
+      headStyles: {
+        fillColor: [122, 28, 28],
+        textColor: [255, 255, 255]
+      }
     });
 
-    // Guardar PDF
     doc.save(`Ciudadano_${c.name} ${c.last_name_father} ${c.last_name_mother}.pdf`);
   }
+
+  getBase64ImageFromURL(url: string): Promise<string> {
+    return fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      });
+  }
+
 }
