@@ -136,8 +136,6 @@ async mostrarToastError(mensaje: string) {
     });
   }
 
-
-
   cambiarSeccion(seccion: string) {
     this.seccionActual = seccion;
     this.mostrarMenu = false;
@@ -149,6 +147,10 @@ async mostrarToastError(mensaje: string) {
 
   volver() {
     this.cambiarSeccion('Datos Generales');
+  }
+
+  volverCiudadanos() {
+    this.router.navigate(['/buscar-ciudadano']);
   }
 
   editarDatos() {
@@ -243,7 +245,6 @@ private ejecutarRestauracion() {
     },
   });
 }
-
 
 // Método que recarga desde el backend
 cargarCiudadano() {
