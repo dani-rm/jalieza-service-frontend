@@ -7,11 +7,13 @@ import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { CatalogoServiciosService } from 'src/app/services/catalogo-servicios.service';
-import jsPDF from 'jspdf';
+  import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { addIcons } from 'ionicons';
 import { addCircleOutline, menuOutline, checkmarkCircleOutline, cloudDownloadOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/angular/standalone';
+
+
 
 @Component({
   selector: 'app-buscar-ciudadano',
@@ -44,10 +46,10 @@ export class BuscarCiudadanoPage implements OnInit {
     private navCtrl: NavController,
     private ciudadanoService: CiudadanoService,
     private menuCtrl: MenuController
-  ) {
+ ) {
     addIcons({ menuOutline, addCircleOutline, checkmarkCircleOutline, cloudDownloadOutline });
   }
-  ) { }
+  
 
   cargos: any[] = [];
   searchTerm = '';
@@ -125,11 +127,6 @@ export class BuscarCiudadanoPage implements OnInit {
   actualizarCiudadanosPaginados() {
     const inicio = (this.paginaActual - 1) * this.ciudadanosPorPagina;
     const fin = inicio + this.ciudadanosPorPagina;
-    this.ciudadanosFiltrados = this.ciudadanos.slice(inicio, fin);
-  }
-
-  filtrarCiudadanos() {
-    let filtrados = [...this.ciudadanos];
     this.ciudadanosFiltrados = this.ciudadanosFiltrados.slice(inicio, fin);
   }
 
@@ -140,7 +137,6 @@ export class BuscarCiudadanoPage implements OnInit {
     switch (this.selectedFilter) {
       case 'todos':
         // Mostrar todos los ciudadanos activos, sin filtrar por estado civil o cargos
-        filtrados = filtrados.filter(c => !c.deleted_at);
         filtrados = this.ciudadanosOriginal.filter(c => !c.deleted_at);
         break;
       case 'activo':
@@ -209,18 +205,6 @@ export class BuscarCiudadanoPage implements OnInit {
       default:
         break;
     }
-
-    // Filtro de búsqueda
-    if (this.searchTerm && this.searchTerm.trim() !== '') {
-      const term = this.searchTerm.toLowerCase();
-      filtrados = filtrados.filter(c =>
-      (c.name?.toLowerCase().includes(term) ||
-        c.last_name_father?.toLowerCase().includes(term) ||
-        c.last_name_mother?.toLowerCase().includes(term))
-      );
-    }
-
-    this.ciudadanos = filtrados;
 
     // Filtro de búsqueda
     if (this.searchTerm && this.searchTerm.trim() !== '') {
@@ -336,21 +320,18 @@ export class BuscarCiudadanoPage implements OnInit {
     return hoy >= tresMesesAntesDeDescansoFin && hoy < descansoFin;
   }
 
-
-
   verCiudadano(id: number) {
     this.navCtrl.navigateForward(`/ciudadano/${id}`);
   }
   get totalPaginas(): number {
-    return Math.ceil(this.ciudadanos.length / this.ciudadanosPorPagina);
     return Math.ceil(this.ciudadanosFiltrados.length / this.ciudadanosPorPagina);
   }
 
 
-  async generarPDFCiudadanos() {
+   async generarPDFCiudadanos() {
     const doc = new jsPDF();
 
-    if (!this.ciudadanos || this.ciudadanos.length === 0) {
+    if (!this.ciudadanosOriginal || this.ciudadanosOriginal.length === 0) {
       console.warn('No hay ciudadanos para exportar');
       return;
     }
@@ -378,7 +359,7 @@ export class BuscarCiudadanoPage implements OnInit {
     doc.line(14, 20, 165, 20);
 
     // ✅ Datos
-    const body = this.ciudadanos.map((c, index) => [
+    const body = this.ciudadanosOriginal.map((c, index) => [
       index + 1,
       `${c.name} ${c.last_name_father} ${c.last_name_mother}`,
       c.phone || '-',
@@ -420,6 +401,5 @@ export class BuscarCiudadanoPage implements OnInit {
         });
       });
   }
-
 
 }
