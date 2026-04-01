@@ -47,6 +47,7 @@ export class BuscarCiudadanoPage implements OnInit {
   ) {
     addIcons({ menuOutline, addCircleOutline, checkmarkCircleOutline, cloudDownloadOutline });
   }
+  ) { }
 
   cargos: any[] = [];
   searchTerm = '';
@@ -54,7 +55,8 @@ export class BuscarCiudadanoPage implements OnInit {
   selectedCargo = 'todos';
   selectedCandidatoCargo = 'todos';
 
-  ciudadanos: any[] = [];
+  // ciudadanos: any[] = [];
+  ciudadanosOriginal: any[] = [];
   ciudadanosFiltrados: any[] = [];
 
   ciudadanosPorPagina = 20;
@@ -76,8 +78,8 @@ export class BuscarCiudadanoPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Ciudadanos cargados:', this.ciudadanos);
-    console.log(this.ciudadanos);
+    console.log('Ciudadanos cargados:', this.ciudadanosOriginal);
+    console.log(this.ciudadanosOriginal);
     this.menuCtrl.enable(true);
     this.obtenerCargos(); // Cargar catálogo de cargos
     this.cargarCiudadanos(); // Primera carga
@@ -93,8 +95,9 @@ export class BuscarCiudadanoPage implements OnInit {
     this.ciudadanoService.getCiudadanos().subscribe({
       next: (data) => {
         console.log('📦 Ciudadanos recibidos:', data);
-        this.ciudadanos = data;
-        console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanos.map(c => ({ id: c.id, services: c.services })));
+        //this.ciudadanos = data;
+        this.ciudadanosOriginal = data; // Guarda los datos de los ciudadanos originales
+        console.log('👁 Ciudadanos con posibles cargos:', this.ciudadanosOriginal.map(c => ({ id: c.id, services: c.services })));
         this.filtrarCiudadanos();
       },
       error: (err) => {
@@ -127,12 +130,18 @@ export class BuscarCiudadanoPage implements OnInit {
 
   filtrarCiudadanos() {
     let filtrados = [...this.ciudadanos];
+    this.ciudadanosFiltrados = this.ciudadanosFiltrados.slice(inicio, fin);
+  }
+
+  filtrarCiudadanos() {
+    let filtrados = [...this.ciudadanosOriginal];
 
     // Aplicar filtro principal
     switch (this.selectedFilter) {
       case 'todos':
         // Mostrar todos los ciudadanos activos, sin filtrar por estado civil o cargos
         filtrados = filtrados.filter(c => !c.deleted_at);
+        filtrados = this.ciudadanosOriginal.filter(c => !c.deleted_at);
         break;
       case 'activo':
         filtrados = filtrados.filter(c => !c.deleted_at);
@@ -164,6 +173,14 @@ export class BuscarCiudadanoPage implements OnInit {
           c.services?.some((serv: any) =>
             serv.termination_status === 'en_curso' &&
             (this.selectedCargo === 'todos' || serv.service_name === this.selectedCargo)
+          )
+        );
+        break;
+      case 'conCargosRechazados':
+        filtrados = filtrados.filter(c =>
+          !c.deleted_at &&
+          c.services?.some((serv: any) =>
+            serv.service_status === 'rechazado'
           )
         );
         break;
@@ -204,6 +221,23 @@ export class BuscarCiudadanoPage implements OnInit {
     }
 
     this.ciudadanos = filtrados;
+
+    // Filtro de búsqueda
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      //const term = this.searchTerm.toLowerCase();
+      const term = this.normalizarTexto(this.searchTerm);
+      if (term) {
+        filtrados = filtrados.filter(c => {
+          const nombreCompleto = this.normalizarTexto(
+            `${c.name || ''} ${c.last_name_father || ''} ${c.last_name_mother || ''}`
+          );
+
+          return nombreCompleto.includes(term);
+        });
+      }
+    }
+
+    this.ciudadanosFiltrados = filtrados;
     this.actualizarCiudadanosPaginados();
   }
 
@@ -243,6 +277,15 @@ export class BuscarCiudadanoPage implements OnInit {
       default:
         return null;
     }
+  }
+
+  normalizarTexto(texto: string): string {
+    return texto
+      ?.toLowerCase()
+      .normalize('NFD') // separa acentos
+      .replace(/[\u0300-\u036f]/g, '') // elimina acentos
+      .replace(/\s+/g, ' ') // múltiples espacios → uno
+      .trim(); // quita espacios inicio/fin
   }
 
   calcularEdad(fechaNacimiento: string): number {
@@ -300,6 +343,7 @@ export class BuscarCiudadanoPage implements OnInit {
   }
   get totalPaginas(): number {
     return Math.ceil(this.ciudadanos.length / this.ciudadanosPorPagina);
+    return Math.ceil(this.ciudadanosFiltrados.length / this.ciudadanosPorPagina);
   }
 
 

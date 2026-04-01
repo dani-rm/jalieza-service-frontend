@@ -23,6 +23,9 @@
                   <ion-select-option value="inactivo">Inactivos</ion-select-option> -->
                   <ion-select-option value="soltero">Solteros</ion-select-option>
                   <ion-select-option value="casado">Casados</ion-select-option>
+                  <ion-select-option value="conCargosRechazados">
+                    Con cargos rechazados
+                  </ion-select-option>
                   <!-- <ion-select-option value="divorciado">Divorciados</ion-select-option> -->
                   <!-- <ion-select-option value="viudo">Viudos</ion-select-option> -->
                   <!-- <ion-select-option value="conCargos">Con Cargos</ion-select-option>
@@ -110,7 +113,7 @@
                 Anterior
               </ion-button>
               <span class="pagina-info">Página {{ paginaActual }} de {{ totalPaginas }}</span>
-              <ion-button class="boton-volver" *ngIf="ciudadanos.length > paginaActual * ciudadanosPorPagina"
+              <ion-button class="boton-volver" *ngIf="ciudadanosOriginal.length > paginaActual * ciudadanosPorPagina"
                 (click)="cambiarPagina(paginaActual + 1)">
                 Siguiente
               </ion-button>
