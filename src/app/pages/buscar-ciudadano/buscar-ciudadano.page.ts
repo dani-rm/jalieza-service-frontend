@@ -7,6 +7,11 @@ import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { CatalogoServiciosService } from 'src/app/services/catalogo-servicios.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { addIcons } from 'ionicons';
+import { addCircleOutline, menuOutline, checkmarkCircleOutline, cloudDownloadOutline } from 'ionicons/icons';
+import { IonIcon } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-buscar-ciudadano',
@@ -29,6 +34,7 @@ import { CatalogoServiciosService } from 'src/app/services/catalogo-servicios.se
     FormsModule,
     NavbarComponent,
     IonToolbar,
+    IonIcon
 ]
 })
 export class BuscarCiudadanoPage implements OnInit {
@@ -38,7 +44,9 @@ export class BuscarCiudadanoPage implements OnInit {
     private navCtrl: NavController,
     private ciudadanoService: CiudadanoService,
     private menuCtrl: MenuController
-  ) {}
+  ) {
+     addIcons({ menuOutline, addCircleOutline, checkmarkCircleOutline, cloudDownloadOutline });
+  }
 
   cargos: any[] = [];
   searchTerm = '';
@@ -293,4 +301,49 @@ verCiudadano(id: number) {
 get totalPaginas(): number {
     return Math.ceil(this.ciudadanos.length / this.ciudadanosPorPagina);
   }
+
+
+  generarPDFCiudadanos() {
+  const doc = new jsPDF();
+
+  if (!this.ciudadanos || this.ciudadanos.length === 0) {
+    console.warn('No hay ciudadanos para exportar');
+    return;
+  }
+
+  // Título
+  doc.setFontSize(18);
+  doc.text('Listado de Ciudadanos', 14, 15);
+
+  // Línea
+  doc.setLineWidth(0.5);
+  doc.line(14, 18, 196, 18);
+
+  // Preparar datos para la tabla
+  const body = this.ciudadanos.map((c, index) => [
+    index + 1,
+    `${c.name} ${c.last_name_father} ${c.last_name_mother}`,
+    c.phone || '-',
+    this.mostrarEstadoCivil(c),
+    c.address || '-'
+  ]);
+
+  // Tabla
+  autoTable(doc, {
+    startY: 25,
+    theme: 'grid',
+    head: [['#', 'Nombre Completo', 'Teléfono', 'Estado Civil', 'Dirección']],
+    body: body,
+    styles: {
+      fontSize: 9
+    },
+    headStyles: {
+      fillColor: [117, 135, 205] // tu color #7587CD
+    }
+  });
+
+  // Guardar PDF
+  doc.save('Listado_Ciudadanos.pdf');
+}
+
 }
