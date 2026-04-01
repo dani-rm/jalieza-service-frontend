@@ -197,12 +197,17 @@ export class BuscarCiudadanoPage implements OnInit {
 
     // Filtro de búsqueda
     if (this.searchTerm && this.searchTerm.trim() !== '') {
-      const term = this.searchTerm.toLowerCase();
-      filtrados = filtrados.filter(c =>
-      (c.name?.toLowerCase().includes(term) ||
-        c.last_name_father?.toLowerCase().includes(term) ||
-        c.last_name_mother?.toLowerCase().includes(term))
-      );
+      //const term = this.searchTerm.toLowerCase();
+      const term = this.normalizarTexto(this.searchTerm);
+      if (term) {
+        filtrados = filtrados.filter(c => {
+          const nombreCompleto = this.normalizarTexto(
+            `${c.name || ''} ${c.last_name_father || ''} ${c.last_name_mother || ''}`
+          );
+
+          return nombreCompleto.includes(term);
+        });
+      }
     }
 
     this.ciudadanosFiltrados = filtrados;
@@ -245,6 +250,15 @@ export class BuscarCiudadanoPage implements OnInit {
       default:
         return null;
     }
+  }
+
+  normalizarTexto(texto: string): string {
+    return texto
+      ?.toLowerCase()
+      .normalize('NFD') // separa acentos
+      .replace(/[\u0300-\u036f]/g, '') // elimina acentos
+      .replace(/\s+/g, ' ') // múltiples espacios → uno
+      .trim(); // quita espacios inicio/fin
   }
 
   calcularEdad(fechaNacimiento: string): number {
@@ -294,8 +308,6 @@ export class BuscarCiudadanoPage implements OnInit {
     // Si ya estamos en los 3 meses finales antes de que termine el descanso
     return hoy >= tresMesesAntesDeDescansoFin && hoy < descansoFin;
   }
-
-
 
   verCiudadano(id: number) {
     this.navCtrl.navigateForward(`/ciudadano/${id}`);
