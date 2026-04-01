@@ -39,6 +39,9 @@
                     (click)="cambiarSeccion('Cargos')">
                     Cargos
                   </ion-button>
+                  <div class="nombre-ciudadano">
+                    {{ ciudadano?.name }} {{ ciudadano?.last_name_father }} {{ ciudadano?.last_name_mother }}
+                  </div>
                   <ion-button *ngIf="authService.getUserRole() !== '4' && !ciudadano?.deleted_at"
                     class="menu-tab eliminar-btn" (click)="eliminarCiudadano()">
                     Eliminar ciudadano
@@ -109,7 +112,9 @@
                   <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Fecha de Nacimiento</label>
-                      <div class="valor-dato">{{ ciudadano?.birth_date }}</div>
+                      <div class="valor-dato">
+                        {{ ciudadano?.birth_date | date:'dd-MM-yyyy' }}
+                      </div>
                     </div>
                   </ion-col>
                   <ion-col size="12" size-md="4">
@@ -188,7 +193,7 @@
                 </ion-row>
 
                 <div class="boton-contenedor">
-                  <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
+                  <ion-button class="boton-volver" (click)="volverCiudadanos()">Volver</ion-button>
                   <ion-button *ngIf="authService.getUserRole() !== '4'" class="boton-editar"
                     (click)="editarDatos()">Editar</ion-button>
                 </div>

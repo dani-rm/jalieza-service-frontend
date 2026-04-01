@@ -445,3 +445,24 @@ ion-buttons {
     opacity: 1;
   }
 }
+
+.nombre-ciudadano {
+  flex: 1;
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-lg);
+  color: #ffffff;
+}
+
+.menu-tab.pdf-btn {
+  --color: var(--color-primary);
+
+  ion-icon {
+    font-size: var(--text-lg);
+    margin-right: 4px;
+  }
+
+  &:hover {
+    --background: rgba(134, 36, 113, 0.1);
+  }
+}
