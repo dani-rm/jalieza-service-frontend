@@ -402,4 +402,5 @@ export class BuscarCiudadanoPage implements OnInit {
       });
   }
 
+  
 }
