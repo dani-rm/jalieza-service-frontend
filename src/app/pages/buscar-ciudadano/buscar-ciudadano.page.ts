@@ -7,7 +7,7 @@ import { CiudadanoService } from 'src/app/services/ciudadano.service';
 import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { CatalogoServiciosService } from 'src/app/services/catalogo-servicios.service';
-  import jsPDF from 'jspdf';
+import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { addIcons } from 'ionicons';
 import { addCircleOutline, menuOutline, checkmarkCircleOutline, cloudDownloadOutline } from 'ionicons/icons';
@@ -46,10 +46,10 @@ export class BuscarCiudadanoPage implements OnInit {
     private navCtrl: NavController,
     private ciudadanoService: CiudadanoService,
     private menuCtrl: MenuController
- ) {
+  ) {
     addIcons({ menuOutline, addCircleOutline, checkmarkCircleOutline, cloudDownloadOutline });
   }
-  
+
 
   cargos: any[] = [];
   searchTerm = '';
@@ -60,6 +60,7 @@ export class BuscarCiudadanoPage implements OnInit {
   // ciudadanos: any[] = [];
   ciudadanosOriginal: any[] = [];
   ciudadanosFiltrados: any[] = [];
+  ciudadanosPaginados: any[] = [];
 
   ciudadanosPorPagina = 20;
   paginaActual = 1;
@@ -127,7 +128,8 @@ export class BuscarCiudadanoPage implements OnInit {
   actualizarCiudadanosPaginados() {
     const inicio = (this.paginaActual - 1) * this.ciudadanosPorPagina;
     const fin = inicio + this.ciudadanosPorPagina;
-    this.ciudadanosFiltrados = this.ciudadanosFiltrados.slice(inicio, fin);
+
+    this.ciudadanosPaginados = this.ciudadanosFiltrados.slice(inicio, fin);
   }
 
   filtrarCiudadanos() {
@@ -222,6 +224,7 @@ export class BuscarCiudadanoPage implements OnInit {
     }
 
     this.ciudadanosFiltrados = filtrados;
+    this.paginaActual = 1;
     this.actualizarCiudadanosPaginados();
   }
 
@@ -328,7 +331,7 @@ export class BuscarCiudadanoPage implements OnInit {
   }
 
 
-   async generarPDFCiudadanos() {
+  async generarPDFCiudadanos() {
     const doc = new jsPDF();
 
     if (!this.ciudadanosOriginal || this.ciudadanosOriginal.length === 0) {
@@ -402,5 +405,5 @@ export class BuscarCiudadanoPage implements OnInit {
       });
   }
 
-  
+
 }
