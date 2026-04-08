@@ -210,15 +210,21 @@ export class BuscarCiudadanoPage implements OnInit {
 
     // Filtro de búsqueda
     if (this.searchTerm && this.searchTerm.trim() !== '') {
-      //const term = this.searchTerm.toLowerCase();
       const term = this.normalizarTexto(this.searchTerm);
+
       if (term) {
         filtrados = filtrados.filter(c => {
           const nombreCompleto = this.normalizarTexto(
             `${c.name || ''} ${c.last_name_father || ''} ${c.last_name_mother || ''}`
           );
 
-          return nombreCompleto.includes(term);
+          // buscador de cargos (services)
+          const coincideCargo = c.services?.some((serv: any) => {
+            const nombreServicio = this.normalizarTexto(serv.service_name || '');
+            return nombreServicio.includes(term);
+          });
+
+          return nombreCompleto.includes(term) || coincideCargo;
         });
       }
     }
@@ -404,6 +410,5 @@ export class BuscarCiudadanoPage implements OnInit {
         });
       });
   }
-
 
 }
