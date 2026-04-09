@@ -248,13 +248,13 @@
                     <ion-col size="12" size-md="2">
                       <div class="tabla-td">
                         <span class="tabla-label">Inicio:</span>
-                        {{ cargo.start_date | date }}
+                       {{ formatearFecha(cargo.start_date) }}
                       </div>
                     </ion-col>
                     <ion-col size="12" size-md="2">
                       <div class="tabla-td">
                         <span class="tabla-label">Fin:</span>
-                        {{ cargo.end_date | date }}
+                        {{ formatearFecha(cargo.end_date) }}
                       </div>
                     </ion-col>
                     <ion-col size="12" size-md="2">

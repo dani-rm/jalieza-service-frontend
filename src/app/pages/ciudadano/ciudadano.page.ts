@@ -610,4 +610,14 @@ async generarPDFGeneral() {
       });
   }
 
+  formatearFecha(fecha: string): string {
+  if (!fecha) return '';
+
+  return new Date(fecha).toLocaleDateString('es-MX', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+}
+
 }
