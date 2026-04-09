@@ -11,21 +11,36 @@
               <ion-title class="titulo-formulario">Editar Datos Generales</ion-title>
             </ion-toolbar>
 
-            <form>
+            <form #form="ngForm">
               <ion-grid class="grid-formulario">
                 <ion-row>
                   <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Nombres</label>
-                      <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="ciudadano.name"
-                        name="name"></ion-input>
+
+                      <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="ciudadano.name" name="name"
+                        required #name="ngModel">
+                      </ion-input>
+
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error-text">
+                        El nombre es obligatorio
+                      </div>
+
                     </div>
                   </ion-col>
                   <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Apellido Paterno</label>
+
                       <ion-input (keypress)="soloLetras($event)" type="text" [(ngModel)]="ciudadano.last_name_father"
-                        name="last_name_father"></ion-input>
+                        name="last_name_father" required #lastNameFather="ngModel">
+                      </ion-input>
+
+                      <div *ngIf="lastNameFather.invalid && (lastNameFather.dirty || lastNameFather.touched)"
+                        class="error-text">
+                        El apellido paterno es obligatorio
+                      </div>
+
                     </div>
                   </ion-col>
                   <ion-col size="12" size-md="4">
@@ -44,11 +59,12 @@
                         maxlength="10" inputmode="numeric" (ionInput)="filtrarTelefono($event)"></ion-input>
                     </div>
                   </ion-col>
-                   <ion-col size="12" size-md="4">
+                  <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Teléfono Referencial</label>
-                      <ion-input (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="ciudadano.alternatePhone" name="alternatePhone"
-                        maxlength="10" inputmode="numeric" (ionInput)="filtrarTelefonoAlternativa($event)"></ion-input>
+                      <ion-input (keypress)="soloNumeros($event)" type="tel" [(ngModel)]="ciudadano.alternatePhone"
+                        name="alternatePhone" maxlength="10" inputmode="numeric"
+                        (ionInput)="filtrarTelefonoAlternativa($event)"></ion-input>
                     </div>
                   </ion-col>
                   <ion-col size="12" size-md="4">
@@ -75,16 +91,29 @@
                   <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Dirección</label>
-                      <ion-input type="text" [(ngModel)]="ciudadano.address"
-                        name="Address"></ion-input>
+
+                      <ion-input type="text" [(ngModel)]="ciudadano.address" name="address" required #address="ngModel">
+                      </ion-input>
+
+                      <div *ngIf="address.invalid && (address.dirty || address.touched)" class="error-text">
+                        La dirección es obligatoria
+                      </div>
+
                     </div>
                   </ion-col>
 
-                    <ion-col size="12" size-md="4">
+                  <ion-col size="12" size-md="4">
                     <div class="campo">
                       <label class="etiqueta">Ocupación</label>
-                      <ion-input type="text" [(ngModel)]="ciudadano.occupation"
-                        name="Occupation"></ion-input>
+
+                      <ion-input type="text" [(ngModel)]="ciudadano.occupation" name="occupation" required
+                        #occupation="ngModel">
+                      </ion-input>
+
+                      <div *ngIf="occupation.invalid && (occupation.dirty || occupation.touched)" class="error-text">
+                        La ocupación es obligatoria
+                      </div>
+
                     </div>
                   </ion-col>
 
@@ -136,7 +165,9 @@
 
             <div class="boton-contenedor">
               <ion-button class="boton-volver" (click)="volver()">Volver</ion-button>
-              <ion-button class="boton-registrar" (click)="actualizarCiudadano()">Actualizar</ion-button>
+              <ion-button class="boton-registrar" (click)="actualizarCiudadano(form)" [disabled]="form.invalid">
+                Actualizar
+              </ion-button>
             </div>
           </div>
         </ion-col>
