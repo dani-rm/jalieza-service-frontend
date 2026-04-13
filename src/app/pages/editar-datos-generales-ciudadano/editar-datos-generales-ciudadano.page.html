@@ -151,7 +151,7 @@
                           (click)="seleccionarPareja('registrar')">
                           ¿Pareja no encontrada? Regístrela
                         </ion-button>
-                        <ion-item *ngFor="let persona of personasDisponibles" (click)="seleccionarPareja(persona)">
+                        <ion-item *ngFor="let persona of ciudadanosFiltrados" (click)="seleccionarPareja(persona)">
                           {{ persona.name }} {{ persona.last_name_father }} {{ persona.last_name_mother }}
                         </ion-item>
 
