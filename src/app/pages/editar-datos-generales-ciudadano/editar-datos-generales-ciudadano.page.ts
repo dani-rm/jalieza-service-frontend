@@ -145,6 +145,8 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
       if (parejaActual && !this.personasDisponibles.some(p => p.id === parejaActual.id)) {
         this.personasDisponibles.push(parejaActual);
       }
+
+      this.ciudadanosFiltrados = [...this.personasDisponibles];
     });
   }
 
