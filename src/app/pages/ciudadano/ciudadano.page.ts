@@ -610,14 +610,27 @@ async generarPDFGeneral() {
       });
   }
 
-  formatearFecha(fecha: string): string {
+formatearFecha(fecha: string): string {
   if (!fecha) return '';
 
-  return new Date(fecha).toLocaleDateString('es-MX', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  });
+  const [year, month, day] = fecha.split('-');
+
+  const meses: any = {
+    '01': 'enero',
+    '02': 'febrero',
+    '03': 'marzo',
+    '04': 'abril',
+    '05': 'mayo',
+    '06': 'junio',
+    '07': 'julio',
+    '08': 'agosto',
+    '09': 'septiembre',
+    '10': 'octubre',
+    '11': 'noviembre',
+    '12': 'diciembre'
+  };
+
+  return `${day} de ${meses[month]} de ${year}`;
 }
 
 }
