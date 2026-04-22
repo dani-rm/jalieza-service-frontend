@@ -243,12 +243,6 @@ export class RegistrarCiudadanoPage implements OnInit {
       .filter(v => v && v !== 'null' && v !== 'undefined') as string[];
     return parts.join(' ');
   }
-  filtrarPersonasDirecto(event: any) {
-    const filtro = event.target.value.toLowerCase().trim();
-    this.ciudadanosFiltrados = this.personasDisponibles.filter(p =>
-      this.getNombreCompleto(p).toLowerCase().includes(filtro)
-    );
-  }
 
   filtrarPersonas() {
     const filtro = this.busquedaPareja.toLowerCase().trim();
@@ -410,6 +404,19 @@ export class RegistrarCiudadanoPage implements OnInit {
     this.ciudadanoService.getCiudadanoPorId(this.ciudadano.id).subscribe((data) => {
       this.ciudadano = data;
     });
+  }
+
+  filtrarPersonasDirecto(event: any) {
+    const filtro = (event.detail.value || '').toLowerCase().trim();
+
+    if (!filtro) {
+      this.ciudadanosFiltrados = [...this.personasDisponibles];
+      return;
+    }
+
+    this.ciudadanosFiltrados = this.personasDisponibles.filter(p =>
+      this.getNombreCompleto(p).toLowerCase().includes(filtro)
+    );
   }
 
 }

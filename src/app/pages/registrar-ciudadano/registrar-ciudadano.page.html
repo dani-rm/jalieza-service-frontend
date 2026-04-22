@@ -137,7 +137,7 @@
                     </ion-button>
                     <!-- Buscador tipo modal inline -->
                     <div *ngIf="mostrarBuscadorPareja" class="buscador-contenedor">
-                      <ion-searchbar [value]="busquedaPareja" (ionInput)="filtrarPersonasDirecto($event)"
+                      <ion-searchbar [(ngModel)]="busquedaPareja" (ionInput)="filtrarPersonasDirecto($event)"
                         placeholder="Buscar ciudadano">
                       </ion-searchbar>
 
@@ -146,7 +146,7 @@
                           (click)="seleccionarPareja('registrar')">
                           ¿Pareja no encontrada? Regístrela
                         </ion-button>
-                        <ion-item *ngFor="let persona of personasDisponibles" (click)="seleccionarPareja(persona)">
+                        <ion-item *ngFor="let persona of ciudadanosFiltrados" (click)="seleccionarPareja(persona)">
                           {{ getNombreCompleto(persona) }}
                         </ion-item>
 
