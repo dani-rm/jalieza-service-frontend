@@ -352,6 +352,4 @@ export class EditarDatosGeneralesCiudadanoPage implements OnInit {
       }
     });
   }
-
-
 }

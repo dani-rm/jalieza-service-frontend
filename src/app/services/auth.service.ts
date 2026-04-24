@@ -20,7 +20,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
   private hasToken(): boolean {
     return !!localStorage.getItem(this.TOKEN_KEY);
@@ -30,40 +30,40 @@ export class AuthService {
     localStorage.setItem(this.TOKEN_KEY, token);
     this.authStatus.next(true); // Avisar que ya hay sesión activa
   }*/
-private parseJwt(token: string): any {
-  try {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0'))
-        .join('')
-    );
-    return JSON.parse(jsonPayload);
-  } catch {
-    return null;
+  private parseJwt(token: string): any {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0'))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch {
+      return null;
+    }
   }
-}
 
-guardarSesion(token: string): void {
-  localStorage.setItem(this.TOKEN_KEY, token);
-  const decoded = this.parseJwt(token);
-  console.log('Token decodificado:', decoded);
-  if (decoded?.role_id) {
-    localStorage.setItem(this.ROLE_KEY, decoded.role_id.toString());
-  } else {
-    console.warn('⚠️ Token no contiene role_id');
+  guardarSesion(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
+    const decoded = this.parseJwt(token);
+    console.log('Token decodificado:', decoded);
+    if (decoded?.role_id) {
+      localStorage.setItem(this.ROLE_KEY, decoded.role_id.toString());
+    } else {
+      console.warn('⚠️ Token no contiene role_id');
+    }
+    this.authStatus.next(true);
   }
-  this.authStatus.next(true);
-}
 
-getUsuario(): any | null {
-  const token = localStorage.getItem(this.TOKEN_KEY);
-  if (!token) return null;
+  getUsuario(): any | null {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    if (!token) return null;
 
-  return this.parseJwt(token); // Ya tienes parseJwt implementado 👌
-}
+    return this.parseJwt(token); // Ya tienes parseJwt implementado 👌
+  }
 
 
 
@@ -77,39 +77,39 @@ getUsuario(): any | null {
   }
 
   // auth.service.ts
- /*getUserRole(): string | null {
- const token = localStorage.getItem(this.TOKEN_KEY);
-  if (!token) return null;
+  /*getUserRole(): string | null {
+  const token = localStorage.getItem(this.TOKEN_KEY);
+   if (!token) return null;
+ 
+   const payload = JSON.parse(atob(token.split('.')[1]));
+ 
+   const roleMap: { [key: number]: string } = {
+     3: 'superAdmin',
+     4: 'visualizador',
+      // por ejemplo
+   };
+ 
+   return roleMap[payload.role_id] || null;
+ }*/
 
-  const payload = JSON.parse(atob(token.split('.')[1]));
+  logout(): void {
+    const url = `${environment.apiUrl}/auth/logout`;
 
-  const roleMap: { [key: number]: string } = {
-    3: 'superAdmin',
-    4: 'visualizador',
-     // por ejemplo
-  };
+    // 1) Cerrar sesión localmente de inmediato para evitar flicker/redirecciones
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.ROLE_KEY);
+    this.authStatus.next(false);
+    // Reemplaza la URL para evitar volver atrás a páginas privadas
+    this.router.navigate(['/home'], { replaceUrl: true });
 
-  return roleMap[payload.role_id] || null;
-}*/
-
-logout(): void {
-  const url = `${environment.apiUrl}/auth/logout`;
-
-  // 1) Cerrar sesión localmente de inmediato para evitar flicker/redirecciones
-  localStorage.removeItem(this.TOKEN_KEY);
-  localStorage.removeItem(this.ROLE_KEY);
-  this.authStatus.next(false);
-  // Reemplaza la URL para evitar volver atrás a páginas privadas
-  this.router.navigate(['/home'], { replaceUrl: true });
-
-  // 2) Notificar al backend en segundo plano (cookies httpOnly, etc.)
-  this.http.post(url, {}, { withCredentials: true }).subscribe({
-    next: () => {
-      console.log('🚪 Sesión cerrada en servidor');
-    },
-    error: err => {
-      console.warn('⚠️ No se pudo cerrar sesión en servidor:', err?.message || err);
-    }
-  });
-}
+    // 2) Notificar al backend en segundo plano (cookies httpOnly, etc.)
+    this.http.post(url, {}, { withCredentials: true }).subscribe({
+      next: () => {
+        console.log('🚪 Sesión cerrada en servidor');
+      },
+      error: err => {
+        console.warn('⚠️ No se pudo cerrar sesión en servidor:', err?.message || err);
+      }
+    });
+  }
 }

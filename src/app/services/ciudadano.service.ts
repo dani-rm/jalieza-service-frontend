@@ -12,16 +12,16 @@ export class CiudadanoService {
   private baseUrlServicios = `${environment.apiUrl}/servicios-ciudadanos`;
   private baseUrlCatalogoServicios = `${environment.apiUrl}/catalogo-servicios`;
 
-  constructor(private http: HttpClient) {}
-private getAuthOptions() {
-  const token = localStorage.getItem('auth_token') || '';
-  return {
-    headers: new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    }),
-    withCredentials: true,
-  };
-}
+  constructor(private http: HttpClient) { }
+  private getAuthOptions() {
+    const token = localStorage.getItem('auth_token') || '';
+    return {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      }),
+      withCredentials: true,
+    };
+  }
   getCiudadanos(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl, this.getAuthOptions());
   }
@@ -69,13 +69,13 @@ private getAuthOptions() {
   }
 
   actualizarCiudadano(id: number, dto: any): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/${id}`, dto,this.getAuthOptions());
+    return this.http.patch(`${this.baseUrl}/${id}`, dto, this.getAuthOptions());
   }
 
   getCargos(): Observable<any[]> {
     const url = this.baseUrlCatalogoServicios;
     console.log('URL para getCargos:', url);
-    return this.http.get<any[]>(url,this.getAuthOptions());
+    return this.http.get<any[]>(url, this.getAuthOptions());
   }
 
   eliminarCiudadano(id: number): Observable<any> {

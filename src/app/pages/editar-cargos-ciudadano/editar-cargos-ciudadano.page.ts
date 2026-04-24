@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  IonContent,ToastController, IonHeader, IonTitle, IonToolbar, IonButton, IonGrid,
+  IonContent, ToastController, IonHeader, IonTitle, IonToolbar, IonButton, IonGrid,
   IonRow, IonCol, IonLabel, IonIcon, IonItem, IonSelect, IonInput, IonSelectOption
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
@@ -24,7 +24,7 @@ import { ActivatedRoute } from '@angular/router';
   ]
 })
 export class EditarCargosCiudadanoPage implements OnInit {
-  ciudadano: any=null;
+  ciudadano: any = null;
   cargos: any[] = [];
 
   ordenes = ['Primer', 'Segundo', 'Tercer', 'Cuarto', 'Quinto', 'Sexto'];
@@ -43,8 +43,8 @@ export class EditarCargosCiudadanoPage implements OnInit {
 
 
   constructor(
-     private toastController: ToastController,
-      private route: ActivatedRoute,
+    private toastController: ToastController,
+    private route: ActivatedRoute,
     private location: Location,
     private ciudadanoService: CiudadanoService
   ) {
@@ -53,14 +53,14 @@ export class EditarCargosCiudadanoPage implements OnInit {
 
   ngOnInit() {
 
-      const id = Number(this.route.snapshot.paramMap.get('id'));
-  if (!isNaN(id)) {
-    this.cargarCargosDelCiudadano(id);
-  } else {
-    console.warn('⚠️ ID inválido en la URL');
-  }
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!isNaN(id)) {
+      this.cargarCargosDelCiudadano(id);
+    } else {
+      console.warn('⚠️ ID inválido en la URL');
+    }
     this.ciudadano = this.ciudadanoService.getCiudadanoSeleccionado();
-     console.log('Ciudadano cargado:', this.ciudadano);
+    console.log('Ciudadano cargado:', this.ciudadano);
     if (this.ciudadano) {
       this.cargarCargosDelCiudadano(this.ciudadano.id);
     } else {
@@ -68,7 +68,7 @@ export class EditarCargosCiudadanoPage implements OnInit {
     }
   }
 
-   async mostrarToast(mensaje: string) {
+  async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,
       duration: 2000,
@@ -78,17 +78,17 @@ export class EditarCargosCiudadanoPage implements OnInit {
     await toast.present();
   }
 
-async mostrarToastError(mensaje: string) {
-  const toast = await this.toastController.create({
-    message: mensaje,
-    duration: 3000,
-    color: 'danger',
-    position: 'top'
-  });
-  await toast.present();
-}
+  async mostrarToastError(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 3000,
+      color: 'danger',
+      position: 'top'
+    });
+    await toast.present();
+  }
 
- cargarDatos(ciudadanoId: number) {
+  cargarDatos(ciudadanoId: number) {
     // 1. Obtener ciudadano
     this.ciudadanoService.getCiudadanoPorId(ciudadanoId).subscribe({
       next: (data) => {
@@ -103,7 +103,7 @@ async mostrarToastError(mensaje: string) {
   cargarCargosDelCiudadano(id: number) {
     this.ciudadanoService.getCargosDelCiudadano(id).subscribe({
       next: (cargos) => {
-         console.log('👉 Cargos recibidos:', cargos);
+        console.log('👉 Cargos recibidos:', cargos);
         this.cargos = cargos;
       },
       error: (err) => {
@@ -115,10 +115,10 @@ async mostrarToastError(mensaje: string) {
   onCargoChange() {
     const cargo = this.cargos.find(c => c.id === this.cargoSeleccionadoId);
     console.log('Cargo seleccionado:', cargo);
-console.log('Observaciones:', cargo.observations);
+    console.log('Observaciones:', cargo.observations);
     if (cargo) {
       this.nombreSeleccionado = cargo.catalogoServicio?.service_name || '';
-    this.ordenSeleccionado = cargo.catalogoServicio?.order?.order_name || '';
+      this.ordenSeleccionado = cargo.catalogoServicio?.order?.order_name || '';
 
       this.start_date = cargo.start_date?.split('T')[0] || '';
       this.end_date = cargo.end_date?.split('T')[0] || '';
@@ -175,15 +175,15 @@ console.log('Observaciones:', cargo.observations);
       termination_status: this.estadoSeleccionado,
       observations: this.observations
     };
-console.log('🔍 Datos a enviar:', datos);
+    console.log('🔍 Datos a enviar:', datos);
 
     this.ciudadanoService.actualizarCargo(this.cargoSeleccionadoId, datos).subscribe({
       next: async () => {
         await this.mostrarToast('Cargo actualizado con exito')
-             this.location.back();
-setTimeout(() => {
-  window.location.reload();
-}, 300); // Espera a que regrese para recargar
+        this.location.back();
+        setTimeout(() => {
+          window.location.reload();
+        }, 300); // Espera a que regrese para recargar
 
       },
 

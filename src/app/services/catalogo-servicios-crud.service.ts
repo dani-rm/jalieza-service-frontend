@@ -11,7 +11,7 @@ export class CatalogoServiciosCrudService {
   private baseUrl = `${environment.apiUrl}/catalogo-servicios`;
   private baseUrlOrdenes = `${environment.apiUrl}/catalogo-orden`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthOptions() {
     const token = localStorage.getItem('auth_token') || '';

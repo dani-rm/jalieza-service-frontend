@@ -32,10 +32,10 @@ export class CrearEditarServicioPage implements OnInit {
   servicioId: number | null = null;
   servicio: ServicioCatalogo | null = null;
   ordenes: Orden[] = [];
-  
+
   // ✅ Formulario reactivo
   servicioForm: FormGroup;
-  
+
   // ✅ Variables de UI
   cargando: boolean = false;
   guardando: boolean = false;
@@ -50,7 +50,7 @@ export class CrearEditarServicioPage implements OnInit {
     private toastController: ToastController
   ) {
     addIcons({ saveOutline, arrowBackOutline, checkmarkCircleOutline });
-    
+
     // Inicializar formulario
     this.servicioForm = this.formBuilder.group({
       service_name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
@@ -108,7 +108,7 @@ export class CrearEditarServicioPage implements OnInit {
     try {
       const servicio = await this.catalogoService.getServicioPorId(this.servicioId).toPromise();
       this.servicio = servicio || null;
-      
+
       if (this.servicio) {
         this.servicioForm.patchValue({
           service_name: this.servicio.service_name,
@@ -183,17 +183,17 @@ export class CrearEditarServicioPage implements OnInit {
   // ✅ Obtener mensaje de error para un campo
   obtenerMensajeError(campo: string): string {
     const control = this.servicioForm.get(campo);
-    
+
     if (!control || !control.errors) return '';
 
     if (control.errors['required']) {
       return 'Este campo es requerido';
     }
-    
+
     if (control.errors['minlength']) {
       return `Mínimo ${control.errors['minlength'].requiredLength} caracteres`;
     }
-    
+
     if (control.errors['maxlength']) {
       return `Máximo ${control.errors['maxlength'].requiredLength} caracteres`;
     }

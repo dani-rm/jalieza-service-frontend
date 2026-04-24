@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonToolbar, IonButton,
-  IonCol, IonGrid, IonRow,IonIcon, IonCard,
-  IonCardContent, IonText, IonSearchbar, 
+  IonCol, IonGrid, IonRow, IonIcon, IonCard,
+  IonCardContent, IonText, IonSearchbar,
   IonSelect, IonSelectOption, IonTitle, ToastController, AlertController
 } from '@ionic/angular/standalone';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
@@ -22,8 +22,8 @@ import { Router } from '@angular/router';
   imports: [
     IonText, IonCardContent, IonCard, IonIcon,
     IonRow, IonGrid, IonCol, IonButton, IonContent,
-    IonToolbar, IonTitle, CommonModule, FormsModule, NavbarComponent, 
-    IonSearchbar, IonSelect, 
+    IonToolbar, IonTitle, CommonModule, FormsModule, NavbarComponent,
+    IonSearchbar, IonSelect,
     IonSelectOption
   ]
 })
@@ -34,7 +34,7 @@ export class CatalogoServiciosPage implements OnInit {
   serviciosFiltrados: ServicioCatalogo[] = [];
   serviciosAgrupados: { [key: string]: ServicioCatalogo[] } = {};
   ordenes: Orden[] = [];
-  
+
   // ✅ Variables de filtrado y búsqueda
   terminoBusqueda: string = '';
   ordenSeleccionada: string = 'TODAS';
@@ -75,10 +75,10 @@ export class CatalogoServiciosPage implements OnInit {
 
       this.servicios = servicios || [];
       this.ordenes = ordenes || [];
-      
+
       this.aplicarFiltros();
       this.agruparServicios();
-      
+
     } catch (error) {
       console.error('❌ Error al cargar datos:', error);
       this.error = 'Error al cargar los datos';

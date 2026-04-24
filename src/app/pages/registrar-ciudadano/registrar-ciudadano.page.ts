@@ -418,5 +418,4 @@ export class RegistrarCiudadanoPage implements OnInit {
       this.getNombreCompleto(p).toLowerCase().includes(filtro)
     );
   }
-
 }
