@@ -8,10 +8,10 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  imports: [IonButton, IonImg, IonButtons, IonToolbar, IonMenuButton,IonHeader, CommonModule, RouterLink],
+  imports: [IonButton, IonImg, IonButtons, IonToolbar, IonMenuButton, IonHeader, CommonModule, RouterLink],
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent  implements OnInit {
+export class NavbarComponent implements OnInit {
   isMobile = false;
 
   ngOnInit() {
@@ -23,10 +23,10 @@ export class NavbarComponent  implements OnInit {
     });
   }
 
-  @Input({required: true}) title!: string;
+  @Input({ required: true }) title!: string;
   constructor(public router: Router, public authService: AuthService) {
   }
-  
+
   // Oculta el menú en rutas específicas
   debeOcultarMenu(): boolean {
     const rutasSinMenu = ['/editar-datos-generales-ciudadano',

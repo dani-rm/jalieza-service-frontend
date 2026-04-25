@@ -484,118 +484,118 @@ export class CiudadanoPage implements OnInit {
     await alert.present();
   }
 
-async generarPDFGeneral() {
-  const doc = new jsPDF();
-  const c = this.ciudadano;
+  async generarPDFGeneral() {
+    const doc = new jsPDF();
+    const c = this.ciudadano;
 
-  if (!c) {
-    console.error('No hay datos del ciudadano');
-    return;
-  }
-
-  try {
-    const logo = await this.getBase64ImageFromURL('/../../../assets/LogoJaliezaNavbar_2026.jpeg');
-    doc.addImage(logo, 'PNG', 170, 5, 20, 20);
-  } catch (error) {
-    console.error('Error cargando imagen:', error);
-  }
-
-  // ✅ TÍTULO
-  doc.setFontSize(18);
-  doc.text('Datos Generales del Ciudadano', 40, 18);
-
-  doc.setDrawColor(122, 28, 28);
-  doc.line(14, 30, 196, 30);
-
- 
-
-  // ===============================
-  // 📌 DATOS GENERALES
-  // ===============================
-  autoTable(doc, {
-    startY: 40,
-    theme: 'grid',
-    head: [['Datos', 'Información']],
-    body: [
-      ['Nombre completo', c.name + ' ' + c.last_name_father + ' ' + c.last_name_mother || '-'],
-      ['Teléfono', c.phone || '-'],
-      ['Teléfono Referencial', c.alternatePhone || '-'],
-      [
-        'Fecha de Nacimiento',
-        c.birth_date ? new Date(c.birth_date).toLocaleDateString() : '-'
-      ],
-      ['Estado Civil', this.mostrarEstadoCivil(c)],
-      ['Dirección', c.address || '-'],
-      ['Ocupación', c.occupation || '-'],
-      ['Observaciones', c.comment || 'No hay comentario']
-    ],
-    headStyles: {
-      fillColor: [122, 28, 28],
-      textColor: [255, 255, 255]
+    if (!c) {
+      console.error('No hay datos del ciudadano');
+      return;
     }
-  });
 
-  let currentY = (doc as any).lastAutoTable.finalY + 10;
+    try {
+      const logo = await this.getBase64ImageFromURL('/../../../assets/LogoJaliezaNavbar_2026.jpeg');
+      doc.addImage(logo, 'PNG', 170, 5, 20, 20);
+    } catch (error) {
+      console.error('Error cargando imagen:', error);
+    }
 
-  // ===============================
-  // ❤️ PAREJA
-  // ===============================
-  if (c.partner) {
-    doc.setFontSize(14);
-    doc.text('Datos de la Pareja', 14, currentY);
+    // ✅ TÍTULO
+    doc.setFontSize(18);
+    doc.text('Datos Generales del Ciudadano', 40, 18);
 
-    currentY += 5;
+    doc.setDrawColor(122, 28, 28);
+    doc.line(14, 30, 196, 30);
 
+
+
+    // ===============================
+    // 📌 DATOS GENERALES
+    // ===============================
     autoTable(doc, {
-      startY: currentY,
+      startY: 40,
       theme: 'grid',
-      head: [['Campo', 'Información']],
+      head: [['Datos', 'Información']],
       body: [
-        ['Nombre',
-          `${c.partner.name} ${c.partner.last_name_father} ${c.partner.last_name_mother}`]
+        ['Nombre completo', c.name + ' ' + c.last_name_father + ' ' + c.last_name_mother || '-'],
+        ['Teléfono', c.phone || '-'],
+        ['Teléfono Referencial', c.alternatePhone || '-'],
+        [
+          'Fecha de Nacimiento',
+          c.birth_date ? new Date(c.birth_date).toLocaleDateString() : '-'
+        ],
+        ['Estado Civil', this.mostrarEstadoCivil(c)],
+        ['Dirección', c.address || '-'],
+        ['Ocupación', c.occupation || '-'],
+        ['Observaciones', c.comment || 'No hay comentario']
       ],
       headStyles: {
-        fillColor: [100, 100, 100]
+        fillColor: [122, 28, 28],
+        textColor: [255, 255, 255]
       }
     });
 
-    currentY = (doc as any).lastAutoTable.finalY + 10;
+    let currentY = (doc as any).lastAutoTable.finalY + 10;
+
+    // ===============================
+    // ❤️ PAREJA
+    // ===============================
+    if (c.partner) {
+      doc.setFontSize(14);
+      doc.text('Datos de la Pareja', 14, currentY);
+
+      currentY += 5;
+
+      autoTable(doc, {
+        startY: currentY,
+        theme: 'grid',
+        head: [['Campo', 'Información']],
+        body: [
+          ['Nombre',
+            `${c.partner.name} ${c.partner.last_name_father} ${c.partner.last_name_mother}`]
+        ],
+        headStyles: {
+          fillColor: [100, 100, 100]
+        }
+      });
+
+      currentY = (doc as any).lastAutoTable.finalY + 10;
+    }
+
+    // ===============================
+    // 📋 CARGOS / SERVICIOS
+    // ===============================
+    if (this.cargos && this.cargos.length > 0) {
+      doc.setFontSize(14);
+      doc.text('Historial de Cargos', 14, currentY);
+
+      currentY += 5;
+
+      const bodyCargos = this.cargos.map(cargo => [
+        cargo.service_name,
+        cargo.start_date ? new Date(cargo.start_date).toLocaleDateString() : '-',
+        cargo.end_date ? new Date(cargo.end_date).toLocaleDateString() : '-',
+        this.estadoLegible(cargo.service_status),
+        cargo.observations || '-'
+      ]);
+
+      autoTable(doc, {
+        startY: currentY,
+        theme: 'grid',
+        head: [['Servicio', 'Inicio', 'Fin', 'Estado', 'Observaciones']],
+        body: bodyCargos,
+        styles: {
+          fontSize: 9
+        },
+        headStyles: {
+          fillColor: [117, 135, 205] // tu color
+        }
+      });
+    }
+
+    // ✅ GUARDAR
+    doc.save(`Ciudadano_${c.name}_${c.last_name_father}.pdf`);
   }
-
-  // ===============================
-  // 📋 CARGOS / SERVICIOS
-  // ===============================
-  if (this.cargos && this.cargos.length > 0) {
-    doc.setFontSize(14);
-    doc.text('Historial de Cargos', 14, currentY);
-
-    currentY += 5;
-
-    const bodyCargos = this.cargos.map(cargo => [
-      cargo.service_name,
-      cargo.start_date ? new Date(cargo.start_date).toLocaleDateString() : '-',
-      cargo.end_date ? new Date(cargo.end_date).toLocaleDateString() : '-',
-      this.estadoLegible(cargo.service_status),
-      cargo.observations || '-'
-    ]);
-
-    autoTable(doc, {
-      startY: currentY,
-      theme: 'grid',
-      head: [['Servicio', 'Inicio', 'Fin', 'Estado', 'Observaciones']],
-      body: bodyCargos,
-      styles: {
-        fontSize: 9
-      },
-      headStyles: {
-        fillColor: [117, 135, 205] // tu color
-      }
-    });
-  }
-
-  // ✅ GUARDAR
-  doc.save(`Ciudadano_${c.name}_${c.last_name_father}.pdf`);
-}
 
   getBase64ImageFromURL(url: string): Promise<string> {
     return fetch(url)
@@ -610,27 +610,27 @@ async generarPDFGeneral() {
       });
   }
 
-formatearFecha(fecha: string): string {
-  if (!fecha) return '';
+  formatearFecha(fecha: string): string {
+    if (!fecha) return '';
 
-  const [year, month, day] = fecha.split('-');
+    const [year, month, day] = fecha.split('-');
 
-  const meses: any = {
-    '01': 'enero',
-    '02': 'febrero',
-    '03': 'marzo',
-    '04': 'abril',
-    '05': 'mayo',
-    '06': 'junio',
-    '07': 'julio',
-    '08': 'agosto',
-    '09': 'septiembre',
-    '10': 'octubre',
-    '11': 'noviembre',
-    '12': 'diciembre'
-  };
+    const meses: any = {
+      '01': 'enero',
+      '02': 'febrero',
+      '03': 'marzo',
+      '04': 'abril',
+      '05': 'mayo',
+      '06': 'junio',
+      '07': 'julio',
+      '08': 'agosto',
+      '09': 'septiembre',
+      '10': 'octubre',
+      '11': 'noviembre',
+      '12': 'diciembre'
+    };
 
-  return `${day} de ${meses[month]} de ${year}`;
-}
+    return `${day} de ${meses[month]} de ${year}`;
+  }
 
 }

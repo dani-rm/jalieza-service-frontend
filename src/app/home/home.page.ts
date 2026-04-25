@@ -31,7 +31,7 @@ export class HomePage {
     private http: HttpClient,
     private alertController: AlertController,
     private menuCtrl: MenuController,
-      private authService: AuthService
+    private authService: AuthService
   ) {
     addIcons({ eyeOutline, eyeOffOutline });
   }
@@ -58,28 +58,28 @@ export class HomePage {
     this.showPassword = !this.showPassword;
   }
 
- login() {
-  const body = { email: this.email, password: this.password };
-  const url = `${environment.apiUrl}/auth/login`;
+  login() {
+    const body = { email: this.email, password: this.password };
+    const url = `${environment.apiUrl}/auth/login`;
 
-  this.http.post<{token: string}>(url, body, {
-    withCredentials: true,
-  }).subscribe({
-    next: (response) => {
-      console.log('Token recibido:', response.token);
-      console.log('✅ Login exitoso', this.email);
-      this.authService.guardarSesion(response.token);
-  this.router.navigate(['/buscar-ciudadano'], { replaceUrl: true });
-    },
-    error: async (err) => {
-      console.error('❌ Error en login', err);
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: err?.error?.message || 'No se pudo iniciar sesión',
-        buttons: ['OK'],
-      });
-      await alert.present();
-    }
-  });
-}
+    this.http.post<{ token: string }>(url, body, {
+      withCredentials: true,
+    }).subscribe({
+      next: (response) => {
+        console.log('Token recibido:', response.token);
+        console.log('✅ Login exitoso', this.email);
+        this.authService.guardarSesion(response.token);
+        this.router.navigate(['/buscar-ciudadano'], { replaceUrl: true });
+      },
+      error: async (err) => {
+        console.error('❌ Error en login', err);
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: err?.error?.message || 'No se pudo iniciar sesión',
+          buttons: ['OK'],
+        });
+        await alert.present();
+      }
+    });
+  }
 }

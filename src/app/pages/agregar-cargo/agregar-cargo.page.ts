@@ -35,11 +35,11 @@ export class AgregarCargoPage implements OnInit {
 
   ciudadano: Ciudadano | null = null;
   ciudadanoId: number = 1;
-  
+
   // ✅ Variables para órdenes desbloqueadas
   ordenesDesbloqueadas: { id: number; order_name: string }[] = [];
   maxOrdenDesbloqueada: number = 0;
-  
+
   // ✅ Variables para el catálogo de servicios
   serviciosCatalogo: ServicioCompleto[] = [];
   serviciosFiltrados: ServicioCompleto[] = [];
@@ -60,25 +60,25 @@ export class AgregarCargoPage implements OnInit {
   ) {
     addIcons({ calendar });
   }
-ngOnInit() {
-  // Obtener id del ciudadano de la ruta
-  this.ciudadanoId = +this.route.snapshot.paramMap.get('id')!;
-  
-  // Cargar datos del ciudadano, órdenes desbloqueadas y catálogo de servicios
-  this.cargarCiudadano();
-  this.cargarOrdenesDesbloqueadas();
-  this.cargarCatalogoServicios();
-}
-  calcularEdad(fechaNacimiento: string): number {
-  const nacimiento = new Date(fechaNacimiento);
-  const hoy = new Date();
-  let edad = hoy.getFullYear() - nacimiento.getFullYear();
-  const m = hoy.getMonth() - nacimiento.getMonth();
-  if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
-    edad--;
+  ngOnInit() {
+    // Obtener id del ciudadano de la ruta
+    this.ciudadanoId = +this.route.snapshot.paramMap.get('id')!;
+
+    // Cargar datos del ciudadano, órdenes desbloqueadas y catálogo de servicios
+    this.cargarCiudadano();
+    this.cargarOrdenesDesbloqueadas();
+    this.cargarCatalogoServicios();
   }
-  return edad;
-}
+  calcularEdad(fechaNacimiento: string): number {
+    const nacimiento = new Date(fechaNacimiento);
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const m = hoy.getMonth() - nacimiento.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+      edad--;
+    }
+    return edad;
+  }
 
   // ✅ NUEVO: Cargar ciudadano
   cargarCiudadano() {
@@ -135,14 +135,14 @@ ngOnInit() {
   onOrdenSeleccionado() {
     // Verificar que la orden esté desbloqueada
     const ordenDesbloqueada = this.ordenesDesbloqueadas.find(o => o.id === this.ordenSeleccionadoId);
-    
+
     if (!ordenDesbloqueada) {
       console.warn('⚠️ Orden no desbloqueada seleccionada');
       this.serviciosFiltrados = [];
       this.servicioSeleccionadoId = null;
       return;
     }
-    
+
     this.serviciosFiltrados = this.serviciosCatalogo.filter(
       servicio => servicio.order.id === this.ordenSeleccionadoId
     );
@@ -174,14 +174,14 @@ ngOnInit() {
     await toast.present();
   }
   async mostrarToastError(mensaje: string) {
-  const toast = await this.toastController.create({
-    message: mensaje,
-    duration: 3000,
-    color: 'danger',
-    position: 'top'
-  });
-  await toast.present();
-}
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 3000,
+      color: 'danger',
+      position: 'top'
+    });
+    await toast.present();
+  }
 
 
   // ✅ ACTUALIZADO: Asignar servicio con nueva estructura

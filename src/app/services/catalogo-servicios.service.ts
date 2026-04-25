@@ -11,9 +11,9 @@ export class CatalogoServiciosService {
     private http: HttpClient
   ) { }
 
-getCatalogoServicios(): Observable<any[]> {
-  const url = `${environment.apiUrl}/catalogo-servicios`;
-  return this.http.get<any[]>(url, { withCredentials: true });
-}
+  getCatalogoServicios(): Observable<any[]> {
+    const url = `${environment.apiUrl}/catalogo-servicios`;
+    return this.http.get<any[]>(url, { withCredentials: true });
+  }
 
 }
